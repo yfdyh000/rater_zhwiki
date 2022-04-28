@@ -5,7 +5,7 @@ var API = new mw.Api( {
 	ajax: {
 		headers: { 
 			"Api-User-Agent": "Rater/" + config.script.version + 
-				" ( https://en.wikipedia.org/wiki/User:Evad37/Rater )"
+				" ( https://en.wikipedia.org/wiki/User:Evad37/Rater )" // TODO
 		}
 	}
 } );

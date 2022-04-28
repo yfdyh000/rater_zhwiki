@@ -66,7 +66,7 @@ const setPrefs = function(updatedPrefs) {
 	return API.editWithRetry(prefsPage,	null,
 		() => ({
 			"text": JSON.stringify(updatedPrefs),
-			"summary": "Saving Rater preferences " + config.script.advert
+			"summary": "保存Rater设置" + config.script.advert
 		})
 	)
 		.then( () => writePrefsToCache(updatedPrefs) );

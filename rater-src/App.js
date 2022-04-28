@@ -35,18 +35,18 @@ import windowManager from "./windowManager";
 				// Show notification when saved successfully
 				if (result && result.success) {
 					const $message = $("<span>").append(
-						$("<strong>").text("Ratings saved successfully.")
+						$("<strong>").text("评级保存成功。")
 					);
 					if (result.upgradedStub) {
 						$message.append(
 							$("<br>"),
 							// TODO: There should be a link that will edit the article for you
-							$("<span>").text("Note that the article appears to be tagged as a stub.")
+							$("<span>").text("注意，条目似乎是一个小作品。")
 						);
 					}
 					mw.notify(
 						$message,
-						{ autoHide: true, autoHideSeconds: "long", tag: "Rater-saved" }
+						{ autoHide: true, autoHideSeconds: "long", tag: "评级已保存" }
 					);
 				}
 			} );
@@ -54,7 +54,7 @@ import windowManager from "./windowManager";
 
 	const showSetupError = (code, jqxhr) => OO.ui.alert(
 		makeErrorMsg(code, jqxhr),	{
-			title: "Rater failed to open"
+			title: "Rater 打开失败"
 		}
 	);
 
@@ -64,7 +64,7 @@ import windowManager from "./windowManager";
 		"#",
 		"Rater",
 		"ca-rater",
-		"Rate quality and importance",
+		"质量和重要度评级",
 		"5"
 	);
 	$("#ca-rater").click(event => {

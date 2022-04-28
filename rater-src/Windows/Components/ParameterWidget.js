@@ -74,7 +74,7 @@ function ParameterWidget( parameter, paramData, config ) {
 
 	this.confirmButton = new OO.ui.ButtonWidget({
 		icon: "check",
-		label: "Done",
+		label: "完成",
 		framed: false,
 		flags: "progressive",
 		$element: $("<span style='margin-right:0'>")
@@ -82,13 +82,13 @@ function ParameterWidget( parameter, paramData, config ) {
 
 	this.cancelButton = new OO.ui.ButtonWidget({
 		icon: "undo",
-		label: "Cancel",
+		label: "取消",
 		framed: false,
 	});
 
 	this.deleteButton = new OO.ui.ButtonWidget({
 		icon: this.isRequired ? "restore" : "trash",
-		label: this.isRequired ? "Required parameter" : "Delete",
+		label: this.isRequired ? "必填参数" : "删除",
 		framed: false,
 		flags: "destructive",
 		disabled: this.isRequired
@@ -119,7 +119,7 @@ function ParameterWidget( parameter, paramData, config ) {
 	this.editLayout = new OO.ui.FieldLayout( this.editLayoutControls, {
 		label: this.name + " =",
 		align: "top",
-		help: this.paramData.description && this.paramData.description.en || false,
+		help: this.paramData.description && this.paramData.description.zh || false,
 		helpInline: true
 	}).toggle();
 	this.editLayout.$element.find("label.oo-ui-inline-help").css({"margin": "-10px 0 5px 10px"});
@@ -128,7 +128,7 @@ function ParameterWidget( parameter, paramData, config ) {
 
 	this.invalidIcon = new OO.ui.IconWidget( {
 		icon: "block",
-		title: "Invalid parameter: no value specified!",
+		title: "无效参数：没有指定值！",
 		flags: "destructive",
 		$element: $("<span style='margin: 0 5px 0 -5px; min-width: 16px; width: 16px;'>")
 	} ).toggle(this.isInvalid);
@@ -142,7 +142,7 @@ function ParameterWidget( parameter, paramData, config ) {
 	});
 	this.autofilledIcon = new OO.ui.IconWidget( {
 		icon: "robot",
-		title: "Autofilled by Rater",
+		title: "由Rater自动填写",
 		flags: "progressive",
 		$element: $("<span style='margin: 0 -5px 0 5px;min-width: 16px;width: 16px;'>")
 	} ).toggle(this.autofilled);

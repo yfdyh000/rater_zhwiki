@@ -25,40 +25,34 @@ var getListOfBannersFromApi = function() {
 		cmlimit: "500"
 	};
 
-	var categories = [
+	var categories = [ // i18n configure
 		{
-			title: "Category:WikiProject banners with quality assessment",
+			title: "Category:含质量评级的专题横幅",
 			abbreviation: "withRatings",
 			banners: [],
 			processed: $.Deferred()
 		},
 		{
-			title: "Category:WikiProject banners without quality assessment",
+			title: "Category:不含质量评级的专题横幅",
 			abbreviation: "withoutRatings",
 			banners: [],
 			processed: $.Deferred()
 		},
 		{
-			title: "Category:WikiProject banner wrapper templates",
+			title: "Category:WikiProject banner wrapper templates", // TODO: missing and review is needed
 			abbreviation: "wrappers",
 			banners: [],
 			processed: $.Deferred()
 		},
 		{
-			title: "Category:WikiProject banner templates not based on WPBannerMeta",
+			title: "Category:WikiProject banner templates not based on WPBannerMeta", // TODO: same as above
 			abbreviation: "notWPBM",
 			banners: [],
 			processed: $.Deferred()
 		},
 		{
-			title: "Category:Inactive WikiProject banners",
+			title: "Category:Inactive WikiProject banners", // TODO: same as above
 			abbreviation: "inactive",
-			banners: [],
-			processed: $.Deferred()
-		},
-		{
-			title: "Category:Wrapper templates for WikiProject Women in Red",
-			abbreviation: "wir",
 			banners: [],
 			processed: $.Deferred()
 		}
@@ -123,7 +117,7 @@ var getListOfBannersFromApi = function() {
  * @returns {Promise} Resolved with banners object
  */
 var getBannersFromCache = function() {
-	var cachedBanners = cache.read("banners");
+	var cachedBanners = cache.read("banners"); //TODO
 	if (
 		!cachedBanners ||
 		!cachedBanners.value ||

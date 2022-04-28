@@ -6,7 +6,7 @@ var isAfterDate = function(dateString) {
 	return new Date(dateString) < new Date();
 };
 
-var yesWords = [
+var yesWords = [ // TODO: L10
 	"add",
 	"added",
 	"affirm",
@@ -19,7 +19,7 @@ var yesWords = [
 	"y",
 	"1"
 ];
-var noWords = [
+var noWords = [ // TODO: L10
 	"decline",
 	"declined",
 	"exclude",
@@ -109,7 +109,7 @@ function uniqueArray(array) {
 	return unique;
 }
 
-function classMask(classVal) {
+function classMask(classVal) { // TODO: check it
 	if (!classVal) {
 		return classVal;
 	}

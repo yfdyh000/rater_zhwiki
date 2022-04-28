@@ -10,73 +10,73 @@ function PrefsFormWidget( config ) {
 	this.$element.addClass("rater-prefsFormWidget");
 
 	this.layout =  new OO.ui.FieldsetLayout( {
-		label: "Preferences",
+		label: "设置",
 		$element: this.$element
 	} );
 
 	this.preferences = {
 		"autostart": {
 			input: new OO.ui.ToggleSwitchWidget(),
-			label: "Autostart Rater"
+			label: "自动打开Rater"
 		},
 		"autostartRedirects": {
 			input: new OO.ui.ToggleSwitchWidget(),
-			label: "Autostart on redirects"
+			label: "重定向上自动打开"
 		},
 		"autostartNamespaces": {
 			input: new mw.widgets.NamespacesMultiselectWidget(),
-			label: "Autostart in these namespaces"
+			label: "下列命名空间中自动打开"
 		},
 		"minForShell": {
 			input: new OO.ui.NumberInputWidget( { "min": 2 } ),
-			label: "Minimum number of banners for WikiProject banner shell"
+			label: "专题横幅达到此数量时使用WikiProject banner shell"
 		},
 		"bypassRedirects": {
 			input: new OO.ui.ToggleSwitchWidget(),
-			label: "Bypass redirects to banners"
+			label: "Bypass redirects to banners" // TODO
 		},
 		"autofillClassFromOthers":  {
 			input: new OO.ui.ToggleSwitchWidget(),
-			label: "Autofill class from other banners"
+			label: "基于其他横幅自动填写质量"
 		},
 		"autofillClassFromOres": {
 			input: new OO.ui.ToggleSwitchWidget(),
-			label: "Autofill class based on ORES prediction"
+			label: "基于ORES指标自动填写质量"
 		},
 		"autofillImportance": {
 			input: new OO.ui.ToggleSwitchWidget(),
-			label: "Autofill low importance"
+			label: "自动填写低重要度"
 		},
 		"collapseParamsLowerLimit": {
 			input: new OO.ui.NumberInputWidget( { "min": 1 } ),
-			label: "Minimum number of parameters to show uncollapsed"
+			label: "自动折叠超过此数量的参数" // review it
 		},
 		"watchlist": {
 			input: new OO.ui.ButtonSelectWidget( {
 				items: [
 					new OO.ui.ButtonOptionWidget( {
 						data: "preferences",
-						label: "Default",
-						title: "Uses the same setting as if you manually edited the page, as per Special:Preferences"
+						label: "默认",
+						title: "遵循“参数设置”中有关“编辑页面”的设置"
 					} ),
 					new OO.ui.ButtonOptionWidget( {
 						data: "watch",
-						label: "Always",
-						title: "Always add pages Rater edits to your watchlist"
+						label: "始终",
+						title: "用 Rater 编辑的页面始终添加到监视列表"
 					} ),
 					new OO.ui.ButtonOptionWidget( {
 						data: "nochange",
-						label: "Never",
-						title: "Never add pages Rater edit to your watchlist"
+						label: "从不",
+						title: "用 Rater 编辑的页面不添加到监视列表"
 					} ),
 				]
 			}).selectItemByData("preferences"),
-			label: "Add edited pages to watchlist"
+			label: "添加编辑的页面到监视列表"
 		},
 		"resetCache": {
 			input: new OO.ui.ButtonWidget( {
-				label: "Reset cache",
-				title: "Remove cached data, including list of WikiProjects and template parameters",
+				label: "重置缓存",
+				title: "重置缓存数据，其中包括维基专题列表和模板参数",
 				flags: ["destructive"]
 			} )
 		}
@@ -113,7 +113,7 @@ PrefsFormWidget.prototype.setPrefValues = function(prefs) {
 				input.addTag(
 					ns.toString(),
 					ns === 0
-						? "(Main)"
+						? "条目"
 						: config.mw.wgFormattedNamespaces[ns]
 				)
 			);
@@ -147,7 +147,7 @@ PrefsFormWidget.prototype.getPrefs = function() {
 };
 
 PrefsFormWidget.prototype.onResetCacheClick = function() {
-	OO.ui.confirm("After reseting cache, Rater will close and restart. Any changes made will be discarded.")
+	OO.ui.confirm("重置缓存后，Rater 程序将关闭并重启。已进行但未保存的更改将被放弃。")
 		.then(confirmed => {
 			if (confirmed) { 
 				this.emit("resetCache");

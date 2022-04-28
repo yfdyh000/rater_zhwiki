@@ -19,12 +19,12 @@ function TopBarWidget( config ) {
     
 	// Search box
 	this.searchBox = new SuggestionLookupTextInputWidget( {
-		placeholder: "Add a WikiProject...",
+		placeholder: "新增 WikiProject...",
 		$element: $("<div style='display:inline-block; margin:0 -1px; width:calc(100% - 55px);'>"),
 		$overlay: this.$overlay,
 	} );
 	getBannerNames()
-		.then(banners => [
+		.then(banners => [ // TODO: l10n
 			...banners.withRatings.map(bannerName => ({
 				label: bannerName.replace("WikiProject ", ""),
 				data: {
@@ -71,7 +71,7 @@ function TopBarWidget( config ) {
 	// Add button
 	this.addBannerButton = new OO.ui.ButtonWidget( {
 		icon: "add",
-		title: "Add",
+		title: "新增",
 		flags: "progressive",
 		$element: $("<span style='float:right;margin: 0;transform: translateX(-12px);'>"),
 	} );
@@ -82,51 +82,51 @@ function TopBarWidget( config ) {
 	// in the style of a popup button with a menu (is actually a dropdown with a hidden label, because that makes the coding easier.)
 	this.setAllDropDown = new OO.ui.DropdownWidget( {
 		icon: "tag",
-		label: "Set all...",
+		label: "全部设为...",
 		invisibleLabel: true,
 		menu: {
 			items: [
 				new OO.ui.MenuSectionOptionWidget( {
-					label: "Classes"
+					label: "质量"
 				} ),
 				new OO.ui.MenuOptionWidget( {
 					data: {class: null},
-					label: new OO.ui.HtmlSnippet("<span style=\"color:#777\">(no class)</span>")
+					label: new OO.ui.HtmlSnippet("<span style=\"color:#777\">"+"（无质量）"+"</span>")
 				} ),
 				...appConfig.bannerDefaults.classes.map(classname => new OO.ui.MenuOptionWidget( {
 					data: {class: classname},
-					label: classname
+					label: classname // TODO: i18n
 				} )
 				),
 				new OO.ui.MenuSectionOptionWidget( {
-					label: "Importances"
+					label: "重要度"
 				} ),
 				new OO.ui.MenuOptionWidget( {
 					data: {importance: null},
-					label: new OO.ui.HtmlSnippet("<span style=\"color:#777\">(no importance)</span>")
+					label: new OO.ui.HtmlSnippet("<span style=\"color:#777\">"+"（无重要度）"+"</span>")
 				} ),
 				...appConfig.bannerDefaults.importances.map(importance => new OO.ui.MenuOptionWidget( {
 					data: {importance: importance},
-					label: importance
+					label: importance // TODO: i18n
 				} )
 				)
 			]
 		},
-		$element: $("<span style=\"width:auto;display:inline-block;float:left;margin:0\" title='Set all...'>"),
+		$element: $("<span style=\"width:auto;display:inline-block;float:left;margin:0\" title='全部设为...'>"),
 		$overlay: this.$overlay,
 	} );
 
 	// Remove all banners button
 	this.removeAllButton = new OO.ui.ButtonWidget( {
 		icon: "trash",
-		title: "Remove all",
+		title: "全部删除",
 		flags: "destructive"
 	} );
 
 	// Clear all parameters button
 	this.clearAllButton = new OO.ui.ButtonWidget( {
 		icon: "cancel",
-		title: "Clear all",
+		title: "全部清空",
 		flags: "destructive"
 	} );
 

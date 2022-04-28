@@ -19,7 +19,7 @@ MainWindow.static.name = "main";
 MainWindow.static.title = $("<span>").css({"font-weight":"normal"}).append(
 	$("<a>").css({"font-weight": "bold"}).attr({"href": mw.util.getUrl("WP:RATER"), "target": "_blank"}).text("Rater"),
 	" (",
-	$("<a>").attr({"href": mw.util.getUrl("WT:RATER"), "target": "_blank"}).text("talk"),
+	$("<a>").attr({"href": mw.util.getUrl("WT:RATER"), "target": "_blank"}).text("讨论"),
 	") ",
 	$("<span>").css({"font-size":"90%"}).text("v"+appConfig.script.version)
 );
@@ -28,7 +28,7 @@ MainWindow.static.actions = [
 	// Primary (top right):
 	{
 		label: "X", // not using an icon since color becomes inverted, i.e. white on light-grey
-		title: "Close (and discard any changes)",
+		title: "关闭并且放弃未保存更改",
 		flags: "primary",
 		modes: ["edit", "diff", "preview"] // available when current mode isn't "prefs"
 	},
@@ -37,45 +37,45 @@ MainWindow.static.actions = [
 		action: "showPrefs",
 		flags: "safe",
 		icon: "settings",
-		title: "Preferences",
+		title: "设置",
 		modes: ["edit", "diff", "preview"] // available when current mode isn't "prefs"
 	},
 	// Others (bottom)
 	{
 		action: "save",
 		accessKey: "s",
-		label: new OO.ui.HtmlSnippet("<span style='padding:0 1em;'>Save</span>"),
+		label: new OO.ui.HtmlSnippet("<span style='padding:0 1em;'>"+"保存"+"</span>"),
 		flags: ["primary", "progressive"],
 		modes: ["edit", "diff", "preview"] // available when current mode isn't "prefs"
 	},
 	{
 		action: "preview",
 		accessKey: "p",
-		label: "Show preview",
+		label: "显示预览",
 		modes: ["edit", "diff"] // available when current mode isn't "preview" or "prefs"
 	},
 	{
 		action: "changes",
 		accessKey: "v",
-		label: "Show changes",
+		label: "显示更改",
 		modes: ["edit", "preview"] // available when current mode isn't "diff" or "prefs"
 	},
 	{
 		action: "back",
-		label: "Back",
+		label: "后退",
 		modes: ["diff", "preview"] // available when current mode is "diff" or "prefs"
 	},
 	
 	// "prefs" mode only
 	{
 		action: "savePrefs",
-		label: "Update",
+		label: "更新",
 		flags: ["primary", "progressive"],
 		modes: "prefs" 
 	},
 	{
 		action: "closePrefs",
-		label: "Cancel",
+		label: "取消",
 		flags: "safe",
 		modes: "prefs"
 	}
@@ -106,7 +106,7 @@ MainWindow.prototype.initialize = function () {
 						.css({"vertical-align": "text-bottom;"})
 						.attr({
 							"src": "//upload.wikimedia.org/wikipedia/commons/thumb/5/51/Objective_Revision_Evaluation_Service_logo.svg/40px-Objective_Revision_Evaluation_Service_logo.svg.png",
-							"title": "Machine predicted quality from ORES",
+							"title": "ORES 程序提供的质量估算",
 							"alt": "ORES logo",
 							"width": "20px",
 							"height": "20px"
@@ -144,7 +144,7 @@ MainWindow.prototype.initialize = function () {
 
 	// Preview, Show changes
 	this.parsedContentContainer = new OO.ui.FieldsetLayout( {
-		label: "Preview"
+		label: "预览"
 	} );
 	this.parsedContentWidget = new OO.ui.LabelWidget( {label: "",	$element:$("<div>")	});
 	this.parsedContentContainer.addItems([
@@ -328,28 +328,29 @@ MainWindow.prototype.getSetupProcess = function ( data ) {
 			}
 			// Show page type, or ORES prediction, if available
 			if (this.pageInfo.redirect) {
-				this.pagetypeLabel.setLabel("Redirect page").toggle(true);
+				this.pagetypeLabel.setLabel("重定向页面").toggle(true);
 			} else if (this.pageInfo.isDisambig) {
-				this.pagetypeLabel.setLabel("Disambiguation page").toggle(true);
+				this.pagetypeLabel.setLabel("消歧义页面").toggle(true);
 			} else if (this.pageInfo.isArticle && data.isGA) {
-				this.pagetypeLabel.setLabel("Good article").toggle(true);
+				this.pagetypeLabel.setLabel("优良条目").toggle(true);
 			} else if (this.pageInfo.isArticle && data.isFA) {
-				this.pagetypeLabel.setLabel("Featured article").toggle(true);
+				this.pagetypeLabel.setLabel("典范条目").toggle(true);
 			} else if (this.pageInfo.isArticle && data.isFL) {
-				this.pagetypeLabel.setLabel("Featured list").toggle(true);
+				this.pagetypeLabel.setLabel("典范列表").toggle(true);
 			} else if (this.pageInfo.isArticle && data.isList) {
-				this.pagetypeLabel.setLabel("List article").toggle(true);
+				this.pagetypeLabel.setLabel("列表条目").toggle(true);
 			} else if (data.ores) {
 				this.oresClass = data.ores.prediction;
 				this.oresLabel.toggle(true).$element.find(".oresPrediction").append(
-					"Prediction: ",
+					"估算：",
 					$("<strong>").text(data.ores.prediction),
-					"&nbsp;(" + data.ores.probability + ")"
+					"（" + data.ores.probability + "）"
 				);
 			} else if (this.pageInfo.isArticle) {
-				this.pagetypeLabel.setLabel("Article page").toggle(true);
+				this.pagetypeLabel.setLabel("条目页面").toggle(true);
 			} else {
-				this.pagetypeLabel.setLabel( this.subjectPage.getNamespacePrefix().slice(0,-1) + " page" ).toggle(true);
+				// TODO: i18n
+				this.pagetypeLabel.setLabel( this.subjectPage.getNamespacePrefix().slice(0,-1) + " 页面" ).toggle(true);
 			}
 			// Set props for use in making wikitext and edit summaries
 			this.talkWikitext = data.talkWikitext;
@@ -391,7 +392,7 @@ MainWindow.prototype.getActionProcess = function ( action ) {
 				(code, err) => $.Deferred().reject(
 					new OO.ui.Error(
 						$("<div>").append(
-							$("<strong style='display:block;'>").text("Could not save preferences."),
+							$("<strong style='display:block;'>").text("保存设置失败。"),
 							$("<span style='color:#777'>").text( makeErrorMsg(code, err) )
 						)
 					)
@@ -427,7 +428,7 @@ MainWindow.prototype.getActionProcess = function ( action ) {
 			).catch((code, err) => $.Deferred().reject(
 				new OO.ui.Error(
 					$("<div>").append(
-						$("<strong style='display:block;'>").text("Could not save your changes."),
+						$("<strong style='display:block;'>").text("保存更改失败。"),
 						$("<span style='color:#777'>").text( makeErrorMsg(code, err) )
 					)
 				)
@@ -442,17 +443,17 @@ MainWindow.prototype.getActionProcess = function ( action ) {
 			API.post({
 				action: "parse",
 				contentmodel: "wikitext",
-				text: this.transformTalkWikitext(this.talkWikitext) + "\n<hr>\n" + "'''Edit summary:''' " + this.makeEditSummary(),
+				text: this.transformTalkWikitext(this.talkWikitext) + "\n<hr>\n" + "'''编辑摘要：''' " + this.makeEditSummary(),
 				title: this.talkpage.getPrefixedText(),
 				pst: 1
 			}).then( result => {
 				if ( !result || !result.parse || !result.parse.text || !result.parse.text["*"] ) {
-					return $.Deferred().reject("Empty result");
+					return $.Deferred().reject("Empty result"); // TODO: l10n?
 				}
 				var previewHtmlSnippet = new OO.ui.HtmlSnippet(result.parse.text["*"]);
 
 				this.parsedContentWidget.setLabel(previewHtmlSnippet);
-				this.parsedContentContainer.setLabel("Preview:");
+				this.parsedContentContainer.setLabel("预览：");
 				this.actions.setMode("preview");
 				this.contentArea.setItem( this.parsedContentLayout );
 				this.topBar.setDisabled(true);
@@ -461,7 +462,7 @@ MainWindow.prototype.getActionProcess = function ( action ) {
 				.catch( (code, err) => $.Deferred().reject(
 					new OO.ui.Error(
 						$("<div>").append(
-							$("<strong style='display:block;'>").text("Could not show changes."),
+							$("<strong style='display:block;'>").text("显示变更失败。"),
 							$("<span style='color:#777'>").text( makeErrorMsg(code, err) )
 						)
 					)
@@ -485,14 +486,14 @@ MainWindow.prototype.getActionProcess = function ( action ) {
 					}
 					var $diff = $("<table>").addClass("diff").css("width", "100%").append(
 						$("<tr>").append(
-							$("<th>").attr({"colspan":"2", "scope":"col"}).css("width", "50%").text("Latest revision"),
-							$("<th>").attr({"colspan":"2", "scope":"col"}).css("width", "50%").text("New text")
+							$("<th>").attr({"colspan":"2", "scope":"col"}).css("width", "50%").text("最新修订版本"),
+							$("<th>").attr({"colspan":"2", "scope":"col"}).css("width", "50%").text("新文本")
 						),
 						result.compare["*"],
 						$("<tfoot>").append(
 							$("<tr>").append(
 								$("<td colspan='4'>").append(
-									$("<strong>").text("Edit summary: "),
+									$("<strong>").text("编辑摘要："),
 									this.makeEditSummary()
 								)
 							)
@@ -500,7 +501,7 @@ MainWindow.prototype.getActionProcess = function ( action ) {
 					);
 
 					this.parsedContentWidget.setLabel($diff);
-					this.parsedContentContainer.setLabel("Changes:");
+					this.parsedContentContainer.setLabel("变更：");
 					this.actions.setMode("diff");
 					this.contentArea.setItem( this.parsedContentLayout );
 					this.topBar.setDisabled(true);
@@ -509,7 +510,7 @@ MainWindow.prototype.getActionProcess = function ( action ) {
 				.catch( (code, err) => $.Deferred().reject(
 					new OO.ui.Error(
 						$("<div>").append(
-							$("<strong style='display:block;'>").text("Could not show changes."),
+							$("<strong style='display:block;'>").text("显示更改失败。"),
 							$("<span style='color:#777'>").text( makeErrorMsg(code, err) )
 						)
 					)
@@ -525,7 +526,7 @@ MainWindow.prototype.getActionProcess = function ( action ) {
 	} else if (!action && this.bannerList.changed) {
 		// Confirm closing of dialog if there have been changes 
 		return new OO.ui.Process().next(
-			OO.ui.confirm("Changes made will be discarded.", {title:"Close Rater?"})
+			OO.ui.confirm("即将放弃更改。", {title:"关闭 Rater？"})
 				.then(confirmed => confirmed ? this.close() : null)
 		);
 	}
@@ -575,18 +576,18 @@ MainWindow.prototype.onSearchSelect = function(data) {
 	// Abort and show alert if banner already exists
 	if (existingBanner) {
 		this.topBar.searchBox.popPending();
-		return OO.ui.alert("There is already a {{" + name + "}} banner").then(this.searchBox.focus());
+		return OO.ui.alert("已有一个{{" + name + "}}横幅").then(this.searchBox.focus());
 	}
 
 	// Confirmation required for banners missing WikiProject from name, and for uncreated disambiguation talk pages
 	var confirmText;
 	if (!/^[Ww](?:P|iki[Pp]roject)/.test(name)) {
 		confirmText = new OO.ui.HtmlSnippet(
-			"{{" + mw.html.escape(name) + "}} is not a recognised WikiProject banner.<br/>Do you want to continue?"
+			"{{" + mw.html.escape(name) + "}} 是无法识别的WikiProject横幅。<br/>是否继续？"
 		);
-	} else if (name === "WikiProject Disambiguation" && $("#ca-talk.new").length !== 0 && this.bannerList.items.length === 0) {
+	} else if (name === "WikiProject Disambiguation" && $("#ca-talk.new").length !== 0 && this.bannerList.items.length === 0) { // TODO: l10n
 		// eslint-disable-next-line no-useless-escape
-		confirmText = "New talk pages shouldn't be created if they will only contain the \{\{WikiProject Disambiguation\}\} banner. Continue?";
+		confirmText = "New talk pages shouldn't be created if they will only contain the \{\{WikiProject Disambiguation\}\} banner. Continue?"; // TODO: right?
 	}
 	$.when( confirmText ? OO.ui.confirm(confirmText) : true)
 		.then( confirmed => {
@@ -741,9 +742,9 @@ MainWindow.prototype.makeEditSummary = function() {
 	let overallRating = (someClassesChanged && overallClass && someImportancesChanged && overallImportance)
 		? overallClass + "/" + overallImportance
 		: (someClassesChanged && overallClass) || (someImportancesChanged && overallImportance) || "";
-	if (overallRating) { overallRating = " (" + overallRating + ")"; }
+	if (overallRating) { overallRating = "（" + overallRating + "）"; }
 
-	return `Assessment${overallRating}: ${[...editedBanners, ...newBanners, ...removedBanners].join(", ")}${appConfig.script.advert}`;
+	return `評級${overallRating}: ${[...editedBanners, ...newBanners, ...removedBanners].join(", ")}${appConfig.script.advert}`;
 };
 
 export default MainWindow;

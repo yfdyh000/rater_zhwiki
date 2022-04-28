@@ -278,8 +278,8 @@ Template.prototype.getDataForParam = function(key, paraName) {
 	
 	var data = this.paramData[para][key];
 	// Data might actually be an object with key "en"
-	if ( data && data.en && !Array.isArray(data) ) {
-		return data.en;
+	if ( data && data.zh && !Array.isArray(data) ) {
+		return data.zh;
 	}
 	return data;
 };
@@ -355,10 +355,10 @@ Template.prototype.setParamDataAndSuggestions = function() {
 					});
 				}
 				// Extract allowed values array from description
-				if ( paraData.description && /\[.*'.+?'.*?\]/.test(paraData.description.en) ) {
+				if ( paraData.description && /\[.*'.+?'.*?\]/.test(paraData.description.zh) ) {
 					try {
 						var allowedVals = JSON.parse(
-							paraData.description.en
+							paraData.description.zh
 								.replace(/^.*\[/,"[")
 								.replace(/"/g, "\\\"")
 								.replace(/'/g, "\"")
@@ -368,7 +368,7 @@ Template.prototype.setParamDataAndSuggestions = function() {
 						self.paramData[paraName].allowedValues = allowedVals;
 					} catch(e) {
 						console.warn("[Rater] Could not parse allowed values in description:\n  "+
-					paraData.description.en + "\n Check TemplateData for parameter |" + paraName +
+					paraData.description.zh + "\n Check TemplateData for parameter |" + paraName +
 					"= in " + self.getTitle().getPrefixedText());
 					}
 				}
@@ -435,7 +435,7 @@ Template.prototype.addMissingParams = function() {
 	var thisTemplate = this;
 
 	// Autofill listas parameter for WP:BIO
-	var isBiographyBanner = this.getTitle().getMainText() === "WikiProject Biography" ||
+	var isBiographyBanner = this.getTitle().getMainText() === "WikiProject Biography" || // TODO: check it
 		(this.redirectTarget && this.redirectTarget.getMainText() === "WikiProject Biography");
 
 	if (isBiographyBanner && !this.getParam("listas")) {

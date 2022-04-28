@@ -36,7 +36,7 @@ var ParameterListWidget = function ParameterListWidget( config ) {
 		if (hiddenCount>0) {
 			// Add button to show the hidden params
 			this.showMoreParametersButton = new OO.ui.ButtonWidget({
-				label: "Show " + hiddenCount + " more " + (hiddenCount===1 ? "parameter" : "parameters"),
+				label: "显示额外" + hiddenCount + "个" + "参数",
 				framed: false,
 				$element: $("<span style='margin-bottom:0'>")
 			});
@@ -46,7 +46,7 @@ var ParameterListWidget = function ParameterListWidget( config ) {
 
 	// Add the button that allows user to add more parameters
 	this.addParametersButton = new OO.ui.ButtonWidget({
-		label: "Add parameter",
+		label: "添加参数",
 		icon: "add",
 		framed: false,
 		$element: $("<span style='margin-bottom:0'>")
@@ -162,7 +162,7 @@ ParameterListWidget.prototype.setPreferences = function(prefs) {
 		this.removeItems([this.showMoreParametersButton]);
 	} else {
 		this.showMoreParametersButton.setLabel(
-			"Show " + stillHiddenCount + " more " + (stillHiddenCount===1 ? "paramter" : "paramters")
+			"显示额外" + stillHiddenCount + "个" + "参数",
 		);
 	}
 };
