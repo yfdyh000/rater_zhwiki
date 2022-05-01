@@ -59,18 +59,20 @@ import windowManager from "./windowManager";
 	);
 
 	// Invocation by portlet link 
-	mw.util.addPortletLink(
-		"p-cactions",
-		"#",
-		"Rater",
-		"ca-rater",
-		"质量和重要度评级",
-		"5"
-	);
-	$("#ca-rater").click(event => {
-		event.preventDefault();
-		setupRater().then(showMainWindow, showSetupError);
-	});
+	if($("#ca-rater").length === 0) {
+		mw.util.addPortletLink(
+			mw.config.get('skin') === 'vector' ? 'p-views' : 'p-cactions',
+			"#",
+			"评级",
+			"ca-rater",
+			"质量和重要度评级",
+			"5"
+		);
+		$("#ca-rater").click(event => {
+			event.preventDefault();
+			setupRater().then(showMainWindow, showSetupError);
+		});
+	}
 
 	// Invocation by auto-start (do not show message on error)
 	autoStart().then(showMainWindow);

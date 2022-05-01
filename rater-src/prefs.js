@@ -14,6 +14,9 @@ const writePrefsToCache = prefs => cache.write(
 );
 
 const getPrefsFromApi = function() {
+	if (mw.config.get("wgUserName") == null) {
+		return $.Deferred().resolve({});
+	}
 	return API.get({
 		"action": "query",
 		"format": "json",
@@ -30,7 +33,7 @@ const getPrefsFromApi = function() {
 		try {
 			prefs = JSON.parse( page.revisions[0].slots.main["*"] );
 		} catch(e) {
-			return $.Deferred().reject("JSON-parsing-error", e);
+			return $.Deferred().reject("JSON-parsing-error", e); // not work?
 		}
 		writePrefsToCache(prefs);
 		return prefs;

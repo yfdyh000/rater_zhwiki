@@ -3,6 +3,10 @@ import SuggestionLookupTextInputWidget from "./SuggestionLookupTextInputWidget";
 import {getBannerNames} from "../../getBanners";
 // <nowiki>
 
+function cutTitle(name) { // cutWikiProjectTemplateTitle
+	return name.replace(/WikiProject /i, "").replace("专题", "").replace("專題", "");
+}
+
 function TopBarWidget( config ) {
 	// Configuration initialization
 	config = $.extend(
@@ -19,53 +23,46 @@ function TopBarWidget( config ) {
     
 	// Search box
 	this.searchBox = new SuggestionLookupTextInputWidget( {
-		placeholder: "新增 WikiProject...",
+		//placeholder: "新增 WikiProject...",
+		placeholder: "添加维基专题或相关模板...",
 		$element: $("<div style='display:inline-block; margin:0 -1px; width:calc(100% - 55px);'>"),
 		$overlay: this.$overlay,
 	} );
 	getBannerNames()
-		.then(banners => [ // TODO: l10n
-			...banners.withRatings.map(bannerName => ({
-				label: bannerName.replace("WikiProject ", ""),
-				data: {
-					name: bannerName
-				}
-			})),
-			...banners.withoutRatings.map(bannerName => ({
-				label: bannerName.replace("WikiProject ", ""),
-				data: {
-					name: bannerName,
-					withoutRatings: true
-				}
-			})),
-			...banners.wrappers.map(bannerName => ({
-				label: bannerName.replace("WikiProject ", "") + " [template wrapper]",
-				data: {
-					name: bannerName,
-					wrapper: true
-				}
-			})),
-			...banners.notWPBM.map(bannerName => ({
-				label: bannerName.replace("WikiProject ", ""),
-				data: {
-					name: bannerName
-				}
-			})),
-			...banners.inactive.map(bannerName => ({
-				label: bannerName.replace("WikiProject ", "") + " [inactive]",
-				data: {
-					name: bannerName,
-					withoutRatings: true
-				}
-			})),
-			...banners.wir.map(bannerName => ({
-				label: bannerName + " [Women In Red meetup/initiative]",
-				data: {
-					name: bannerName,
-					withoutRatings: true
-				}
-			}))
-		])
+		.then(banners => {
+			var o = [
+				banners.withRatings.map(bannerName => ({
+					label: cutTitle(bannerName),
+					data: {
+						name: bannerName
+					}
+				})),
+				banners.withoutRatings.map(bannerName => ({
+					label: cutTitle(bannerName),
+					data: {
+						name: bannerName,
+						withoutRatings: true
+					}
+				}))
+			].flat(1);
+			let catPagesNum = o.length;
+			for (let key of Object.keys(banners.projectsJSON)) {
+				var alias = banners.projectsJSON[key];
+				o.push(
+					{
+						label: cutTitle(key) + " - {" + alias.join(", ") + "}",
+						data: {
+							name: key,
+							zhProjects: "values"
+						}
+					}
+				);
+			}
+			o = o.filter((b, i) => //i < catPagesNum
+				(i >= catPagesNum || (o.findIndex((e)=> e.data.name === b.data.name) != i))
+			); // Remove duplicates
+			return o;
+		})
 		.then(bannerOptions => this.searchBox.setSuggestions(bannerOptions));
     
 	// Add button
@@ -93,10 +90,13 @@ function TopBarWidget( config ) {
 					data: {class: null},
 					label: new OO.ui.HtmlSnippet("<span style=\"color:#777\">"+"（无质量）"+"</span>")
 				} ),
-				...appConfig.bannerDefaults.classes.map(classname => new OO.ui.MenuOptionWidget( {
-					data: {class: classname},
-					label: classname // TODO: i18n
-				} )
+				...appConfig.bannerDefaults.classes.map((classname, i) => {
+					let display = appConfig.bannerDefaultsLabel.classes[i];
+					return new OO.ui.MenuOptionWidget( {
+						data: {class: classname},
+						label: typeof display != "undefined" ? display : classname
+					} );
+				}
 				),
 				new OO.ui.MenuSectionOptionWidget( {
 					label: "重要度"
@@ -105,11 +105,14 @@ function TopBarWidget( config ) {
 					data: {importance: null},
 					label: new OO.ui.HtmlSnippet("<span style=\"color:#777\">"+"（无重要度）"+"</span>")
 				} ),
-				...appConfig.bannerDefaults.importances.map(importance => new OO.ui.MenuOptionWidget( {
-					data: {importance: importance},
-					label: importance // TODO: i18n
-				} )
-				)
+				...appConfig.bannerDefaults.importances.map((importance, i) => {
+					let display = appConfig.bannerDefaultsLabel.importances[i];
+					return new OO.ui.MenuOptionWidget( {
+						data: {importance: importance},
+						label: typeof display != "undefined" ? display : importance
+					} );
+				}
+				),
 			]
 		},
 		$element: $("<span style=\"width:auto;display:inline-block;float:left;margin:0\" title='全部设为...'>"),

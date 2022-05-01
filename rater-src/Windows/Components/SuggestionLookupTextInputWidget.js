@@ -33,8 +33,12 @@ SuggestionLookupTextInputWidget.prototype.getLookupCacheDataFromResponse = funct
 
 // Is passed data from #getLookupRequest, returns an array of menu item widgets 
 SuggestionLookupTextInputWidget.prototype.getLookupMenuOptionsFromData = function ( pattern ) {
+	var noRegex = function(pattern) {
+		if (typeof pattern != "string") return pattern;
+		return pattern.replace(/[([\]){}]/g, "\\$0");
+	};
 	var labelMatchesInputVal = function(suggestionItem) {
-		return pattern.test(suggestionItem.label) || ( !suggestionItem.label && pattern.test(suggestionItem.data) );
+		return pattern.test(noRegex(suggestionItem.label)) || ( !noRegex(suggestionItem.label) && pattern.test(noRegex(suggestionItem.data)) );
 	};
 	var makeMenuOptionWidget = function(optionItem) {
 		return new OO.ui.MenuOptionWidget( {

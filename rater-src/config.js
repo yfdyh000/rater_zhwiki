@@ -80,60 +80,50 @@ var config = {
 			"NA"
 		]
 	},
+	bannerDefaultsLabel: { // i18n. this must be synchronized with the wiki and the above definition
+		classes: [
+			"FA - 典范条目",
+			"FL - 特色列表",
+			"A - 甲",
+			"GA - 优良",
+			"B - 乙",
+			"C - 丙",
+			"Start - 初",
+			"Stub - 小作品",
+			"List - 列表"
+		],
+		importances: [
+			"Top - 极高",
+			"High - 高",
+			"Mid - 中",
+			"Low - 低"
+		],
+		extendedClasses: [
+			"Category - 分类",
+			"Draft - 草稿",
+			"File - 文件",
+			"FM",
+			"Portal - 主题",
+			"Project - 项目",
+			"Template - 模板",
+			"Bplus",
+			"Future - 未来",
+			"Current",
+			"Disambig - 消歧义",
+			"NA - 无",
+			"Redirect - 重定向",
+			"Book"
+		],
+		extendedImportances: [
+			"Top - 极高",
+			"High - 高",
+			"Mid - 中",
+			"Low - 低",
+			"Bottom - 极低",
+			"NA - 无"
+		]
+	},
 	customBanners: {
-		"WikiProject Military history": { // TODO: check it
-			classes: [
-				"FA",
-				"FL",
-				"A",
-				"GA",
-				"B",
-				"C",
-				"Start",
-				"Stub",
-				"List",
-				"AL",
-				"BL",
-				"CL",
-				"Category",
-				"Draft",
-				"File",
-				"Portal",
-				"Project",
-				"Template",
-				"Disambig",
-				"Redirect",
-				"Book"			
-			],
-			importances: []
-		},
-		"WikiProject Portals": {
-			classes: [
-				"FPo",
-				"Complete",
-				"Substantial",
-				"Basic",
-				"Incomplete",
-				"Meta",
-				"List",
-				"Category",
-				"Draft",
-				"File",
-				"Project",
-				"Template",
-				"Disambig",
-				"NA",
-				"Redirect"
-			],
-			importances: [
-				"Top",
-				"High",
-				"Mid",
-				"Low",
-				"Bottom",
-				"NA"
-			]
-		}
 	},
 	shellTemplates: [ // TODO: check it
 		"WikiProject banner shell",
@@ -188,7 +178,7 @@ var config = {
 		"small": {
 			"label": {
 				"en": "Small?",
-				"zh": "小？"
+				"zh": "小型？"
 			},
 			"description": {
 				"en": "Display a small version. Allowed values: ['yes'].",
@@ -199,7 +189,7 @@ var config = {
 		"attention": {
 			"label": {
 				"en": "Attention required?",
-				"zh": "急需关注？"
+				"zh": "需要关注？"
 			},
 			"description": {
 				"en": "Immediate attention required. Allowed values: ['yes'].",

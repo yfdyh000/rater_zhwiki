@@ -7,6 +7,36 @@ var cacheBanners = function(banners) {
 	cache.write("banners", banners, 2, 60);
 };
 
+// The code snippet from https://zh.wikipedia.org/wiki/User:Chiefwei/rater/rater.js
+var raterData = {};
+var dataurl = "";
+function getRaterData(kind) {
+	if (kind === "default") {
+		dataurl = mw.config.get("wgScript") + "?action=raw&ctype=application/json&maxage=86400&title=User:Chiefwei/rater/" + kind + ".js";
+	} else {
+		dataurl = mw.config.get("wgScript") + "?action=raw&ctype=application/json&maxage=86400&title=User:Sz-iwbot/rater/" + kind + ".json";
+	}
+	if (raterData[kind] === void(null)) {
+		try {
+			$.ajax({
+				"url": dataurl,
+				"dataType": "json",
+				"async": false,
+				"success": function (data) {
+					raterData[kind] = data;
+				},
+				"error": function (xhr, message) {
+					mw.log.error(new Error(message));
+				}
+			});
+		}  catch (e) {
+			alert("获取评级工具“" + kind + "”数据错误：" + e.message + "。评级工具可能无法正常工作。");
+			raterData[kind] = null;
+		}
+	}
+	return raterData[kind];
+}
+
 /**
  * Gets banners/options from the Api
  * 
@@ -37,7 +67,7 @@ var getListOfBannersFromApi = function() {
 			abbreviation: "withoutRatings",
 			banners: [],
 			processed: $.Deferred()
-		},
+		}/*,
 		{
 			title: "Category:WikiProject banner wrapper templates", // TODO: missing and review is needed
 			abbreviation: "wrappers",
@@ -55,7 +85,7 @@ var getListOfBannersFromApi = function() {
 			abbreviation: "inactive",
 			banners: [],
 			processed: $.Deferred()
-		}
+		}*/
 	];
 
 	var processQuery = function(result, catIndex) {
@@ -104,7 +134,9 @@ var getListOfBannersFromApi = function() {
 		categories.forEach(catObject => {
 			banners[catObject.abbreviation] = catObject.banners;
 		});
-		
+
+		banners["projectsJSON"] = getRaterData("projects");
+
 		finishedPromise.resolve(banners);
 	});
 	
@@ -139,10 +171,10 @@ var getBannersFromCache = function() {
 var getBannerNames = () => getBannersFromCache()
 	.then( banners => {
 		// Ensure all keys exist
-		if (!banners.withRatings || !banners.withoutRatings || !banners.wrappers || !banners.notWPBM || !banners.inactive || !banners.wir) {
+		if (!banners.withRatings || !banners.withoutRatings || !banners.projectsJSON /* || !banners.wrappers || !banners.notWPBM || !banners.inactive || !banners.wir*/ ) {
 			getListOfBannersFromApi().then(cacheBanners);
 			return $.extend(
-				{ withRatings: [], withoutRatings: [], wrappers: [], notWPBM: [], inactive: [], wir: [] },
+				{ withRatings: [], withoutRatings: [], projectsJSON : [] /* , wrappers: [], notWPBM: [], inactive: [], wir: []*/ },
 				banners
 			);
 		}

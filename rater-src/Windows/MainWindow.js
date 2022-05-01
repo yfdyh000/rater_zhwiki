@@ -336,7 +336,7 @@ MainWindow.prototype.getSetupProcess = function ( data ) {
 			} else if (this.pageInfo.isArticle && data.isFA) {
 				this.pagetypeLabel.setLabel("典范条目").toggle(true);
 			} else if (this.pageInfo.isArticle && data.isFL) {
-				this.pagetypeLabel.setLabel("典范列表").toggle(true);
+				this.pagetypeLabel.setLabel("特色列表").toggle(true);
 			} else if (this.pageInfo.isArticle && data.isList) {
 				this.pagetypeLabel.setLabel("列表条目").toggle(true);
 			} else if (data.ores) {
@@ -448,7 +448,7 @@ MainWindow.prototype.getActionProcess = function ( action ) {
 				pst: 1
 			}).then( result => {
 				if ( !result || !result.parse || !result.parse.text || !result.parse.text["*"] ) {
-					return $.Deferred().reject("Empty result"); // TODO: l10n?
+					return $.Deferred().reject("收到空结果\n可能没有产生变化。");
 				}
 				var previewHtmlSnippet = new OO.ui.HtmlSnippet(result.parse.text["*"]);
 
@@ -482,7 +482,7 @@ MainWindow.prototype.getActionProcess = function ( action ) {
 			})
 				.then( result => {
 					if ( !result || !result.compare || !result.compare["*"] ) {
-						return $.Deferred().reject("Empty result");
+						return $.Deferred().reject("收到空结果。\n可能没有产生变化。");
 					}
 					var $diff = $("<table>").addClass("diff").css("width", "100%").append(
 						$("<tr>").append(
@@ -525,10 +525,9 @@ MainWindow.prototype.getActionProcess = function ( action ) {
 
 	} else if (!action && this.bannerList.changed) {
 		// Confirm closing of dialog if there have been changes 
-		return new OO.ui.Process().next(
-			OO.ui.confirm("即将放弃更改。", {title:"关闭 Rater？"})
-				.then(confirmed => confirmed ? this.close() : null)
-		);
+		if(confirm("关闭 Rater 将放弃未保存的更改，确认关闭？")) {
+			this.close();
+		}
 	}
 
 	return MainWindow.super.prototype.getActionProcess.call( this, action );
@@ -580,15 +579,15 @@ MainWindow.prototype.onSearchSelect = function(data) {
 	}
 
 	// Confirmation required for banners missing WikiProject from name, and for uncreated disambiguation talk pages
-	var confirmText;
-	if (!/^[Ww](?:P|iki[Pp]roject)/.test(name)) {
+	var confirmText; // TODO: recognize it later?
+	/* if (!/^[Ww](?:P|iki[Pp]roject)/.test(name)) { // i18n
 		confirmText = new OO.ui.HtmlSnippet(
 			"{{" + mw.html.escape(name) + "}} 是无法识别的WikiProject横幅。<br/>是否继续？"
 		);
 	} else if (name === "WikiProject Disambiguation" && $("#ca-talk.new").length !== 0 && this.bannerList.items.length === 0) { // TODO: l10n
 		// eslint-disable-next-line no-useless-escape
 		confirmText = "New talk pages shouldn't be created if they will only contain the \{\{WikiProject Disambiguation\}\} banner. Continue?"; // TODO: right?
-	}
+	} */
 	$.when( confirmText ? OO.ui.confirm(confirmText) : true)
 		.then( confirmed => {
 			if (!confirmed) return;
@@ -744,7 +743,7 @@ MainWindow.prototype.makeEditSummary = function() {
 		: (someClassesChanged && overallClass) || (someImportancesChanged && overallImportance) || "";
 	if (overallRating) { overallRating = "（" + overallRating + "）"; }
 
-	return `評級${overallRating}: ${[...editedBanners, ...newBanners, ...removedBanners].join(", ")}${appConfig.script.advert}`;
+	return `評級${overallRating}：${[...editedBanners, ...newBanners, ...removedBanners].join("、")}${appConfig.script.advert}`;
 };
 
 export default MainWindow;

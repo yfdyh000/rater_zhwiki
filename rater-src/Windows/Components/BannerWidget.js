@@ -1,3 +1,4 @@
+import appConfig from "../../config";
 import ParameterListWidget from "./ParameterListWidget";
 import ParameterWidget from "./ParameterWidget";
 import DropdownParameterWidget from "./DropdownParameterWidget";
@@ -35,6 +36,13 @@ function BannerWidget( template, config ) {
 	this.inactiveProject = template.inactiveProject;
 
 	/* --- TITLE AND RATINGS --- */
+
+	this.getLocalTitleForClasses = function (rName) {  // TODO: structure
+		return appConfig.bannerDefaultsLabel.classes.find(n=>n.includes(rName + " -")) || rName;
+	};
+	this.getLocalTitleForImportances = function (rName) {
+		return appConfig.bannerDefaultsLabel.importances.find(n=>n.includes(rName + " -")) || rName;
+	};
 
 	this.removeButton = new OO.ui.ButtonWidget( {
 		icon: "trash",
@@ -89,7 +97,7 @@ function BannerWidget( template, config ) {
 					...template.classes.map( classname =>
 						new OO.ui.MenuOptionWidget( {
 							data: classname,
-							label: classname
+							label: this.getLocalTitleForClasses(classname)
 						} )
 					)
 				],
@@ -106,12 +114,12 @@ function BannerWidget( template, config ) {
 			menu: {
 				items: [
 					new OO.ui.MenuOptionWidget( {
-						data: null, label: new OO.ui.HtmlSnippet(`<span style="color:#777">${config.isArticle ? "（无质量）" : "（自动检测）"}</span>`)
+						data: null, label: new OO.ui.HtmlSnippet(`<span style="color:#777">${config.isArticle ? "（无重要度）" : "（自动检测）"}</span>`)
 					} ),
 					...template.importances.map(importance =>
 						new OO.ui.MenuOptionWidget( {
 							data: importance,
-							label: importance
+							label: this.getLocalTitleForImportances(importance)
 						} )
 					)
 				]

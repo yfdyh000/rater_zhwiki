@@ -1,0 +1,10 @@
+{
+    "configurations": [
+        {
+            "type": "pwa-msedge",
+            "name": "debug on zhwiki",
+            "request": "launch",
+            "url": "https://zh.wikipedia.org/wiki/WP:S"
+        }
+    ]
+}
