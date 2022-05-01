@@ -60,8 +60,20 @@ import windowManager from "./windowManager";
 
 	// Invocation by portlet link 
 	if($("#ca-rater").length === 0) {
+		let area = "";
+		switch (mw.config.get('skin')) {
+		case 'vector':
+			area = 'p-views';
+			break;
+		case 'minerva': // Mobile skin
+			area = 'p-tb';
+			break;
+		default:
+			area = 'p-cactions';
+			break;
+		}
 		mw.util.addPortletLink(
-			mw.config.get('skin') === 'vector' ? 'p-views' : 'p-cactions',
+			area,
 			"#",
 			"评级",
 			"ca-rater",
