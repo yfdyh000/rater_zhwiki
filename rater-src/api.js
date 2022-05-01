@@ -12,7 +12,7 @@ var API = new mw.Api( {
 
 /* ---------- API for ORES ---------------------------------------------------------------------- */
 API.getORES = function(revisionID) {
-	return $.get("https://ores.wikimedia.org/v3/scores/enwiki?models=articlequality&revids="+revisionID);
+	return $.get("https://ores.wikimedia.org/v3/scores/zhwiki?models=articlequality&revids="+revisionID);
 };
 
 /* ---------- Raw wikitext ---------------------------------------------------------------------- */

@@ -83,6 +83,7 @@ function PrefsFormWidget( config ) {
 	};
 
 	for (let prefName in this.preferences ) {
+		if (prefName === "autofillClassFromOres") continue; // l10n
 		this.layout.addItems([
 			new OO.ui.FieldLayout( this.preferences[prefName].input, {
 				label: this.preferences[prefName].label,

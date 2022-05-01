@@ -18,7 +18,7 @@ var config = {
 		"minForShell": 3,
 		"bypassRedirects": true,
 		"autofillClassFromOthers": true,
-		"autofillClassFromOres": true,
+		"autofillClassFromOres": false,
 		"autofillImportance": true,
 		"collapseParamsLowerLimit": 6,
 		"watchlist": "preferences"

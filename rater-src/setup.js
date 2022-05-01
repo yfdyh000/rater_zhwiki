@@ -176,7 +176,7 @@ var setupRater = function(clickEvent) {
 			}
 			return API.getORES(latestRevId)
 				.then(function(result) {
-					var data = result.enwiki.scores[latestRevId].articlequality;
+					var data = result.zhwiki.scores[latestRevId].articlequality;
 					if ( data.error ) {
 						return $.Deferred().reject(data.error.type, data.error.message);
 					}
