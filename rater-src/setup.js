@@ -141,7 +141,7 @@ var setupRater = function(clickEvent) {
 
 	// Retrieve rating from ORES (task 6, only needed for articles) - but don't error out if request fails
 	var shouldGetOres = ( subjectIsArticle ); // TODO: Don't need to get ORES for redirects or disambigs
-	if ( shouldGetOres ) {
+	if ( false || shouldGetOres ) {
 		var latestRevIdPromise = !currentPage.isTalkPage()
 			? $.Deferred().resolve(config.mw.wgRevisionId)
 			: API.get( {

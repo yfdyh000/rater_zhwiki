@@ -140,7 +140,7 @@ BannerListWidget.prototype.addItems = function ( items, index ) {
 
 BannerListWidget.prototype.autofillClassRatings = function() {
 	// Only autofill if set in preferences
-	if (!this.preferences.autofillClassFromOthers && !this.preferences.autofillClassFromOres) {
+	if (false || !this.preferences.autofillClassFromOthers && !this.preferences.autofillClassFromOres) {
 		return;
 	}
 	// Check what banners already have
