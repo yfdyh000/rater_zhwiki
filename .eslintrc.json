@@ -20,10 +20,6 @@
         "linebreak-style": [
             "error",
             "windows"
-        ],
-        "semi": [
-            "error",
-            "always"
         ]
     },
     "ignorePatterns": "dist/**"
