@@ -115,8 +115,8 @@ var setupRater = function(clickEvent) {
 		formatversion: "2",
 		prop: "categories",
 		titles: subjectPage.getPrefixedText(),
-		redirects: 1,
-		clcategories: ["Category:全部消歧義頁面", "Category:全部小作品", "Category:優良條目", "Category:典范条目", "Category:特色列表"]
+		redirects: 1
+		//,clcategories: ["Category:全部消歧義頁面", "Category:全部小作品", "Category:優良條目", "Category:典范条目", "Category:特色列表"] // i18n; disabling it will return all categories, the hasCategoryRegex require it.
 	}).then(response => {
 		if ( !response || !response.query || !response.query.pages ) {
 			return null;
@@ -127,14 +127,15 @@ var setupRater = function(clickEvent) {
 		}
 		const page = response.query.pages[0];
 		const hasCategory = category => page.categories && page.categories.find(cat => cat.title === "Category:"+category);
-		return {
+		const hasCategoryRegex = regex => page.categories && page.categories.find(cat => regex.test(cat.title));
+		return { // i18n
 			redirectTarget,
 			disambig: hasCategory("全部消歧義頁面"),
 			stubtag: hasCategory("全部小作品"),
 			isGA: hasCategory("優良條目"),
 			isFA: hasCategory("典范条目"),
 			isFL: hasCategory("特色列表"),
-			isList: !hasCategory("特色列表") && /^Lists? of/.test(subjectPage.getPrefixedText())
+			isList: !hasCategory("特色列表") && hasCategoryRegex(/^Category:.*列表.*/)
 		};
 	}).catch(() => null); // Failure ignored
 
