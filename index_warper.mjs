@@ -12,10 +12,18 @@ async function writesPub() {
     var formatted = script.replace(/\/\/# sourceMappingURL=data:.+\n/g, ''); // remove sourceMapping
     await fs.writeFile("dist/rater_pub.js", formatted, 'utf8');
 }
+async function writesMin() {
+    const commentjs = await fs.readFile("comment.js", 'utf8');
+    const script = await fs.readFile("dist/rater.min.js", 'utf8');
+    var formatted = commentjs.replace(/\/\*content\*\//g, script);
+    await fs.writeFile("dist/rater.min.js", formatted, 'utf8');
+}
 
 const args = process.argv.slice(2);
 if (args[0] == 'pub'){
     writesPub();
+} else if (args[0] == 'commenttomin'){
+    writesMin();
 } else {
     writes();
 }
