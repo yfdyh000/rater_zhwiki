@@ -17,8 +17,8 @@
     "build:dev_concat": "node ./index_warper.mjs",
     "build:dev_pub": "node ./index_warper.mjs pub",
     "build": "npm run lint && npm run build:bundle && npm run build:minify && npm run build:concat",
-    "watch-build": "nodemon --watch rater-src --exec npm run build",
-    "watch-dev": "nodemon --watch rater-src -L --exec npm run build:dev"
+    "watch-build": "nodemon --watch rater-src --watch index_warper.mjs --exec npm run build",
+    "watch-dev": "nodemon --watch rater-src --watch index_warper.mjs --exec npm run build:dev"
   },
   "author": {
     "name": "Evad37",
