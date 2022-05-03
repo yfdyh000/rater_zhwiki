@@ -27,8 +27,8 @@ MainWindow.static.size = "large";
 MainWindow.static.actions = [
 	// Primary (top right):
 	{
-		label: "X", // not using an icon since color becomes inverted, i.e. white on light-grey
-		title: "关闭并且放弃未保存更改",
+		label: "✕", // not using an icon since color becomes inverted, i.e. white on light-grey
+		title: wgUVS("关闭并且放弃未保存更改", "關閉評級工具（不儲存任何變更）"),
 		flags: "primary",
 		modes: ["edit", "diff", "preview"] // available when current mode isn't "prefs"
 	},
@@ -37,7 +37,7 @@ MainWindow.static.actions = [
 		action: "showPrefs",
 		flags: "safe",
 		icon: "settings",
-		title: "设置",
+		title: wgUVS("设置", "偏好設定"),
 		modes: ["edit", "diff", "preview"] // available when current mode isn't "prefs"
 	},
 	// Others (bottom)
@@ -51,25 +51,25 @@ MainWindow.static.actions = [
 	{
 		action: "preview",
 		accessKey: "p",
-		label: "显示预览",
+		label: wgUVS("显示预览","顯示預覽"),
 		modes: ["edit", "diff"] // available when current mode isn't "preview" or "prefs"
 	},
 	{
 		action: "changes",
 		accessKey: "v",
-		label: "显示更改",
+		label: wgUVS("显示更改", "顯示變更"),
 		modes: ["edit", "preview"] // available when current mode isn't "diff" or "prefs"
 	},
 	{
 		action: "back",
-		label: "后退",
+		label: wgUVS("后退","返回"),
 		modes: ["diff", "preview"] // available when current mode is "diff" or "prefs"
 	},
 	
 	// "prefs" mode only
 	{
 		action: "savePrefs",
-		label: "更新",
+		label: wgUVS("更新", "儲存設定"),
 		flags: ["primary", "progressive"],
 		modes: "prefs" 
 	},
@@ -106,8 +106,8 @@ MainWindow.prototype.initialize = function () {
 						.css({"vertical-align": "text-bottom;"})
 						.attr({
 							"src": "//upload.wikimedia.org/wikipedia/commons/thumb/5/51/Objective_Revision_Evaluation_Service_logo.svg/40px-Objective_Revision_Evaluation_Service_logo.svg.png",
-							"title": "ORES 程序提供的质量估算",
-							"alt": "ORES logo",
+							"title": wgUVS("ORES 程序提供的质量估算","由客觀修訂評估服務（ORES）自動預測評級"),
+							"alt": wgUVS("ORES logo","ORES 識別標誌"),
 							"width": "20px",
 							"height": "20px"
 						})
@@ -144,7 +144,7 @@ MainWindow.prototype.initialize = function () {
 
 	// Preview, Show changes
 	this.parsedContentContainer = new OO.ui.FieldsetLayout( {
-		label: "预览"
+		label: wgUVS("预览","預覽")
 	} );
 	this.parsedContentWidget = new OO.ui.LabelWidget( {label: "",	$element:$("<div>")	});
 	this.parsedContentContainer.addItems([
@@ -330,29 +330,29 @@ MainWindow.prototype.getSetupProcess = function ( data ) {
 				.syncShellTemplateWithBiographyBanner();
 			// Show page type, or ORES prediction, if available
 			if (this.pageInfo.redirect) {
-				this.pagetypeLabel.setLabel("重定向页面").toggle(true);
+				this.pagetypeLabel.setLabel(wgUVS("重定向页面","重新導向頁面")).toggle(true);
 			} else if (this.pageInfo.isDisambig) {
-				this.pagetypeLabel.setLabel("消歧义页面").toggle(true);
+				this.pagetypeLabel.setLabel(wgUVS("消歧义页面","消歧義頁面")).toggle(true);
 			} else if (this.pageInfo.isArticle && data.isGA) {
-				this.pagetypeLabel.setLabel("优良条目").toggle(true);
+				this.pagetypeLabel.setLabel(wgUVS("优良条目","優良條目")).toggle(true);
 			} else if (this.pageInfo.isArticle && data.isFA) {
-				this.pagetypeLabel.setLabel("典范条目").toggle(true);
+				this.pagetypeLabel.setLabel(wgUVS("典范条目","典範條目")).toggle(true);
 			} else if (this.pageInfo.isArticle && data.isFL) {
 				this.pagetypeLabel.setLabel("特色列表").toggle(true);
 			} else if (this.pageInfo.isArticle && data.isList) {
-				this.pagetypeLabel.setLabel("列表条目").toggle(true);
+				this.pagetypeLabel.setLabel("列表").toggle(true);
 			} else if (data.ores) {
 				this.oresClass = data.ores.prediction;
 				this.oresLabel.toggle(true).$element.find(".oresPrediction").append(
-					"估算：",
+					wgUVS("估算：","預測品質："),
 					$("<strong>").text(data.ores.prediction),
 					"（" + data.ores.probability + "）"
 				);
 			} else if (this.pageInfo.isArticle) {
-				this.pagetypeLabel.setLabel("条目页面").toggle(true);
+				this.pagetypeLabel.setLabel(wgUVS("条目","條目")).toggle(true);
 			} else {
 				// TODO: i18n
-				this.pagetypeLabel.setLabel( this.subjectPage.getNamespacePrefix().slice(0,-1) + " 页面" ).toggle(true);
+				this.pagetypeLabel.setLabel( this.subjectPage.getNamespacePrefix().slice(0,-1) + wgUVS("页面","頁面") ).toggle(true);
 			}
 			// Set props for use in making wikitext and edit summaries
 			this.talkWikitext = data.talkWikitext;
@@ -394,7 +394,7 @@ MainWindow.prototype.getActionProcess = function ( action ) {
 				(code, err) => $.Deferred().reject(
 					new OO.ui.Error(
 						$("<div>").append(
-							$("<strong style='display:block;'>").text("保存设置失败。"),
+							$("<strong style='display:block;'>").text(wgUVS("保存设置失败。","無法儲存設定。")),
 							$("<span style='color:#777'>").text( makeErrorMsg(code, err) )
 						)
 					)
@@ -430,7 +430,7 @@ MainWindow.prototype.getActionProcess = function ( action ) {
 			).catch((code, err) => $.Deferred().reject(
 				new OO.ui.Error(
 					$("<div>").append(
-						$("<strong style='display:block;'>").text("保存更改失败。"),
+						$("<strong style='display:block;'>").text(wgUVS("保存更改失败。", "無法儲存變更。")),
 						$("<span style='color:#777'>").text( makeErrorMsg(code, err) )
 					)
 				)
@@ -445,7 +445,7 @@ MainWindow.prototype.getActionProcess = function ( action ) {
 			API.post({
 				action: "parse",
 				contentmodel: "wikitext",
-				text: this.transformTalkWikitext(this.talkWikitext) + "\n<hr>\n" + "'''编辑摘要：''' " + this.makeEditSummary(),
+				text: this.transformTalkWikitext(this.talkWikitext) + "\n<hr>\n" + wgUVS("'''编辑摘要：''' ","'''編輯摘要：'''") + this.makeEditSummary(),
 				title: this.talkpage.getPrefixedText(),
 				pst: 1
 			}).then( result => {
@@ -455,7 +455,7 @@ MainWindow.prototype.getActionProcess = function ( action ) {
 				var previewHtmlSnippet = new OO.ui.HtmlSnippet(result.parse.text["*"]);
 
 				this.parsedContentWidget.setLabel(previewHtmlSnippet);
-				this.parsedContentContainer.setLabel("预览：");
+				this.parsedContentContainer.setLabel(wgUVS("预览：","預覽："));
 				this.actions.setMode("preview");
 				this.contentArea.setItem( this.parsedContentLayout );
 				this.topBar.setDisabled(true);
@@ -464,7 +464,7 @@ MainWindow.prototype.getActionProcess = function ( action ) {
 				.catch( (code, err) => $.Deferred().reject(
 					new OO.ui.Error(
 						$("<div>").append(
-							$("<strong style='display:block;'>").text("显示变更失败。"),
+							$("<strong style='display:block;'>").text(wgUVS("显示变更失败。", "無法顯示變更。")),
 							$("<span style='color:#777'>").text( makeErrorMsg(code, err) )
 						)
 					)
@@ -495,7 +495,7 @@ MainWindow.prototype.getActionProcess = function ( action ) {
 						$("<tfoot>").append(
 							$("<tr>").append(
 								$("<td colspan='4'>").append(
-									$("<strong>").text("编辑摘要："),
+									$("<strong>").text(wgUVS("编辑摘要：","編輯摘要："),
 									this.makeEditSummary()
 								)
 							)
@@ -577,14 +577,15 @@ MainWindow.prototype.onSearchSelect = function(data) {
 	// Abort and show alert if banner already exists
 	if (existingBanner) {
 		this.topBar.searchBox.popPending();
-		return OO.ui.alert("已有一个{{" + name + "}}横幅").then(this.searchBox.focus());
+		return OO.ui.alert(wgUVS("已有一个{{" + name + "}}横幅","{{" + name + "}} 專題橫幅已經存在！")).then(this.searchBox.focus());
 	}
 
 	// Confirmation required for banners missing WikiProject from name, and for uncreated disambiguation talk pages
 	var confirmText; // TODO: recognize it later?
 	/* if (!/^[Ww](?:P|iki[Pp]roject)/.test(name)) { // i18n
 		confirmText = new OO.ui.HtmlSnippet(
-			"{{" + mw.html.escape(name) + "}} 是无法识别的WikiProject横幅。<br/>是否继续？"
+			wgUVS("{{" + mw.html.escape(name) + "}} 是无法识别的WikiProject横幅。<br/>是否继续？",
+			"無法識別 {{" + mw.html.escape(name) + "}} 是否為維基專題橫幅。<br/>是否繼續操作？")
 		);
 	} else if (name === "WikiProject Disambiguation" && $("#ca-talk.new").length !== 0 && this.bannerList.items.length === 0) { // TODO: l10n
 		// eslint-disable-next-line no-useless-escape
@@ -715,7 +716,7 @@ MainWindow.prototype.makeEditSummary = function() {
 	this.existingBannerNames.forEach(name => {
 		const banner = this.bannerList.items.find( banner => banner.name === name || banner.bypassedName === name );
 		if (!banner) {
-			removedBanners.push("−" + shortName(name));
+			removedBanners.push(wgUVS("−","移除") + shortName(name));
 		}
 	});
 	// edited & new banners
@@ -739,7 +740,7 @@ MainWindow.prototype.makeEditSummary = function() {
 		if (rating) { rating = " (" + rating + ")"; }
 		
 		if (isNew) {
-			newBanners.push("+" + shortName(banner.name) + rating);
+			newBanners.push(wgUVS("+","新增") + shortName(banner.name) + rating);
 		} else {
 			editedBanners.push(shortName(banner.name) + rating);
 		}
@@ -748,7 +749,7 @@ MainWindow.prototype.makeEditSummary = function() {
 	let overallRating = (someClassesChanged && overallClass && someImportancesChanged && overallImportance)
 		? overallClass + "/" + overallImportance
 		: (someClassesChanged && overallClass) || (someImportancesChanged && overallImportance) || "";
-	if (overallRating) { overallRating = "（" + overallRating + "）"; }
+	if (overallRating) { overallRating = wgUVS("（", "［") + overallRating + wgUVS("）", "］"); }
 
 	return `評級${overallRating}：${[...editedBanners, ...newBanners, ...removedBanners].join("、")}${appConfig.script.advert}`;
 };

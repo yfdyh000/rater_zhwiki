@@ -144,7 +144,7 @@ PrefsFormWidget.prototype.getPrefs = function() {
 };
 
 PrefsFormWidget.prototype.onResetCacheClick = function() {
-	OO.ui.confirm("重置缓存后，Rater 程序将关闭并重启。已进行但未保存的更改将被放弃。")
+	OO.ui.confirm(wgUVS("重置缓存后，Rater 程序将关闭并重启。已进行但未保存的更改将被放弃。","在重設快取後，工具將自動重新啟動。此前未發布的變更將被捨棄。"))
 		.then(confirmed => {
 			if (confirmed) { 
 				this.emit("resetCache");

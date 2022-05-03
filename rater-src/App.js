@@ -35,7 +35,7 @@ import windowManager from "./windowManager";
 				// Show notification when saved successfully
 				if (result && result.success) {
 					const $message = $("<span>").append(
-						$("<strong>").text("评级保存成功。")
+						$("<strong>").text(wgUVS("评级保存成功。", "成功儲存評級結果。"))
 					);
 					if (result.upgradedStub) {
 						$message.append(
@@ -46,7 +46,7 @@ import windowManager from "./windowManager";
 					}
 					mw.notify(
 						$message,
-						{ autoHide: true, autoHideSeconds: "long", tag: "评级已保存" }
+						{ autoHide: true, autoHideSeconds: "long", tag: wgUVS("评级已保存", "成功儲存評級") }
 					);
 				}
 			} );
@@ -54,7 +54,7 @@ import windowManager from "./windowManager";
 
 	const showSetupError = (code, jqxhr) => OO.ui.alert(
 		makeErrorMsg(code, jqxhr),	{
-			title: "Rater 打开失败"
+			title: wgUVS("Rater 打开失败", "工具無法開啟")
 		}
 	);
 
@@ -75,9 +75,9 @@ import windowManager from "./windowManager";
 		mw.util.addPortletLink(
 			area,
 			"#",
-			"评级",
+			wgUVS("评级", "評級"),
 			"ca-rater",
-			"质量和重要度评级",
+			wgUVS("质量和重要度评级", "為頁面評級"),
 			"5"
 		);
 		$("#ca-rater").click(event => {

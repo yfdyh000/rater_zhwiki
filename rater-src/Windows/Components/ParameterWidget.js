@@ -88,7 +88,7 @@ function ParameterWidget( parameter, paramData, config ) {
 
 	this.deleteButton = new OO.ui.ButtonWidget({
 		icon: this.isRequired ? "restore" : "trash",
-		label: this.isRequired ? "必填参数" : "删除",
+		label: this.isRequired ? wgUVS("必填参数","必要參數") : wgUVS("删除","刪除"),
 		framed: false,
 		flags: "destructive",
 		disabled: this.isRequired
