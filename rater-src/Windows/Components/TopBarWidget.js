@@ -23,8 +23,8 @@ function TopBarWidget( config ) {
     
 	// Search box
 	this.searchBox = new SuggestionLookupTextInputWidget( {
-		//placeholder: "新增 WikiProject...",
-		placeholder: "添加维基专题或相关模板...",
+		//placeholder: wgUVS("新增 WikiProject...","新增專題⋯⋯"),
+		placeholder: wgUVS("添加维基专题或相关模板...","添加維基專題橫幅或相關模板⋯⋯"),
 		$element: $("<div style='display:inline-block; margin:0 -1px; width:calc(100% - 55px);'>"),
 		$overlay: this.$overlay,
 	} );
@@ -79,16 +79,16 @@ function TopBarWidget( config ) {
 	// in the style of a popup button with a menu (is actually a dropdown with a hidden label, because that makes the coding easier.)
 	this.setAllDropDown = new OO.ui.DropdownWidget( {
 		icon: "tag",
-		label: "全部设为...",
+		label: wgUVS("全部设为...","全部統一設置"),
 		invisibleLabel: true,
 		menu: {
 			items: [
 				new OO.ui.MenuSectionOptionWidget( {
-					label: "质量"
+					label: wgUVS("质量","品質")
 				} ),
 				new OO.ui.MenuOptionWidget( {
 					data: {class: null},
-					label: new OO.ui.HtmlSnippet("<span style=\"color:#777\">"+"（无质量）"+"</span>")
+					label: new OO.ui.HtmlSnippet("<span style=\"color:#777\">"+wgUVS("（无质量）","（未評定）" )+"</span>")
 				} ),
 				...appConfig.bannerDefaults.classes.map((classname, i) => {
 					let display = appConfig.bannerDefaultsLabel.classes[i];
@@ -103,7 +103,7 @@ function TopBarWidget( config ) {
 				} ),
 				new OO.ui.MenuOptionWidget( {
 					data: {importance: null},
-					label: new OO.ui.HtmlSnippet("<span style=\"color:#777\">"+"（无重要度）"+"</span>")
+					label: new OO.ui.HtmlSnippet("<span style=\"color:#777\">"+wgUVS("（无重要度）","（未評定）" )+"</span>")
 				} ),
 				...appConfig.bannerDefaults.importances.map((importance, i) => {
 					let display = appConfig.bannerDefaultsLabel.importances[i];
@@ -115,21 +115,21 @@ function TopBarWidget( config ) {
 				),
 			]
 		},
-		$element: $("<span style=\"width:auto;display:inline-block;float:left;margin:0\" title='全部设为...'>"),
+		$element: $("<span style=\"width:auto;display:inline-block;float:left;margin:0\" title='"+wgUVS("全部设为...","全部統一設置")+"'>"),
 		$overlay: this.$overlay,
 	} );
 
 	// Remove all banners button
 	this.removeAllButton = new OO.ui.ButtonWidget( {
 		icon: "trash",
-		title: "全部删除",
+		title: wgUVS("全部删除","全部刪除"),
 		flags: "destructive"
 	} );
 
 	// Clear all parameters button
 	this.clearAllButton = new OO.ui.ButtonWidget( {
 		icon: "cancel",
-		title: "全部清空",
+		title: wgUVS("全部清空", "全部清除"),
 		flags: "destructive"
 	} );
 
