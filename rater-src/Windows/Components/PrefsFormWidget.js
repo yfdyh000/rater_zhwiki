@@ -110,7 +110,7 @@ PrefsFormWidget.prototype.setPrefValues = function(prefs) {
 				input.addTag(
 					ns.toString(),
 					ns === 0
-						? "条目"
+						? wgUVS("条目","條目")
 						: config.mw.wgFormattedNamespaces[ns]
 				)
 			);
