@@ -1,6 +1,11 @@
 # Rater
 This is the source code for version 2 of the Wikipedia userscript [Rater](https://en.wikipedia.org/wiki/User:Evad37/rater).
 
+## Build this fork
+- `npm install`
+- `npm run-script build:dev` or `npm run-script watch-dev` for development.
+- Run the code of dist/rater_pub.js file on https://zh.wikipedia.org/ pages.
+
 ## Installation instructions and user guide
 See [https://en.wikipedia.org/wiki/User:Evad37/rater](https://en.wikipedia.org/wiki/User:Evad37/rater).
 
