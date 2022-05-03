@@ -496,7 +496,7 @@ MainWindow.prototype.getActionProcess = function ( action ) {
 							$("<tr>").append(
 								$("<td colspan='4'>").append(
 									$("<strong>").text(wgUVS("编辑摘要：","編輯摘要："),
-									this.makeEditSummary()
+									this.makeEditSummary())
 								)
 							)
 						)
