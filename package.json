@@ -38,7 +38,7 @@
     "browserify": "^17.0.0",
     "eslint": "^7.32.0",
     "jshint": "^2.13.4",
-    "nodemon": "^2.0.16",
+    "nodemon": "^2.0.20",
     "uglify-js": "^3.15.4"
   }
 }
