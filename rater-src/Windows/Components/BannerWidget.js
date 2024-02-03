@@ -97,7 +97,7 @@ function BannerWidget( template, config ) {
 				items: [
 					new OO.ui.MenuOptionWidget( {
 						data: null,
-						label: new OO.ui.HtmlSnippet(`<span style="color:#777">（${config.isArticle ? "无质量" : "自动检测"}）</span>`)
+						label: new OO.ui.HtmlSnippet(`<span style="color:#777">（${config.isArticle ? wgULS("无重要度", "未評定") : wgULS("自动检测", "自動偵測")}）</span>`)
 					} ),
 					...globalConfig.bannerDefaults.classes.map( classname =>
 						new OO.ui.MenuOptionWidget( {
@@ -118,7 +118,7 @@ function BannerWidget( template, config ) {
 				items: [
 					new OO.ui.MenuOptionWidget( {
 						data: null,
-						label: new OO.ui.HtmlSnippet(`<span style="color:#777">${config.isArticle ? "继承自shell" : "（自动检测）"}</span>`)
+						label: new OO.ui.HtmlSnippet(`<span style="color:#777">${config.isArticle ? wgULS("继承自shell", "繼承自shell") : wgULS("（自动检测）", "（自動偵測）")}</span>`)
 					} ),
 					...template.classes.map( classname =>
 						new OO.ui.MenuOptionWidget( {
@@ -399,9 +399,9 @@ BannerWidget.prototype.onAddParameterNameChange = function() {
 	// Set button disabled state based on validity
 	this.addParameterButton.setDisabled(!validName || !validValue);
 	// Show notice if autovalue will be used
-	this.addParameterLayout.setNotices( validName && isAutovalue ? ["将自动填写参数值"] : [] );
+	this.addParameterLayout.setNotices( validName && isAutovalue ? [wgULS("将自动填写参数值", "將自動填寫參數值")] : [] );
 	// Show error is the banner already has the parameter set
-	this.addParameterLayout.setErrors( isAlreadyIncluded ? ["参数已存在"] : [] );
+	this.addParameterLayout.setErrors( isAlreadyIncluded ? [wgULS("参数已存在", "參數已存在")] : [] );
 };
 
 BannerWidget.prototype.onAddParameterNameEnter = function() {
