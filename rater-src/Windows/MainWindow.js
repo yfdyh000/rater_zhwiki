@@ -527,7 +527,7 @@ MainWindow.prototype.getActionProcess = function ( action ) {
 
 	} else if (!action && this.bannerList.changed) {
 		// Confirm closing of dialog if there have been changes 
-		if(confirm("关闭 Rater 将放弃未保存的更改，确认关闭？")) {
+		if(confirm(wgULS("关闭 Rater 将放弃未保存的更改，确认关闭？","關閉 Rater 將放棄未保存的更改，確認關閉？"))) {
 			this.close();
 		}
 	}

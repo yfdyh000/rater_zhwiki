@@ -63,13 +63,13 @@ var config = {
 			"Portal",
 			"Project",
 			"Template",
-			"Bplus",
+			//"Bplus",
 			"Future",
 			"Current",
 			"Disambig",
 			"NA",
 			"Redirect",
-			"Book"
+			//"Book"
 		],
 		extendedImportances: [
 			"Top",
@@ -113,7 +113,9 @@ var config = {
 			"NA - 无",
 			"Redirect - 重定向",
 			//"Book"
-		], ["Category - 分類", "Draft - 草稿", "File - 檔案", "FM - 典範媒體", "Portal - 主題", "Project - 計畫", "Template - 模板", "Bplus", "Future - 未來", "Current - 動態", "Disambig - 消歧義", "NA - 不適用", "Redirect - 重新導向"]),
+		], ["Category - 分類", "Draft - 草稿", "File - 檔案", "FM - 典範媒體", "Portal - 主題", "Project - 計畫", "Template - 模板",
+			//"Bplus", 
+			"Future - 未來", "Current - 動態", "Disambig - 消歧義", "NA - 不適用", "Redirect - 重新導向"]),
 		extendedImportances: wgULS([
 			"Top - 极高",
 			"High - 高",
