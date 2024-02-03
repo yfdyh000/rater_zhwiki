@@ -51,15 +51,15 @@ function BannerWidget( template, config ) {
 
 	this.removeButton = new OO.ui.ButtonWidget( {
 		icon: "trash",
-		label: wgUVS("移除横幅", "移除橫幅"),
-		title: wgUVS("移除横幅", "移除橫幅"),
+		label: wgULS("移除横幅", "移除橫幅"),
+		title: wgULS("移除横幅", "移除橫幅"),
 		flags: "destructive",
 		$element: $("<div style=\"width:100%\">")
 	} );
 	this.clearButton = new OO.ui.ButtonWidget( {
 		icon: "cancel",
-		label: wgUVS("清空参数", "清除參數"),
-		title: wgUVS("清空参数", "清除參數"),
+		label: wgULS("清空参数", "清除參數"),
+		title: wgULS("清空参数", "清除參數"),
 		flags: "destructive",
 		$element: $("<div style=\"width:100%\">")
 	} );
@@ -72,7 +72,7 @@ function BannerWidget( template, config ) {
 	} );
 
 	this.mainLabelPopupButton = new OO.ui.PopupButtonWidget( {
-		label: `{{${template.getTitle().getMainText()}}}${this.inactiveProject ? wgUVS("（不活跃）", "（不活躍）") : ""}`,
+		label: `{{${template.getTitle().getMainText()}}}${this.inactiveProject ? wgULS("（不活跃）", "（不活躍）") : ""}`,
 		$element: $("<span style='display:inline-block;width:48%;margin-right:0;padding-right:8px'>"),
 		$overlay: this.$overlay,
 		indicator:"down",
@@ -140,7 +140,7 @@ function BannerWidget( template, config ) {
 			menu: {
 				items: [
 					new OO.ui.MenuOptionWidget( {
-						data: null, label: new OO.ui.HtmlSnippet(`<span style="color:#777">${config.isArticle ? wgUVS("（无重要度）", "（未評定）") : wgUVS("（自动检测）", "（自動偵測）")}</span>`)
+						data: null, label: new OO.ui.HtmlSnippet(`<span style="color:#777">${config.isArticle ? wgULS("（无重要度）", "（未評定）") : wgULS("（自动检测）", "（自動偵測）")}</span>`)
 					} ),
 					...template.importances.map(importance =>
 						new OO.ui.MenuOptionWidget( {
@@ -192,7 +192,7 @@ function BannerWidget( template, config ) {
 
 	this.addParameterNameInput = new SuggestionLookupTextInputWidget({
 		suggestions: template.parameterSuggestions,
-		placeholder: wgUVS("参数名", "參數名稱"),
+		placeholder: wgULS("参数名", "參數名稱"),
 		$element: $("<div style='display:inline-block;width:40%'>"),
 		validate: function(val) {
 			let {validName, name, value} = this.getAddParametersInfo(val);
@@ -203,7 +203,7 @@ function BannerWidget( template, config ) {
 	});
 	this.updateAddParameterNameSuggestions();
 	this.addParameterValueInput = new SuggestionLookupTextInputWidget({
-		placeholder: wgUVS("参数值", "參數內容"),
+		placeholder: wgULS("参数值", "參數內容"),
 		$element: $("<div style='display:inline-block;width:40%'>"),
 		validate: function(val) {
 			let {validValue, name, value} = this.getAddParametersInfo(null, val);
@@ -213,7 +213,7 @@ function BannerWidget( template, config ) {
 		$overlay: this.$overlay
 	});
 	this.addParameterButton = new OO.ui.ButtonWidget({
-		label: wgUVS("添加", "新增"),
+		label: wgULS("添加", "新增"),
 		icon: "add",
 		flags: "progressive"
 	}).setDisabled(true);
@@ -227,7 +227,7 @@ function BannerWidget( template, config ) {
 	} );
 
 	this.addParameterLayout = new OO.ui.FieldLayout(this.addParameterControls, {
-		label: wgUVS("添加参数：", "新增參數："),
+		label: wgULS("添加参数：", "新增參數："),
 		align: "top"
 	}).toggle(false);
 	// A hack to make messages appear on their own line
@@ -480,7 +480,7 @@ BannerWidget.prototype.bypassRedirect = function() {
 	// Store the bypassed name
 	this.bypassedName = this.name;
 	// Update title label
-	this.mainLabelPopupButton.setLabel(`{{${this.redirectTargetMainText}}}${this.inactiveProject ? wgUVS("（不活跃）", "（不活躍）") : ""}`);
+	this.mainLabelPopupButton.setLabel(`{{${this.redirectTargetMainText}}}${this.inactiveProject ? wgULS("（不活跃）", "（不活躍）") : ""}`);
 	// Update properties
 	this.name = this.redirectTargetMainText;
 	this.mainText = this.redirectTargetMainText;

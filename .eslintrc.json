@@ -10,7 +10,7 @@
         "$": "readonly",
         "mw": "readonly",
         "OO": "readonly",
-        "wgUVS": "readonly",
+        "wgULS": "readonly",
         "require": "readonly"
     },
     "parserOptions": {

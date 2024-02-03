@@ -19,7 +19,7 @@ var LoadDialog = function LoadDialog( config ) {
 OO.inheritClass( LoadDialog, OO.ui.Dialog ); 
 
 LoadDialog.static.name = "loadDialog";
-LoadDialog.static.title = wgUVS("正在加载 Rater...","正在載入專題評級工具⋯⋯");
+LoadDialog.static.title = wgULS("正在加载 Rater...","正在載入專題評級工具⋯⋯");
 
 // Customize the initialize() function: This is where to add content to the dialog body and set up event handlers.
 LoadDialog.prototype.initialize = function () {
@@ -36,36 +36,36 @@ LoadDialog.prototype.initialize = function () {
 	} );
 	this.setuptasks = [
 		new OO.ui.LabelWidget( {
-			label: wgUVS("加载您的 Rater 设置...","載入偏好設定⋯⋯" ),
+			label: wgULS("加载您的 Rater 设置...","載入偏好設定⋯⋯" ),
 			$element: $("<p style=\"display:block\">")
 		}),
 		new OO.ui.LabelWidget( {
-			label: wgUVS("加载项目横幅列表...", "載入專題橫幅⋯⋯"),
+			label: wgULS("加载项目横幅列表...", "載入專題橫幅⋯⋯"),
 			$element: $("<p style=\"display:block\">")
 		}),
 		new OO.ui.LabelWidget( {
-			label: wgUVS("加载讨论页内容...", "載入討論頁原始碼⋯⋯"),
+			label: wgULS("加载讨论页内容...", "載入討論頁原始碼⋯⋯"),
 			$element: $("<p style=\"display:block\">")
 		}),
 		new OO.ui.LabelWidget( {
-			label: wgUVS("解析讨论页模板...",  "分析討論頁模板⋯⋯"),
+			label: wgULS("解析讨论页模板...",  "分析討論頁模板⋯⋯"),
 			$element: $("<p style=\"display:block\">")
 		}),
 		new OO.ui.LabelWidget( {
-			label: wgUVS("获取模板参数数据...", "取得模板參數內容⋯⋯"),
+			label: wgULS("获取模板参数数据...", "取得模板參數內容⋯⋯"),
 			$element: $("<p style=\"display:block\">")
 		}),
 		new OO.ui.LabelWidget( {
-			label: wgUVS("检查主题页面...", "檢查目標頁面⋯⋯"),
+			label: wgULS("检查主题页面...", "檢查目標頁面⋯⋯"),
 			$element: $("<p style=\"display:block\">")
 		}),
 		new OO.ui.LabelWidget( {
-			label: wgUVS("检索质量估算...", "取得評級預測數據⋯⋯"),
+			label: wgULS("检索质量估算...", "取得評級預測數據⋯⋯"),
 			$element: $("<p style=\"display:block\">")
 		}).toggle(),
 	];
 	this.closeButton = new OO.ui.ButtonWidget( {
-		label: wgUVS("关闭", "關閉")
+		label: wgULS("关闭", "關閉")
 	}).toggle();
 	this.setupPromises = [];
 
@@ -73,7 +73,7 @@ LoadDialog.prototype.initialize = function () {
 	this.content.$element.append(
 		this.progressBar.$element,
 		(new OO.ui.LabelWidget( {
-			label: wgUVS("正在初始化：","正在初始化：" ),
+			label: wgULS("正在初始化：","正在初始化：" ),
 			$element: $("<strong style=\"display:block\">")
 		})).$element,
 		...this.setuptasks.map(widget => widget.$element),
@@ -126,7 +126,7 @@ LoadDialog.prototype.addTaskPromiseHandlers = function(taskPromises) {
 	var onTaskError = (index, code, info) => {
 		var widget = this.setuptasks[index];
 		widget.setLabel(
-			widget.getLabel() + wgUVS("失败。",  "失敗⋯⋯") + makeErrorMsg(code, info)
+			widget.getLabel() + wgULS("失败。",  "失敗⋯⋯") + makeErrorMsg(code, info)
 		);
 		this.closeButton.toggle(true);
 		this.updateSize();

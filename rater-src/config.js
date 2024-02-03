@@ -81,7 +81,7 @@ var config = {
 		]
 	},
 	bannerDefaultsLabel: { // i18n. this must be synchronized with the wiki and the above definition
-		classes: wgUVS([
+		classes: wgULS([
 			"FA - 典范条目",
 			"FL - 特色列表",
 			"A - 甲",
@@ -92,13 +92,13 @@ var config = {
 			"Stub - 小作品",
 			"List - 列表"
 		],["典範", "特色列表", "甲", "優良", "乙", "丙", "初", "小作品", "列表"]),
-		importances: wgUVS([
+		importances: wgULS([
 			"Top - 极高",
 			"High - 高",
 			"Mid - 中",
 			"Low - 低"
 		],["極高", "高", "中", "低"]),
-		extendedClasses: wgUVS([
+		extendedClasses: wgULS([
 			"Category - 分类",
 			"Draft - 草稿",
 			"File - 文件",
@@ -114,7 +114,7 @@ var config = {
 			"Redirect - 重定向",
 			"Book"
 		],["分類", "草稿", "檔案", "典範媒體", "主題", "計畫", "模板", "未來", "動態", "乙級列表", "丙級列表", "小列表", "消歧義", "不適用", "重新導向"]),
-		extendedImportances: wgUVS([
+		extendedImportances: wgULS([
 			"Top - 极高",
 			"High - 高",
 			"Mid - 中",
