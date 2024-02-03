@@ -17,7 +17,7 @@ OO.inheritClass( MainWindow, OO.ui.ProcessDialog );
 
 MainWindow.static.name = "main";
 MainWindow.static.title = $("<span>").css({"font-weight":"normal"}).append(
-	$("<a>").css({"font-weight": "bold"}).attr({"href": mw.util.getUrl("WP:RATER"), "target": "_blank"}).text("Rater"),
+	$("<a>").css({"font-weight": "bold"}).attr({"href": mw.util.getUrl("User:YFdyh000/RATER"), "target": "_blank"}).text("Rater"),
 	" (",
 	$("<a>").attr({"href": mw.util.getUrl("WT:RATER"), "target": "_blank"}).text("讨论"),
 	") ",

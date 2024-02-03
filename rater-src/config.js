@@ -7,7 +7,7 @@ var config = {
 	// Script info
 	script: {
 		// Advert to append to edit summaries
-		advert:  `（[[WP:RATER#${version}|Rater]]）`,
+		advert:  `（[[User:YFdyh000/RATER#${version}|Rater]]）`,
 		version: version
 	},
 	// Default preferences, if user subpage raterPrefs.json does not exist
