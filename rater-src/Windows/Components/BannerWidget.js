@@ -39,10 +39,14 @@ function BannerWidget( template, config ) {
 	/* --- TITLE AND RATINGS --- */
 
 	this.getLocalTitleForClasses = function (rName) {  // TODO: structure
-		return appConfig.bannerDefaultsLabel.classes.find(n=>n.includes(rName + " -")) || rName;
+		return appConfig.bannerDefaultsLabel.extendedClasses.find(n=>n.includes(rName + " -")) 
+		|| appConfig.bannerDefaultsLabel.classes.find(n=>n.includes(rName + " -")) 
+		|| rName;
 	};
 	this.getLocalTitleForImportances = function (rName) {
-		return appConfig.bannerDefaultsLabel.importances.find(n=>n.includes(rName + " -")) || rName;
+		return appConfig.bannerDefaultsLabel.importances.find(n=>n.includes(rName + " -")) 
+		|| appConfig.bannerDefaultsLabel.extendedImportances.find(n=>n.includes(rName + " -")) 
+		|| rName;
 	};
 
 	this.removeButton = new OO.ui.ButtonWidget( {

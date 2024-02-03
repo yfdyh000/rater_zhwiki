@@ -106,7 +106,7 @@ var config = {
 			"Portal - 主题",
 			"Project - 项目",
 			"Template - 模板",
-			"Bplus",
+			"Bplus", // TODO
 			"Future - 未来",
 			"Current",
 			"Disambig - 消歧义",
