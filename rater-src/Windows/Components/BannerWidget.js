@@ -49,6 +49,12 @@ function BannerWidget( template, config ) {
 		|| rName;
 	};
 
+	this.openButton = new OO.ui.ButtonWidget( {
+		icon: "link",
+		label: wgULS("打开页面","打开页面"),
+		title: wgULS("打开页面","打开页面"),
+		$element: $("<div style=\"width:100%\">")
+	} );
 	this.removeButton = new OO.ui.ButtonWidget( {
 		icon: "trash",
 		label: wgULS("移除横幅", "移除橫幅"),
@@ -63,11 +69,12 @@ function BannerWidget( template, config ) {
 		flags: "destructive",
 		$element: $("<div style=\"width:100%\">")
 	} );
+	this.openButton.$element.find("a").css("width","100%");
 	this.removeButton.$element.find("a").css("width","100%");
 	this.clearButton.$element.find("a").css("width","100%");
 
 	this.titleButtonsGroup = new OO.ui.ButtonGroupWidget( {
-		items: [ this.removeButton,	this.clearButton ],
+		items: [ this.removeButton, this.clearButton, this.openButton ],
 		$element: $("<span style='width:100%;'>"),
 	} );
 
@@ -282,6 +289,7 @@ function BannerWidget( template, config ) {
 		"enter": "onAddParameterValueEnter",
 		"choose": "onAddParameterValueEnter"
 	});
+	this.openButton.connect(this, {"click": "onOpenButtonClick"}, );
 	this.removeButton.connect(this, {"click": "onRemoveButtonClick"}, );
 	this.clearButton.connect( this, {"click": "onClearButtonClick"} );
 
@@ -455,6 +463,10 @@ BannerWidget.prototype.updateAddParameterNameSuggestions = function() {
 			suggestion => !paramsInUse[suggestion.data]
 		)
 	);
+};
+
+BannerWidget.prototype.onOpenButtonClick = function() {
+	window.open(mw.util.getUrl("Template:" + this.name), '_blank');
 };
 
 BannerWidget.prototype.onRemoveButtonClick = function() {
