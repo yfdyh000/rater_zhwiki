@@ -1,4 +1,3 @@
-import appConfig from "../../config";
 import ParameterListWidget from "./ParameterListWidget";
 import ParameterWidget from "./ParameterWidget";
 import DropdownParameterWidget from "./DropdownParameterWidget";
@@ -6,6 +5,7 @@ import SuggestionLookupTextInputWidget from "./SuggestionLookupTextInputWidget";
 import { filterAndMap, classMask, importanceMask } from "../../util";
 import {Template, getWithRedirectTo} from "../../Template";
 import HorizontalLayoutWidget from "./HorizontalLayoutWidget";
+import globalConfig from "../../config";
 // <nowiki>
 
 function BannerWidget( template, config ) {
@@ -46,15 +46,15 @@ function BannerWidget( template, config ) {
 
 	this.removeButton = new OO.ui.ButtonWidget( {
 		icon: "trash",
-		label: "ç§»é™¤æ¨ªå¹…",
-		title: "ç§»é™¤æ¨ªå¹…",
+		label: "ÒÆ³ıºá·ù",
+		title: "ÒÆ³ıºá·ù",
 		flags: "destructive",
 		$element: $("<div style=\"width:100%\">")
 	} );
 	this.clearButton = new OO.ui.ButtonWidget( {
 		icon: "cancel",
-		label: "æ¸…ç©ºå‚æ•°",
-		title: "æ¸…ç©ºå‚æ•°",
+		label: "Çå¿Õ²ÎÊı",
+		title: "Çå¿Õ²ÎÊı",
 		flags: "destructive",
 		$element: $("<div style=\"width:100%\">")
 	} );
@@ -67,7 +67,7 @@ function BannerWidget( template, config ) {
 	} );
 
 	this.mainLabelPopupButton = new OO.ui.PopupButtonWidget( {
-		label: `{{${template.getTitle().getMainText()}}}${this.inactiveProject ? "ï¼ˆä¸æ´»è·ƒï¼‰" : ""}`,
+		label: `{{${template.getTitle().getMainText()}}}${this.inactiveProject ? "£¨²»»îÔ¾£©" : ""}`,
 		$element: $("<span style='display:inline-block;width:48%;margin-right:0;padding-right:8px'>"),
 		$overlay: this.$overlay,
 		indicator:"down",
@@ -85,19 +85,40 @@ function BannerWidget( template, config ) {
 		.find("span.oo-ui-labelElement-label").css({"white-space":"normal"});
 
 	// Rating dropdowns
-	if (this.hasClassRatings) {
+	if (this.isShellTemplate) {
 		this.classDropdown = new DropdownParameterWidget( {
-			label: new OO.ui.HtmlSnippet("<span style=\"color:#777\">"+"è´¨é‡"+"</span>"),
+			label: new OO.ui.HtmlSnippet("<span style=\"color:#777\">Class</span>"),
 			menu: {
 				items: [
 					new OO.ui.MenuOptionWidget( {
 						data: null,
-						label: new OO.ui.HtmlSnippet(`<span style="color:#777">${config.isArticle ? "ï¼ˆæ— è´¨é‡ï¼‰" : "ï¼ˆè‡ªåŠ¨æ£€æµ‹ï¼‰"}</span>`)
+						label: new OO.ui.HtmlSnippet(`<span style="color:#777">(${config.isArticle ? "no class" : "auto-detect"})</span>`)
+					} ),
+					...globalConfig.bannerDefaults.classes.map( classname =>
+						new OO.ui.MenuOptionWidget( {
+							data: classname,
+							label: classname
+						} )
+					)
+				],
+			},
+			$overlay: this.$overlay,
+		} );
+		var shellClassParam = template.parameters.find(parameter => parameter.name === "class");
+		this.classDropdown.getMenu().selectItemByData( shellClassParam && classMask(shellClassParam.value) );
+	} else if (this.hasClassRatings) {
+		this.classDropdown = new DropdownParameterWidget( {
+			label: new OO.ui.HtmlSnippet("<span style=\"color:#777\">"+"ÖÊÁ¿"+"</span>"),
+			menu: {
+				items: [
+					new OO.ui.MenuOptionWidget( {
+						data: null,
+						label: new OO.ui.HtmlSnippet(`<span style="color:#777">${config.isArticle ? "¼Ì³Ğ×Ôshell" : "£¨×Ô¶¯¼ì²â£©"}</span>`)
 					} ),
 					...template.classes.map( classname =>
 						new OO.ui.MenuOptionWidget( {
 							data: classname,
-							label: this.getLocalTitleForClasses(classname)
+							label: classname
 						} )
 					)
 				],
@@ -110,16 +131,16 @@ function BannerWidget( template, config ) {
 
 	if (this.hasImportanceRatings) {
 		this.importanceDropdown = new DropdownParameterWidget( {
-			label: new OO.ui.HtmlSnippet("<span style=\"color:#777\">"+"é‡è¦åº¦"+"</span>"),
+			label: new OO.ui.HtmlSnippet("<span style=\"color:#777\">ÖØÒª¶È</span>"),
 			menu: {
 				items: [
 					new OO.ui.MenuOptionWidget( {
-						data: null, label: new OO.ui.HtmlSnippet(`<span style="color:#777">${config.isArticle ? "ï¼ˆæ— é‡è¦åº¦ï¼‰" : "ï¼ˆè‡ªåŠ¨æ£€æµ‹ï¼‰"}</span>`)
+						data: null, label: new OO.ui.HtmlSnippet(`<span style="color:#777">${config.isArticle ? "£¨ÎŞÖØÒª¶È£©" : "£¨×Ô¶¯¼ì²â£©"}</span>`)
 					} ),
 					...template.importances.map(importance =>
 						new OO.ui.MenuOptionWidget( {
 							data: importance,
-							label: this.getLocalTitleForImportances(importance)
+							label: importance
 						} )
 					)
 				]
@@ -133,7 +154,7 @@ function BannerWidget( template, config ) {
 	this.titleLayout = new OO.ui.HorizontalLayout( {
 		items: [ this.mainLabelPopupButton ]
 	} );
-	if (this.hasClassRatings) {
+	if (this.hasClassRatings || this.isShellTemplate) {
 		this.titleLayout.addItems([ this.classDropdown ]);
 	}
 	if (this.hasImportanceRatings) {
@@ -150,7 +171,7 @@ function BannerWidget( template, config ) {
 					this.shellParam1Value = param.value;
 					return false;
 				}
-				return true;
+				return param.name !== "class";
 			}
 			return param.name !== "class" && param.name !== "importance";
 		},
@@ -166,7 +187,7 @@ function BannerWidget( template, config ) {
 
 	this.addParameterNameInput = new SuggestionLookupTextInputWidget({
 		suggestions: template.parameterSuggestions,
-		placeholder: "å‚æ•°å",
+		placeholder: "²ÎÊıÃû",
 		$element: $("<div style='display:inline-block;width:40%'>"),
 		validate: function(val) {
 			let {validName, name, value} = this.getAddParametersInfo(val);
@@ -177,7 +198,7 @@ function BannerWidget( template, config ) {
 	});
 	this.updateAddParameterNameSuggestions();
 	this.addParameterValueInput = new SuggestionLookupTextInputWidget({
-		placeholder: "å‚æ•°å€¼",
+		placeholder: "²ÎÊıÖµ",
 		$element: $("<div style='display:inline-block;width:40%'>"),
 		validate: function(val) {
 			let {validValue, name, value} = this.getAddParametersInfo(null, val);
@@ -187,7 +208,7 @@ function BannerWidget( template, config ) {
 		$overlay: this.$overlay
 	});
 	this.addParameterButton = new OO.ui.ButtonWidget({
-		label: "æ·»åŠ ",
+		label: "Ìí¼Ó",
 		icon: "add",
 		flags: "progressive"
 	}).setDisabled(true);
@@ -201,7 +222,7 @@ function BannerWidget( template, config ) {
 	} );
 
 	this.addParameterLayout = new OO.ui.FieldLayout(this.addParameterControls, {
-		label: "æ·»åŠ å‚æ•°ï¼š",
+		label: "Ìí¼Ó²ÎÊı£º",
 		align: "top"
 	}).toggle(false);
 	// A hack to make messages appear on their own line
@@ -304,15 +325,15 @@ BannerWidget.prototype.onUpdatedSize = function() {
 BannerWidget.prototype.setChanged = function() {
 	this.changed = true;
 	this.emit("changed");
-};
-
-BannerWidget.prototype.onParameterChange = function() {
-	this.setChanged();
 	// TODO: check it
 	if (this.mainText === "WikiProject Biography" || this.redirectTargetMainText === "WikiProject Biography") {
 		// Emit event so BannerListWidget can update the banner shell template (if present)
 		this.emit("biographyBannerChange");		
 	}
+};
+
+BannerWidget.prototype.onParameterChange = function() {
+	this.setChanged();
 	this.updateAddParameterNameSuggestions();
 };
 
@@ -373,9 +394,9 @@ BannerWidget.prototype.onAddParameterNameChange = function() {
 	// Set button disabled state based on validity
 	this.addParameterButton.setDisabled(!validName || !validValue);
 	// Show notice if autovalue will be used
-	this.addParameterLayout.setNotices( validName && isAutovalue ? ["å°†è‡ªåŠ¨å¡«å†™å‚æ•°å€¼"] : [] );
+	this.addParameterLayout.setNotices( validName && isAutovalue ? ["Parameter value will be autofilled"] : [] );
 	// Show error is the banner already has the parameter set
-	this.addParameterLayout.setErrors( isAlreadyIncluded ? ["å‚æ•°å·²å­˜åœ¨"] : [] );
+	this.addParameterLayout.setErrors( isAlreadyIncluded ? ["Parameter is already present"] : [] );
 };
 
 BannerWidget.prototype.onAddParameterNameEnter = function() {
@@ -385,7 +406,7 @@ BannerWidget.prototype.onAddParameterNameEnter = function() {
 BannerWidget.prototype.onAddParameterValueChange = function() {
 	let { validName, validValue, isAutovalue } = this.getAddParametersInfo();
 	this.addParameterButton.setDisabled(!validName || !validValue);
-	this.addParameterLayout.setNotices( validName && isAutovalue ? ["å°†è‡ªåŠ¨å¡«å†™å‚æ•°å€¼"] : [] ); 
+	this.addParameterLayout.setNotices( validName && isAutovalue ? ["½«×Ô¶¯ÌîĞ´²ÎÊıÖµ"] : [] ); 
 };
 
 BannerWidget.prototype.onAddParameterValueEnter = function() {
@@ -454,7 +475,7 @@ BannerWidget.prototype.bypassRedirect = function() {
 	// Store the bypassed name
 	this.bypassedName = this.name;
 	// Update title label
-	this.mainLabelPopupButton.setLabel(`{{${this.redirectTargetMainText}}}${this.inactiveProject ? "ï¼ˆä¸æ´»è·ƒï¼‰" : ""}`);
+	this.mainLabelPopupButton.setLabel(`{{${this.redirectTargetMainText}}}${this.inactiveProject ? "£¨²»»îÔ¾£©" : ""}`);
 	// Update properties
 	this.name = this.redirectTargetMainText;
 	this.mainText = this.redirectTargetMainText;
@@ -468,14 +489,14 @@ BannerWidget.prototype.makeWikitext = function() {
 	}
 	var pipe = this.pipeStyle;
 	var equals = this.equalsStyle;
-	var classItem = this.hasClassRatings && this.classDropdown.getMenu().findSelectedItem();
+	var classItem = (this.hasClassRatings || this.isShellTemplate) && this.classDropdown.getMenu().findSelectedItem();
 	var classVal = classItem && classItem.getData();
 	var importanceItem = this.hasImportanceRatings && this.importanceDropdown.getMenu().findSelectedItem();
 	var importanceVal = importanceItem && importanceItem.getData();
 
 	return ("{{" +
 		this.name +
-		( this.hasClassRatings && classVal!=null ? `${pipe}class${equals}${classVal||""}` : "" ) +
+		( (this.hasClassRatings || this.isShellTemplate) && classVal!=null ? `${pipe}class${equals}${classVal||""}` : "" ) +
 		( this.hasImportanceRatings && importanceVal!=null ? `${pipe}importance${equals}${importanceVal||""}` : "" ) +
 		this.parameterList.getParameterItems()
 			.map(parameter => parameter.makeWikitext(pipe, equals))

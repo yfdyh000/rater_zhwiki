@@ -7,7 +7,7 @@ var config = {
 	// Script info
 	script: {
 		// Advert to append to edit summaries
-		advert:  `ï¼ˆ[[WP:RATER#${version}|Rater]]ï¼‰`,
+		advert:  ` ([[WP:RATER#${version}|Rater]])`,
 		version: version
 	},
 	// Default preferences, if user subpage raterPrefs.json does not exist
@@ -15,10 +15,10 @@ var config = {
 		"autostart": false,
 		"autostartRedirects": false,
 		"autostartNamespaces": [0],
-		"minForShell": 3,
+		"minForShell": 1,
 		"bypassRedirects": true,
 		"autofillClassFromOthers": true,
-		"autofillClassFromOres": false,
+		"autofillClassFromOres": true,
 		"autofillImportance": true,
 		"collapseParamsLowerLimit": 6,
 		"watchlist": "preferences"
@@ -82,48 +82,109 @@ var config = {
 	},
 	bannerDefaultsLabel: { // i18n. this must be synchronized with the wiki and the above definition
 		classes: [
-			"FA - å…¸èŒƒæ¡ç›®",
-			"FL - ç‰¹è‰²åˆ—è¡¨",
-			"A - ç”²",
-			"GA - ä¼˜è‰¯",
-			"B - ä¹™",
-			"C - ä¸™",
-			"Start - åˆ",
-			"Stub - å°ä½œå“",
-			"List - åˆ—è¡¨"
+			"FA - µä·¶ÌõÄ¿",
+			"FL - ÌØÉ«ÁĞ±í",
+			"A - ¼×",
+			"GA - ÓÅÁ¼",
+			"B - ÒÒ",
+			"C - ±û",
+			"Start - ³õ",
+			"Stub - Ğ¡×÷Æ·",
+			"List - ÁĞ±í"
 		],
 		importances: [
-			"Top - æé«˜",
-			"High - é«˜",
-			"Mid - ä¸­",
-			"Low - ä½"
+			"Top - ¼«¸ß",
+			"High - ¸ß",
+			"Mid - ÖĞ",
+			"Low - µÍ"
 		],
 		extendedClasses: [
-			"Category - åˆ†ç±»",
-			"Draft - è‰ç¨¿",
-			"File - æ–‡ä»¶",
+			"Category - ·ÖÀà",
+			"Draft - ²İ¸å",
+			"File - ÎÄ¼ş",
 			"FM",
-			"Portal - ä¸»é¢˜",
-			"Project - é¡¹ç›®",
-			"Template - æ¨¡æ¿",
+			"Portal - Ö÷Ìâ",
+			"Project - ÏîÄ¿",
+			"Template - Ä£°å",
 			"Bplus",
-			"Future - æœªæ¥",
+			"Future - Î´À´",
 			"Current",
-			"Disambig - æ¶ˆæ­§ä¹‰",
-			"NA - æ— ",
-			"Redirect - é‡å®šå‘",
+			"Disambig - ÏûÆçÒå",
+			"NA - ÎŞ",
+			"Redirect - ÖØ¶¨Ïò",
 			"Book"
 		],
 		extendedImportances: [
-			"Top - æé«˜",
-			"High - é«˜",
-			"Mid - ä¸­",
-			"Low - ä½",
-			"Bottom - æä½",
-			"NA - æ— "
+			"Top - ¼«¸ß",
+			"High - ¸ß",
+			"Mid - ÖĞ",
+			"Low - µÍ",
+			"Bottom - ¼«µÍ",
+			"NA - ÎŞ"
 		]
 	},
 	customBanners: {
+		"WikiProject Military history": {
+			classes: [
+				"FA",
+				"FL",
+				"A",
+				"GA",
+				"B",
+				"C",
+				"Start",
+				"Stub",
+				"List",
+				"AL",
+				"BL",
+				"CL",
+				"Category",
+				"Draft",
+				"File",
+				"Portal",
+				"Project",
+				"Template",
+				"Disambig",
+				"Redirect",
+				"Book"			
+			],
+			importances: []
+		},
+		"WikiProject Portals": {
+			classes: [
+				"FPo",
+				"Complete",
+				"Substantial",
+				"Basic",
+				"Incomplete",
+				"Meta",
+				"List",
+				"Category",
+				"Draft",
+				"File",
+				"Project",
+				"Template",
+				"Disambig",
+				"NA",
+				"Redirect"
+			],
+			importances: [
+				"Top",
+				"High",
+				"Mid",
+				"Low",
+				"Bottom",
+				"NA"
+			]
+		}
+		"WikiProject Video games": {
+			classes: [
+				"FA","FL","FM","GA","B","C","Start","Stub","List","Category","Draft","File","Portal","Project","Template","Disambig","Redirect"
+			],
+			importances: [
+				"Top","High","Mid","Low","NA"
+			]
+		}
 	},
 	shellTemplates: [ // TODO: check it
 		"WikiProject banner shell",
@@ -157,54 +218,54 @@ var config = {
 		"auto": {
 			"label": {
 				"en": "Auto-rated",
-				"zh": "è‡ªåŠ¨è¯„çº§"
+				"zh": "×Ô¶¯ÆÀ¼¶"
 			},
 			"description": {
 				"en": "Automatically rated by a bot. Allowed values: ['yes'].",
-				"zh": "æœºå™¨äººå®Œæˆçš„è‡ªåŠ¨è¯„çº§ã€‚å…è®¸çš„å€¼ï¼š['yes']ã€‚"
+				"zh": "»úÆ÷ÈËÍê³ÉµÄ×Ô¶¯ÆÀ¼¶¡£ÔÊĞíµÄÖµ£º['yes']¡£"
 			},
 			"autovalue": "yes"
 		},
 		"listas": {
 			"label": {
 				"en": "List as",
-				"zh": "æ’åºç´¢å¼•"
+				"zh": "ÅÅĞòË÷Òı"
 			},
 			"description": {
 				"en": "Sortkey for talk page",
-				"zh": "è®¨è®ºé¡µçš„æ’åºç´¢å¼•"
+				"zh": "ÌÖÂÛÒ³µÄÅÅĞòË÷Òı"
 			}
 		},
 		"small": {
 			"label": {
 				"en": "Small?",
-				"zh": "å°å‹ï¼Ÿ"
+				"zh": "Ğ¡ĞÍ£¿"
 			},
 			"description": {
 				"en": "Display a small version. Allowed values: ['yes'].",
-				"zh": "æ˜¾ç¤ºå°å‹ç‰ˆæœ¬ã€‚å…è®¸çš„å€¼ï¼š['yes']ã€‚"
+				"zh": "ÏÔÊ¾Ğ¡ĞÍ°æ±¾¡£ÔÊĞíµÄÖµ£º['yes']¡£"
 			},
 			"autovalue": "yes"
 		},
 		"attention": {
 			"label": {
 				"en": "Attention required?",
-				"zh": "éœ€è¦å…³æ³¨ï¼Ÿ"
+				"zh": "ĞèÒª¹Ø×¢£¿"
 			},
 			"description": {
 				"en": "Immediate attention required. Allowed values: ['yes'].",
-				"zh": "éœ€è¦ç«‹å³å…³æ³¨ã€‚å…è®¸çš„å€¼ï¼š['yes']ã€‚"
+				"zh": "ĞèÒªÁ¢¼´¹Ø×¢¡£ÔÊĞíµÄÖµ£º['yes']¡£"
 			},
 			"autovalue": "yes"
 		},
 		"needs-image": {
 			"label": {
 				"en": "Needs image?",
-				"zh": "éœ€è¦å›¾åƒï¼Ÿ"
+				"zh": "ĞèÒªÍ¼Ïñ£¿"
 			},
 			"description": {
 				"en": "Request that an image or photograph of the subject be added to the article. Allowed values: ['yes'].",
-				"zh": "æ¡ç›®éœ€è¦æœ¬ä¸»é¢˜çš„å›¾åƒæˆ–ç…§ç‰‡ã€‚å…è®¸çš„å€¼ï¼š['yes']ã€‚"
+				"zh": "ÌõÄ¿ĞèÒª±¾Ö÷ÌâµÄÍ¼Ïñ»òÕÕÆ¬¡£ÔÊĞíµÄÖµ£º['yes']¡£"
 			},
 			"aliases": [
 				"needs-photo"
@@ -215,11 +276,11 @@ var config = {
 		"needs-infobox": {
 			"label": {
 				"en": "Needs infobox?",
-				"zh": "éœ€è¦ä¿¡æ¯æ¡†ï¼Ÿ"
+				"zh": "ĞèÒªĞÅÏ¢¿ò£¿"
 			},
 			"description": {
 				"en": "Request that an infobox be added to the article. Allowed values: ['yes'].",
-				"zh": "æ¡ç›®éœ€è¦ä¸€ä¸ªä¿¡æ¯æ¡†ã€‚å…è®¸çš„å€¼ï¼š['yes']ã€‚"
+				"zh": "ÌõÄ¿ĞèÒªÒ»¸öĞÅÏ¢¿ò¡£ÔÊĞíµÄÖµ£º['yes']¡£"
 			},
 			"aliases": [
 				"needs-photo" // TODO: why?
