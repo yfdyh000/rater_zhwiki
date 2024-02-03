@@ -15,10 +15,13 @@ $.when(
 		"oojs-ui.styles.icons-content", "oojs-ui.styles.icons-interactions",
 		"oojs-ui.styles.icons-moderation", "oojs-ui.styles.icons-editing-core",
 		"mediawiki.widgets", "mediawiki.widgets.NamespacesMultiselectWidget",
+		"ext.gadget.HanAssist"
 	]),
 	// Page ready
 	$.ready
-).then(function() {
+).then(function(require) {
+	// eslint-disable-next-line no-unused-vars
+	var { conv, convByVar } = require( 'ext.gadget.HanAssist' );
 	var conf = mw.config.get(["wgNamespaceNumber", "wgPageName"]);
 	// Do not operate on Special: pages, nor on non-existent pages or their talk pages
 	if ( conf.wgNamespaceNumber < 0 || $("li.new[id|=ca-nstab]").length ) {

@@ -1,4 +1,5 @@
 // <nowiki>
+/*global conv*/
 const packagejson = require("../package.json");
 var version = packagejson.version;
 
@@ -82,7 +83,7 @@ var config = {
 	},
 	bannerDefaultsLabel: { // i18n. this must be synchronized with the wiki and the above definition
 		classes: [
-			"FA - 典范条目",
+			conv({ hans:"FA - 典范条目", hant: "FA - 典範"}),
 			"FL - 特色列表",
 			"A - 甲",
 			"GA - 优良",
