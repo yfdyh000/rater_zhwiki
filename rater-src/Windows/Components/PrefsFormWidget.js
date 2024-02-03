@@ -10,22 +10,22 @@ function PrefsFormWidget( config ) {
 	this.$element.addClass("rater-prefsFormWidget");
 
 	this.layout =  new OO.ui.FieldsetLayout( {
-		label: "ÉèÖÃ",
+		label: "è®¾ç½®",
 		$element: this.$element
 	} );
 
 	this.preferences = {
 		"autostart": {
 			input: new OO.ui.ToggleSwitchWidget(),
-			label: "×Ô¶¯´ò¿ªRater"
+			label: "è‡ªåŠ¨æ‰“å¼€Rater"
 		},
 		"autostartRedirects": {
 			input: new OO.ui.ToggleSwitchWidget(),
-			label: "ÖØ¶¨ÏòÉÏ×Ô¶¯´ò¿ª"
+			label: "é‡å®šå‘ä¸Šè‡ªåŠ¨æ‰“å¼€"
 		},
 		"autostartNamespaces": {
 			input: new mw.widgets.NamespacesMultiselectWidget(),
-			label: "ÏÂÁÐÃüÃû¿Õ¼äÖÐ×Ô¶¯´ò¿ª"
+			label: "ä¸‹åˆ—å‘½åç©ºé—´ä¸­è‡ªåŠ¨æ‰“å¼€"
 		},
 		"bypassRedirects": {
 			input: new OO.ui.ToggleSwitchWidget(),
@@ -33,46 +33,46 @@ function PrefsFormWidget( config ) {
 		},
 		"autofillClassFromOthers":  {
 			input: new OO.ui.ToggleSwitchWidget(),
-			label: "»ùÓÚÆäËûºá·ù×Ô¶¯ÌîÐ´ÖÊÁ¿"
+			label: "åŸºäºŽå…¶ä»–æ¨ªå¹…è‡ªåŠ¨å¡«å†™è´¨é‡"
 		},
 		"autofillClassFromOres": {
 			input: new OO.ui.ToggleSwitchWidget(),
-			label: "»ùÓÚORESÖ¸±ê×Ô¶¯ÌîÐ´ÖÊÁ¿"
+			label: "åŸºäºŽORESæŒ‡æ ‡è‡ªåŠ¨å¡«å†™è´¨é‡"
 		},
 		"autofillImportance": {
 			input: new OO.ui.ToggleSwitchWidget(),
-			label: "×Ô¶¯ÌîÐ´µÍÖØÒª¶È"
+			label: "è‡ªåŠ¨å¡«å†™ä½Žé‡è¦åº¦"
 		},
 		"collapseParamsLowerLimit": {
 			input: new OO.ui.NumberInputWidget( { "min": 1 } ),
-			label: "×Ô¶¯ÕÛµþ³¬¹ý´ËÊýÁ¿µÄ²ÎÊý" // review it
+			label: "è‡ªåŠ¨æŠ˜å è¶…è¿‡æ­¤æ•°é‡çš„å‚æ•°" // review it
 		},
 		"watchlist": {
 			input: new OO.ui.ButtonSelectWidget( {
 				items: [
 					new OO.ui.ButtonOptionWidget( {
 						data: "preferences",
-						label: "Ä¬ÈÏ",
-						title: "×ñÑ­¡°²ÎÊýÉèÖÃ¡±ÖÐÓÐ¹Ø¡°±à¼­Ò³Ãæ¡±µÄÉèÖÃ"
+						label: "é»˜è®¤",
+						title: "éµå¾ªâ€œå‚æ•°è®¾ç½®â€ä¸­æœ‰å…³â€œç¼–è¾‘é¡µé¢â€çš„è®¾ç½®"
 					} ),
 					new OO.ui.ButtonOptionWidget( {
 						data: "watch",
-						label: "Ê¼ÖÕ",
-						title: "ÓÃ Rater ±à¼­µÄÒ³ÃæÊ¼ÖÕÌí¼Óµ½¼àÊÓÁÐ±í"
+						label: "å§‹ç»ˆ",
+						title: "ç”¨ Rater ç¼–è¾‘çš„é¡µé¢å§‹ç»ˆæ·»åŠ åˆ°ç›‘è§†åˆ—è¡¨"
 					} ),
 					new OO.ui.ButtonOptionWidget( {
 						data: "nochange",
-						label: "´Ó²»",
-						title: "ÓÃ Rater ±à¼­µÄÒ³Ãæ²»Ìí¼Óµ½¼àÊÓÁÐ±í"
+						label: "ä»Žä¸",
+						title: "ç”¨ Rater ç¼–è¾‘çš„é¡µé¢ä¸æ·»åŠ åˆ°ç›‘è§†åˆ—è¡¨"
 					} ),
 				]
 			}).selectItemByData("preferences"),
-			label: "Ìí¼Ó±à¼­µÄÒ³Ãæµ½¼àÊÓÁÐ±í"
+			label: "æ·»åŠ ç¼–è¾‘çš„é¡µé¢åˆ°ç›‘è§†åˆ—è¡¨"
 		},
 		"resetCache": {
 			input: new OO.ui.ButtonWidget( {
-				label: "ÖØÖÃ»º´æ",
-				title: "ÖØÖÃ»º´æÊý¾Ý£¬ÆäÖÐ°üÀ¨Î¬»ù×¨ÌâÁÐ±íºÍÄ£°å²ÎÊý",
+				label: "é‡ç½®ç¼“å­˜",
+				title: "é‡ç½®ç¼“å­˜æ•°æ®ï¼Œå…¶ä¸­åŒ…æ‹¬ç»´åŸºä¸“é¢˜åˆ—è¡¨å’Œæ¨¡æ¿å‚æ•°",
 				flags: ["destructive"]
 			} )
 		}
@@ -110,7 +110,7 @@ PrefsFormWidget.prototype.setPrefValues = function(prefs) {
 				input.addTag(
 					ns.toString(),
 					ns === 0
-						? "ÌõÄ¿"
+						? "æ¡ç›®"
 						: config.mw.wgFormattedNamespaces[ns]
 				)
 			);
@@ -144,7 +144,7 @@ PrefsFormWidget.prototype.getPrefs = function() {
 };
 
 PrefsFormWidget.prototype.onResetCacheClick = function() {
-	OO.ui.confirm("ÖØÖÃ»º´æºó£¬Rater ³ÌÐò½«¹Ø±Õ²¢ÖØÆô¡£ÒÑ½øÐÐµ«Î´±£´æµÄ¸ü¸Ä½«±»·ÅÆú¡£")
+	OO.ui.confirm("é‡ç½®ç¼“å­˜åŽï¼ŒRater ç¨‹åºå°†å…³é—­å¹¶é‡å¯ã€‚å·²è¿›è¡Œä½†æœªä¿å­˜çš„æ›´æ”¹å°†è¢«æ”¾å¼ƒã€‚")
 		.then(confirmed => {
 			if (confirmed) { 
 				this.emit("resetCache");
