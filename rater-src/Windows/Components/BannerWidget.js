@@ -104,7 +104,7 @@ function BannerWidget( template, config ) {
 				items: [
 					new OO.ui.MenuOptionWidget( {
 						data: null,
-						label: new OO.ui.HtmlSnippet(`<span style="color:#777">（${config.isArticle ? wgULS("无重要度", "未評定") : wgULS("自动检测", "自動偵測")}）</span>`)
+						label: new OO.ui.HtmlSnippet(`<span style="color:#777">（${config.isArticle ? wgULS("无质量", "未評定") : wgULS("自动检测", "自動偵測")}）</span>`)
 					} ),
 					...globalConfig.bannerDefaults.classes.map( classname =>
 						new OO.ui.MenuOptionWidget( {
