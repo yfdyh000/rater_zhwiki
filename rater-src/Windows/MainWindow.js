@@ -30,9 +30,9 @@ MainWindow.static.actions = [
 	{
 		label: "✕", // not using an icon since color becomes inverted, i.e. white on light-grey
 		title: HanAssist.conv({
-	hans: "关闭并且放弃未保存更改",
-	hant: "關閉評級工具（不儲存任何變更）"
-}),
+			hans: "关闭并且放弃未保存更改",
+			hant: "關閉評級工具（不儲存任何變更）"
+		}),
 		flags: "primary",
 		modes: ["edit", "diff", "preview"] // available when current mode isn't "prefs"
 	},
@@ -42,9 +42,9 @@ MainWindow.static.actions = [
 		flags: "safe",
 		icon: "settings",
 		title: HanAssist.conv({
-	hans: "设置",
-	hant: "偏好設定"
-}),
+			hans: "设置",
+			hant: "設定"
+		}),
 		modes: ["edit", "diff", "preview"] // available when current mode isn't "prefs"
 	},
 	// Others (bottom)
@@ -59,26 +59,26 @@ MainWindow.static.actions = [
 		action: "preview",
 		accessKey: "p",
 		label: HanAssist.conv({
-	hans: "显示预览",
-	hant: "顯示預覽"
-}),
+			hans: "显示预览",
+			hant: "顯示預覽"
+		}),
 		modes: ["edit", "diff"] // available when current mode isn't "preview" or "prefs"
 	},
 	{
 		action: "changes",
 		accessKey: "v",
 		label: HanAssist.conv({
-	hans: "显示更改",
-	hant: "顯示變更"
-}),
+			hans: "显示更改",
+			hant: "顯示變更"
+		}),
 		modes: ["edit", "preview"] // available when current mode isn't "diff" or "prefs"
 	},
 	{
 		action: "back",
 		label: HanAssist.conv({
-	hans: "后退",
-	hant: "返回"
-}),
+			hans: "后退",
+			hant: "返回"
+		}),
 		modes: ["diff", "preview"] // available when current mode is "diff" or "prefs"
 	},
 	
@@ -86,9 +86,9 @@ MainWindow.static.actions = [
 	{
 		action: "savePrefs",
 		label: HanAssist.conv({
-	hans: "更新",
-	hant: "儲存設定"
-}),
+			hans: "更新",
+			hant: "儲存設定"
+		}),
 		flags: ["primary", "progressive"],
 		modes: "prefs" 
 	},
@@ -126,13 +126,13 @@ MainWindow.prototype.initialize = function () {
 						.attr({
 							"src": "//upload.wikimedia.org/wikipedia/commons/thumb/5/51/Objective_Revision_Evaluation_Service_logo.svg/40px-Objective_Revision_Evaluation_Service_logo.svg.png",
 							"title": HanAssist.conv({
-	hans: "ORES 程序提供的质量估算",
-	hant: "由客觀修訂評估服務（ORES）自動預測評級"
-}),
+								hans: "ORES 程序提供的质量估算",
+								hant: "由客觀修訂評估服務（ORES）自動預測評級"
+							}),
 							"alt": HanAssist.conv({
-	hans: "ORES logo",
-	hant: "ORES 識別標誌"
-}),
+								hans: "ORES logo",
+								hant: "ORES 識別標誌"
+							}),
 							"width": "20px",
 							"height": "20px"
 						})
@@ -170,9 +170,9 @@ MainWindow.prototype.initialize = function () {
 	// Preview, Show changes
 	this.parsedContentContainer = new OO.ui.FieldsetLayout( {
 		label: HanAssist.conv({
-	hans: "预览",
-	hant: "預覽"
-})
+			hans: "预览",
+			hant: "預覽"
+		})
 	} );
 	this.parsedContentWidget = new OO.ui.LabelWidget( {label: "",	$element:$("<div>")	});
 	this.parsedContentContainer.addItems([
@@ -359,24 +359,24 @@ MainWindow.prototype.getSetupProcess = function ( data ) {
 			// Show page type, or ORES prediction, if available
 			if (this.pageInfo.redirect) {
 				this.pagetypeLabel.setLabel(HanAssist.conv({
-	hans: "重定向页面",
-	hant: "重新導向頁面"
-})).toggle(true);
+					hans: "重定向页面",
+					hant: "重新導向頁面"
+				})).toggle(true);
 			} else if (this.pageInfo.isDisambig) {
 				this.pagetypeLabel.setLabel(HanAssist.conv({
-	hans: "消歧义页面",
-	hant: "消歧義頁面"
-})).toggle(true);
+					hans: "消歧义页面",
+					hant: "消歧義頁面"
+				})).toggle(true);
 			} else if (this.pageInfo.isArticle && data.isGA) {
 				this.pagetypeLabel.setLabel(HanAssist.conv({
-	hans: "优良条目",
-	hant: "優良條目"
-})).toggle(true);
+					hans: "优良条目",
+					hant: "優良條目"
+				})).toggle(true);
 			} else if (this.pageInfo.isArticle && data.isFA) {
 				this.pagetypeLabel.setLabel(HanAssist.conv({
-	hans: "典范条目",
-	hant: "典範條目"
-})).toggle(true);
+					hans: "典范条目",
+					hant: "典範條目"
+				})).toggle(true);
 			} else if (this.pageInfo.isArticle && data.isFL) {
 				this.pagetypeLabel.setLabel("特色列表").toggle(true);
 			} else if (this.pageInfo.isArticle && data.isList) {
@@ -385,23 +385,23 @@ MainWindow.prototype.getSetupProcess = function ( data ) {
 				this.oresClass = data.ores.prediction;
 				this.oresLabel.toggle(true).$element.find(".oresPrediction").append(
 					HanAssist.conv({
-	hans: "估算：",
-	hant: "預測品質："
-}),
+						hans: "估算：",
+						hant: "預測品質："
+					}),
 					$("<strong>").text(data.ores.prediction),
 					"（" + data.ores.probability + "）"
 				);
 			} else if (this.pageInfo.isArticle) {
 				this.pagetypeLabel.setLabel(HanAssist.conv({
-	hans: "条目",
-	hant: "條目"
-})).toggle(true);
+					hans: "条目",
+						hant: "條目"
+				})).toggle(true);
 			} else {
 				// TODO: i18n
 				this.pagetypeLabel.setLabel( this.subjectPage.getNamespacePrefix().slice(0,-1) + HanAssist.conv({
-	hans: "页面",
-	hant: "頁面"
-}) ).toggle(true);
+					hans: "页面",
+					hant: "頁面"
+				}) ).toggle(true);
 			}
 			// Set props for use in making wikitext and edit summaries
 			this.talkWikitext = data.talkWikitext;
@@ -444,9 +444,9 @@ MainWindow.prototype.getActionProcess = function ( action ) {
 					new OO.ui.Error(
 						$("<div>").append(
 							$("<strong style='display:block;'>").text(HanAssist.conv({
-	hans: "保存设置失败。",
-	hant: "無法儲存設定。"
-})),
+								hans: "保存设置失败。",
+								hant: "無法儲存設定。"
+							})),
 							$("<span style='color:#777'>").text( makeErrorMsg(code, err) )
 						)
 					)
@@ -483,9 +483,9 @@ MainWindow.prototype.getActionProcess = function ( action ) {
 				new OO.ui.Error(
 					$("<div>").append(
 						$("<strong style='display:block;'>").text(HanAssist.conv({
-	hans: "保存更改失败。",
-	hant: "無法儲存變更。"
-})),
+							hans: "保存更改失败。",
+							hant: "無法儲存變更。"
+						})),
 						$("<span style='color:#777'>").text( makeErrorMsg(code, err) )
 					)
 				)
@@ -501,9 +501,9 @@ MainWindow.prototype.getActionProcess = function ( action ) {
 				action: "parse",
 				contentmodel: "wikitext",
 				text: this.transformTalkWikitext(this.talkWikitext) + "\n<hr>\n" + HanAssist.conv({
-	hans: "'''编辑摘要：''' ",
-	hant: "'''編輯摘要：'''"
-}) + this.makeEditSummary(),
+					hans: "'''编辑摘要：''' ",
+					hant: "'''編輯摘要：'''"
+				}) + this.makeEditSummary(),
 				title: this.talkpage.getPrefixedText(),
 				pst: 1
 			}).then( result => {
@@ -514,9 +514,9 @@ MainWindow.prototype.getActionProcess = function ( action ) {
 
 				this.parsedContentWidget.setLabel(previewHtmlSnippet);
 				this.parsedContentContainer.setLabel(HanAssist.conv({
-	hans: "预览：",
-	hant: "預覽："
-}));
+					hans: "预览：",
+					hant: "預覽："
+				}));
 				this.actions.setMode("preview");
 				this.contentArea.setItem( this.parsedContentLayout );
 				this.topBar.setDisabled(true);
@@ -526,9 +526,9 @@ MainWindow.prototype.getActionProcess = function ( action ) {
 					new OO.ui.Error(
 						$("<div>").append(
 							$("<strong style='display:block;'>").text(HanAssist.conv({
-	hans: "显示变更失败。",
-	hant: "無法顯示變更。"
-})),
+								hans: "显示变更失败。",
+								hant: "無法顯示變更。"
+							})),
 							$("<span style='color:#777'>").text( makeErrorMsg(code, err) )
 						)
 					)
@@ -560,9 +560,9 @@ MainWindow.prototype.getActionProcess = function ( action ) {
 							$("<tr>").append(
 								$("<td colspan='4'>").append(
 									$("<strong>").text(HanAssist.conv({
-	hans: "编辑摘要：",
-	hant: "編輯摘要："
-}),
+										hans: "编辑摘要：",
+										hant: "編輯摘要："
+									}),
 									this.makeEditSummary())
 								)
 							)
@@ -595,9 +595,9 @@ MainWindow.prototype.getActionProcess = function ( action ) {
 	} else if (!action && this.bannerList.changed) {
 		// Confirm closing of dialog if there have been changes 
 		if(confirm(HanAssist.conv({
-	hans: "关闭 Rater 将放弃未保存的更改，确认关闭？",
-	hant: "關閉 Rater 將放棄未保存的更改，確認關閉？"
-}))) {
+			hans: "关闭 Rater 将放弃未保存的更改，确认关闭？",
+			hant: "關閉 Rater 將放棄未保存的更改，確認關閉？"
+		}))) {
 			this.close();
 		}
 	}
