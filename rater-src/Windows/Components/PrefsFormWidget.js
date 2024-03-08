@@ -1,4 +1,5 @@
 import config from "../../config";
+import HanAssist from "../../HanAssist";
 // <nowiki>
 
 function PrefsFormWidget( config ) {
@@ -110,7 +111,10 @@ PrefsFormWidget.prototype.setPrefValues = function(prefs) {
 				input.addTag(
 					ns.toString(),
 					ns === 0
-						? wgULS("条目","條目")
+						? HanAssist.conv({
+	hans: "条目",
+	hant: "條目"
+})
 						: config.mw.wgFormattedNamespaces[ns]
 				)
 			);
@@ -144,7 +148,10 @@ PrefsFormWidget.prototype.getPrefs = function() {
 };
 
 PrefsFormWidget.prototype.onResetCacheClick = function() {
-	OO.ui.confirm(wgULS("重置缓存后，Rater 程序将关闭并重启。已进行但未保存的更改将被放弃。","在重設快取後，工具將自動重新啟動。此前未發布的變更將被捨棄。"))
+	OO.ui.confirm(HanAssist.conv({
+	hans: "重置缓存后，Rater 程序将关闭并重启。已进行但未保存的更改将被放弃。",
+	hant: "在重設快取後，工具將自動重新啟動。此前未發布的變更將被捨棄。"
+}))
 		.then(confirmed => {
 			if (confirmed) { 
 				this.emit("resetCache");

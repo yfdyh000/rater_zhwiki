@@ -3,6 +3,7 @@ import autoStart from "./autostart";
 import styles from "./css.js";
 import { makeErrorMsg } from "./api";
 import windowManager from "./windowManager";
+import HanAssist from "./HanAssist";
 // <nowiki>
 
 (function App() {
@@ -35,18 +36,31 @@ import windowManager from "./windowManager";
 				// Show notification when saved successfully
 				if (result && result.success) {
 					const $message = $("<span>").append(
-						$("<strong>").text(wgULS("评级保存成功。", "成功儲存評級結果。"))
+						$("<strong>").text(HanAssist.conv({
+							hans: "成功储存评级结果。",
+							hant: "成功儲存評級結果。"
+						}))
 					);
 					if (result.upgradedStub) {
 						$message.append(
 							$("<br>"),
 							// TODO: There should be a link that will edit the article for you
-							$("<span>").text("注意，条目似乎是一个小作品。")
+							$("<span>").text(HanAssist.conv({
+								hans: "注意，条目似乎是一个小作品。",
+								hant: "注意，條目似乎是一個小作品。"
+							}))
 						);
 					}
 					mw.notify(
 						$message,
-						{ autoHide: true, autoHideSeconds: "long", tag: wgULS("评级已保存", "成功儲存評級") }
+						{
+							autoHide: true,
+							autoHideSeconds: "long",
+							tag: HanAssist.conv({
+								hans: "成功储存评级结果。",
+								hant: "成功儲存評級結果。"
+							})
+						}
 					);
 				}
 			} );
@@ -54,7 +68,10 @@ import windowManager from "./windowManager";
 
 	const showSetupError = (code, jqxhr) => OO.ui.alert(
 		makeErrorMsg(code, jqxhr),	{
-			title: wgULS("Rater 打开失败", "工具無法開啟")
+			title: HanAssist.conv({
+				hans: "Rater 工具打开失败",
+				hant: "Rater 工具無法開啟"
+			})
 		}
 	);
 
@@ -75,9 +92,16 @@ import windowManager from "./windowManager";
 		mw.util.addPortletLink(
 			area,
 			"#",
-			wgULS("评级", "評級"),
+			HanAssist.conv({
+				hans: "评级",
+				hant: "評級"
+			}),
 			"ca-rater",
-			wgULS("质量和重要度评级", "為頁面評級"),
+			HanAssist.conv({
+				hans: "为页面进行品质与重要度评级",
+				hant: "為頁面進行質量與重要度評級",
+				tw: "為頁面進行品質與重要度評級"
+			}),
 			"5"
 		);
 		$("#ca-rater").click(event => {

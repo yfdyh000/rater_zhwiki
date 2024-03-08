@@ -3,7 +3,6 @@
     "globals": {
         "$": false,
         "mw": false,
-        "OO": false,
-        "wgULS": false
+        "OO": false
     }
 }
