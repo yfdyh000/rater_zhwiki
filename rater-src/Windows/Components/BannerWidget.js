@@ -7,6 +7,7 @@ import { filterAndMap, classMask, importanceMask } from "../../util";
 import {Template, getWithRedirectTo} from "../../Template";
 import HorizontalLayoutWidget from "./HorizontalLayoutWidget";
 import globalConfig from "../../config";
+import HanAssist from "../../HanAssist";
 // <nowiki>
 
 function BannerWidget( template, config ) {
@@ -51,21 +52,39 @@ function BannerWidget( template, config ) {
 
 	this.openButton = new OO.ui.ButtonWidget( {
 		icon: "link",
-		label: wgULS("打开页面","打开页面"),
-		title: wgULS("打开页面","打开页面"),
+		label: HanAssist.conv({
+	hans: "打开页面",
+	hant: "打开页面"
+}),
+		title: HanAssist.conv({
+	hans: "打开页面",
+	hant: "打开页面"
+}),
 		$element: $("<div style=\"width:100%\">")
 	} );
 	this.removeButton = new OO.ui.ButtonWidget( {
 		icon: "trash",
-		label: wgULS("移除横幅", "移除橫幅"),
-		title: wgULS("移除横幅", "移除橫幅"),
+		label: HanAssist.conv({
+	hans: "移除横幅",
+	hant: "移除橫幅"
+}),
+		title: HanAssist.conv({
+	hans: "移除横幅",
+	hant: "移除橫幅"
+}),
 		flags: "destructive",
 		$element: $("<div style=\"width:100%\">")
 	} );
 	this.clearButton = new OO.ui.ButtonWidget( {
 		icon: "cancel",
-		label: wgULS("清空参数", "清除參數"),
-		title: wgULS("清空参数", "清除參數"),
+		label: HanAssist.conv({
+	hans: "清空参数",
+	hant: "清除參數"
+}),
+		title: HanAssist.conv({
+	hans: "清空参数",
+	hant: "清除參數"
+}),
 		flags: "destructive",
 		$element: $("<div style=\"width:100%\">")
 	} );
@@ -79,7 +98,10 @@ function BannerWidget( template, config ) {
 	} );
 
 	this.mainLabelPopupButton = new OO.ui.PopupButtonWidget( {
-		label: `{{${template.getTitle().getMainText()}}}${this.inactiveProject ? wgULS("（不活跃）", "（不活躍）") : ""}`,
+		label: `{{${template.getTitle().getMainText()}}}${this.inactiveProject ? HanAssist.conv({
+	hans: "（不活跃）",
+	hant: "（不活躍）"
+}) : ""}`,
 		$element: $("<span style='display:inline-block;width:48%;margin-right:0;padding-right:8px'>"),
 		$overlay: this.$overlay,
 		indicator:"down",
@@ -104,7 +126,13 @@ function BannerWidget( template, config ) {
 				items: [
 					new OO.ui.MenuOptionWidget( {
 						data: null,
-						label: new OO.ui.HtmlSnippet(`<span style="color:#777">（${config.isArticle ? wgULS("无质量", "未評定") : wgULS("自动检测", "自動偵測")}）</span>`)
+						label: new OO.ui.HtmlSnippet(`<span style="color:#777">（${config.isArticle ? HanAssist.conv({
+	hans: "无质量",
+	hant: "未評定"
+}) : HanAssist.conv({
+	hans: "自动检测",
+	hant: "自動偵測"
+})}）</span>`)
 					} ),
 					...globalConfig.bannerDefaults.classes.map( classname =>
 						new OO.ui.MenuOptionWidget( {
@@ -125,7 +153,13 @@ function BannerWidget( template, config ) {
 				items: [
 					new OO.ui.MenuOptionWidget( {
 						data: null,
-						label: new OO.ui.HtmlSnippet(`<span style="color:#777">${config.isArticle ? wgULS("继承自shell", "繼承自shell") : wgULS("（自动检测）", "（自動偵測）")}</span>`)
+						label: new OO.ui.HtmlSnippet(`<span style="color:#777">${config.isArticle ? HanAssist.conv({
+	hans: "继承自shell",
+	hant: "繼承自shell"
+}) : HanAssist.conv({
+	hans: "（自动检测）",
+	hant: "（自動偵測）"
+})}</span>`)
 					} ),
 					...template.classes.map( classname =>
 						new OO.ui.MenuOptionWidget( {
@@ -147,7 +181,13 @@ function BannerWidget( template, config ) {
 			menu: {
 				items: [
 					new OO.ui.MenuOptionWidget( {
-						data: null, label: new OO.ui.HtmlSnippet(`<span style="color:#777">${config.isArticle ? wgULS("（无重要度）", "（未評定）") : wgULS("（自动检测）", "（自動偵測）")}</span>`)
+						data: null, label: new OO.ui.HtmlSnippet(`<span style="color:#777">${config.isArticle ? HanAssist.conv({
+	hans: "（无重要度）",
+	hant: "（未評定）"
+}) : HanAssist.conv({
+	hans: "（自动检测）",
+	hant: "（自動偵測）"
+})}</span>`)
 					} ),
 					...template.importances.map(importance =>
 						new OO.ui.MenuOptionWidget( {
@@ -199,7 +239,10 @@ function BannerWidget( template, config ) {
 
 	this.addParameterNameInput = new SuggestionLookupTextInputWidget({
 		suggestions: template.parameterSuggestions,
-		placeholder: wgULS("参数名", "參數名稱"),
+		placeholder: HanAssist.conv({
+	hans: "参数名",
+	hant: "參數名稱"
+}),
 		$element: $("<div style='display:inline-block;width:40%'>"),
 		validate: function(val) {
 			let {validName, name, value} = this.getAddParametersInfo(val);
@@ -210,7 +253,10 @@ function BannerWidget( template, config ) {
 	});
 	this.updateAddParameterNameSuggestions();
 	this.addParameterValueInput = new SuggestionLookupTextInputWidget({
-		placeholder: wgULS("参数值", "參數內容"),
+		placeholder: HanAssist.conv({
+	hans: "参数值",
+	hant: "參數內容"
+}),
 		$element: $("<div style='display:inline-block;width:40%'>"),
 		validate: function(val) {
 			let {validValue, name, value} = this.getAddParametersInfo(null, val);
@@ -220,7 +266,10 @@ function BannerWidget( template, config ) {
 		$overlay: this.$overlay
 	});
 	this.addParameterButton = new OO.ui.ButtonWidget({
-		label: wgULS("添加", "新增"),
+		label: HanAssist.conv({
+	hans: "添加",
+	hant: "新增"
+}),
 		icon: "add",
 		flags: "progressive"
 	}).setDisabled(true);
@@ -234,7 +283,10 @@ function BannerWidget( template, config ) {
 	} );
 
 	this.addParameterLayout = new OO.ui.FieldLayout(this.addParameterControls, {
-		label: wgULS("添加参数：", "新增參數："),
+		label: HanAssist.conv({
+	hans: "添加参数：",
+	hant: "新增參數："
+}),
 		align: "top"
 	}).toggle(false);
 	// A hack to make messages appear on their own line
@@ -407,9 +459,15 @@ BannerWidget.prototype.onAddParameterNameChange = function() {
 	// Set button disabled state based on validity
 	this.addParameterButton.setDisabled(!validName || !validValue);
 	// Show notice if autovalue will be used
-	this.addParameterLayout.setNotices( validName && isAutovalue ? [wgULS("将自动填写参数值", "將自動填寫參數值")] : [] );
+	this.addParameterLayout.setNotices( validName && isAutovalue ? [HanAssist.conv({
+	hans: "将自动填写参数值",
+	hant: "將自動填寫參數值"
+})] : [] );
 	// Show error is the banner already has the parameter set
-	this.addParameterLayout.setErrors( isAlreadyIncluded ? [wgULS("参数已存在", "參數已存在")] : [] );
+	this.addParameterLayout.setErrors( isAlreadyIncluded ? [HanAssist.conv({
+	hans: "参数已存在",
+	hant: "參數已存在"
+})] : [] );
 };
 
 BannerWidget.prototype.onAddParameterNameEnter = function() {
@@ -492,7 +550,10 @@ BannerWidget.prototype.bypassRedirect = function() {
 	// Store the bypassed name
 	this.bypassedName = this.name;
 	// Update title label
-	this.mainLabelPopupButton.setLabel(`{{${this.redirectTargetMainText}}}${this.inactiveProject ? wgULS("（不活跃）", "（不活躍）") : ""}`);
+	this.mainLabelPopupButton.setLabel(`{{${this.redirectTargetMainText}}}${this.inactiveProject ? HanAssist.conv({
+	hans: "（不活跃）",
+	hant: "（不活躍）"
+}) : ""}`);
 	// Update properties
 	this.name = this.redirectTargetMainText;
 	this.mainText = this.redirectTargetMainText;

@@ -1,5 +1,6 @@
 import { normaliseYesNo, filterAndMap } from "../../util";
 import HorizontalLayoutWidget from "./HorizontalLayoutWidget";
+import HanAssist from "../../HanAssist";
 // <nowiki>
 
 function ParameterWidget( parameter, paramData, config ) {
@@ -88,7 +89,13 @@ function ParameterWidget( parameter, paramData, config ) {
 
 	this.deleteButton = new OO.ui.ButtonWidget({
 		icon: this.isRequired ? "restore" : "trash",
-		label: this.isRequired ? wgULS("必填参数","必要參數") : wgULS("删除","刪除"),
+		label: this.isRequired ? HanAssist.conv({
+	hans: "必填参数",
+	hant: "必填參數"
+}) : HanAssist.conv({
+	hans: "删除",
+	hant: "刪除"
+}),
 		framed: false,
 		flags: "destructive",
 		disabled: this.isRequired

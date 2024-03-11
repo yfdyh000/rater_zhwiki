@@ -1,3 +1,4 @@
+import HanAssist from "../../HanAssist";
 // <nowiki>
 
 /**
@@ -36,7 +37,13 @@ var ParameterListWidget = function ParameterListWidget( config ) {
 		if (hiddenCount>0) {
 			// Add button to show the hidden params
 			this.showMoreParametersButton = new OO.ui.ButtonWidget({
-				label: wgULS("显示额外","顯示其他") + hiddenCount + wgULS("个参数","個參數"),
+				label: HanAssist.conv({
+	hans: "显示额外",
+	hant: "顯示其他"
+}) + hiddenCount + HanAssist.conv({
+	hans: "个参数",
+	hant: "個參數"
+}),
 				framed: false,
 				$element: $("<span style='margin-bottom:0'>")
 			});
@@ -46,7 +53,10 @@ var ParameterListWidget = function ParameterListWidget( config ) {
 
 	// Add the button that allows user to add more parameters
 	this.addParametersButton = new OO.ui.ButtonWidget({
-		label: wgULS("添加参数", "新增參數"),
+		label: HanAssist.conv({
+	hans: "添加参数",
+	hant: "新增參數"
+}),
 		icon: "add",
 		framed: false,
 		$element: $("<span style='margin-bottom:0'>")
@@ -162,7 +172,13 @@ ParameterListWidget.prototype.setPreferences = function(prefs) {
 		this.removeItems([this.showMoreParametersButton]);
 	} else {
 		this.showMoreParametersButton.setLabel(
-			wgULS("显示额外","顯示其他") + stillHiddenCount + wgULS("个参数","個參數"),
+			HanAssist.conv({
+	hans: "显示额外",
+	hant: "顯示其他"
+}) + stillHiddenCount + HanAssist.conv({
+	hans: "个参数",
+	hant: "個參數"
+}),
 		);
 	}
 };

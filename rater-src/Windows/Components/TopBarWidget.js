@@ -1,6 +1,7 @@
 import appConfig from "../../config";
 import SuggestionLookupTextInputWidget from "./SuggestionLookupTextInputWidget";
 import {getBannerNames} from "../../getBanners";
+import HanAssist from "../../HanAssist";
 // <nowiki>
 
 function cutTitle(name) { // cutWikiProjectTemplateTitle
@@ -23,8 +24,14 @@ function TopBarWidget( config ) {
     
 	// Search box
 	this.searchBox = new SuggestionLookupTextInputWidget( {
-		//placeholder: wgULS("新增 WikiProject...","新增專題⋯⋯"),
-		placeholder: wgULS("添加维基专题或相关模板...","添加維基專題橫幅或相關模板⋯⋯"),
+		//placeholder: HanAssist.conv({
+		//	hans: "新增维基专题...",
+		//	hant: "新增維基專題..."
+		//}),
+		placeholder: HanAssist.conv({
+			hans: "添加维基专题横幅或相关模板...",
+			hant: "添加維基專題橫幅或相關模板..."
+		}),
 		$element: $("<div style='display:inline-block; margin:0 -1px; width:calc(100% - 55px);'>"),
 		$overlay: this.$overlay,
 	} );
@@ -79,16 +86,25 @@ function TopBarWidget( config ) {
 	// in the style of a popup button with a menu (is actually a dropdown with a hidden label, because that makes the coding easier.)
 	this.setAllDropDown = new OO.ui.DropdownWidget( {
 		icon: "tag",
-		label: wgULS("全部设为...","全部統一設置"),
+		label: HanAssist.conv({
+			hans: "全部统一设为...",
+			hant: "全部統一設成..."
+		}),
 		invisibleLabel: true,
 		menu: {
 			items: [
 				new OO.ui.MenuSectionOptionWidget( {
-					label: wgULS("质量","品質")
+					label: HanAssist.conv({
+						hans: "质量",
+						hant: "品質"
+					})
 				} ),
 				new OO.ui.MenuOptionWidget( {
 					data: {class: null},
-					label: new OO.ui.HtmlSnippet("<span style=\"color:#777\">"+wgULS("（无质量）","（未評定）" )+"</span>")
+					label: $('<span>').css('color', '#777').text(HanAssist.conv({
+						hans: "（未評定）",
+						hant: "（未評定）"
+					}))
 				} ),
 				...appConfig.bannerDefaults.classes.map((classname, i) => {
 					let display = appConfig.bannerDefaultsLabel.classes[i];
@@ -99,12 +115,18 @@ function TopBarWidget( config ) {
 				}
 				),
 				new OO.ui.MenuSectionOptionWidget( {
-					label: "重要度"
+					label: HanAssist.conv({
+						hans: "重要度",
+						hant: "重要度"
+					})
 				} ),
 				new OO.ui.MenuOptionWidget( {
 					data: {importance: null},
-					label: new OO.ui.HtmlSnippet("<span style=\"color:#777\">"+wgULS("（无重要度）","（未評定）" )+"</span>")
-				} ),
+					label: $('<span>').css('color', '#777').text(HanAssist.conv({
+						hans: "（未評定）",
+						hant: "（未評定）"
+					}))
+				}),
 				...appConfig.bannerDefaults.importances.map((importance, i) => {
 					let display = appConfig.bannerDefaultsLabel.importances[i];
 					return new OO.ui.MenuOptionWidget( {
@@ -115,21 +137,34 @@ function TopBarWidget( config ) {
 				),
 			]
 		},
-		$element: $("<span style=\"width:auto;display:inline-block;float:left;margin:0\" title='"+wgULS("全部设为...","全部統一設置")+"'>"),
+		$element: $("<span>")
+			.attr({
+				style: 'width: auto; display: inline-block; float: left; margin: 0;',
+				title: HanAssist.conv({
+					hans: "全部统一设为...",
+					hant: "全部統一設成..."
+				})
+			}),
 		$overlay: this.$overlay,
 	} );
 
 	// Remove all banners button
 	this.removeAllButton = new OO.ui.ButtonWidget( {
 		icon: "trash",
-		title: wgULS("全部删除","全部刪除"),
+		title: HanAssist.conv({
+			hans: "全部删除",
+			hant: "全部刪除"
+		}),
 		flags: "destructive"
 	} );
 
 	// Clear all parameters button
 	this.clearAllButton = new OO.ui.ButtonWidget( {
 		icon: "cancel",
-		title: wgULS("全部清空", "全部清除"),
+		title: HanAssist.conv({
+			hans: "全部清空",
+			hant: "全部清除"
+		}),
 		flags: "destructive"
 	} );
 
