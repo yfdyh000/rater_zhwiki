@@ -3,8 +3,10 @@ import { isAfterDate } from "./util";
 import * as cache from "./cache";
 // <nowiki>
 
+const bannersVersion = 2; // for force update
 var cacheBanners = function(banners) {
 	cache.write("banners", banners, 2, 60);
+	cache.write("banners-version", bannersVersion, 0, 60);
 };
 
 const projectsJSON_blacklist = [
@@ -178,6 +180,9 @@ var getBannersFromCache = function() {
 	) {
 		return $.Deferred().reject();
 	}
+	var bannersVersion = cache.read("banners-version");
+	if(!bannersVersion || bannersVersion < bannersVersion) return $.Deferred().reject();
+
 	if ( isAfterDate(cachedBanners.staleDate) ) {
 		// Update in the background; still use old list until then  
 		getListOfBannersFromApi().then(cacheBanners);
