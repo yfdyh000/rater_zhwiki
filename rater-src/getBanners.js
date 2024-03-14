@@ -7,6 +7,23 @@ var cacheBanners = function(banners) {
 	cache.write("banners", banners, 2, 60);
 };
 
+const projectsJSON_blacklist = [
+	"Backwardscopyvio",
+	"Censor",
+	"Controversial",
+	"Controversial-issues",
+	"FailedGA",
+	"Featured article candidates",
+	"Featured article review",
+	"GA nominee",
+	"ITNtalk",
+	"Not-fansite",
+	"Old peer review",
+	"Peer review",
+	"Translated page",
+	"WikiProject banner shell",
+];
+
 // The code snippet from https://zh.wikipedia.org/wiki/User:Chiefwei/rater/rater.js
 var raterData = {};
 var dataurl = "";
@@ -135,7 +152,11 @@ var getListOfBannersFromApi = function() {
 			banners[catObject.abbreviation] = catObject.banners;
 		});
 
-		banners["projectsJSON"] = getRaterData("projects");
+		const data = getRaterData("projects");
+		let filteredData = Object.fromEntries(
+			Object.entries(data).filter(([key]) => !projectsJSON_blacklist.includes(key))
+		);
+		banners["projectsJSON"] = filteredData;
 
 		finishedPromise.resolve(banners);
 	});
