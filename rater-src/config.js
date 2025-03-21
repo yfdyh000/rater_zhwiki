@@ -48,7 +48,8 @@ var config = {
 			"C",
 			"Start",
 			"Stub",
-			"List"
+			"List",
+			"Disambig"
 		],
 		importances: [
 			"Top",
@@ -67,7 +68,6 @@ var config = {
 			//"Bplus",
 			"Future",
 			"Current",
-			"Disambig",
 			"NA",
 			"Redirect",
 			//"Book"
@@ -100,7 +100,11 @@ var config = {
 			C: '丙',
 			Start: '初',
 			Stub: '小作品',
-			List: '列表'
+			List: '列表',
+			Disambig: {
+				hans: '消歧义',
+				hant: '消歧義'
+			},
 		})).map(([k, v]) => `${k} - ${v}`),
 		importances: Object.entries(HanAssist.batchConv({
 			Top: {
@@ -139,10 +143,6 @@ var config = {
 			Current: {
 				hans: '新闻动态',
 				hant: '新聞動態'
-			},
-			Disambig: {
-				hans: '消歧义',
-				hant: '消歧義'
 			},
 			NA: {
 				hans: '不适用',
