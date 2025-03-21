@@ -39,14 +39,16 @@ function BannerWidget( template, config ) {
 
 	/* --- TITLE AND RATINGS --- */
 
-	this.getLocalTitleForClasses = function (rName) {  // TODO: structure
-		return appConfig.bannerDefaultsLabel.extendedClasses.find(n=>n.includes(rName + " -")) 
-		|| appConfig.bannerDefaultsLabel.classes.find(n=>n.includes(rName + " -")) 
+	this.getLocalTitleForClasses = function (rName) {  // TODO: structured
+		let re = new RegExp(`^${rName} -`);
+		return appConfig.bannerDefaultsLabel.extendedClasses.find(n=>re.test(n)) 
+		|| appConfig.bannerDefaultsLabel.classes.find(n=>re.test(n)) 
 		|| rName;
 	};
 	this.getLocalTitleForImportances = function (rName) {
-		return appConfig.bannerDefaultsLabel.importances.find(n=>n.includes(rName + " -")) 
-		|| appConfig.bannerDefaultsLabel.extendedImportances.find(n=>n.includes(rName + " -")) 
+		let re = new RegExp(`^${rName} -`);
+		return appConfig.bannerDefaultsLabel.importances.find(n=>re.test(n)) 
+		|| appConfig.bannerDefaultsLabel.extendedImportances.find(n=>re.test(n)) 
 		|| rName;
 	};
 
