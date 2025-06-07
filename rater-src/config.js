@@ -38,14 +38,17 @@ var config = {
 		"wgCategories",
 		"wgIsMainPage"
 	] ),
+	// see also https://zh.wikipedia.org/wiki/Wikipedia:%E9%A1%B5%E9%9D%A2%E8%AF%84%E7%BA%A7#%E6%A2%9D%E7%9B%AE%E5%93%81%E8%B3%AA%E7%B4%9A%E5%88%A5
 	bannerDefaults: {
 		classes: [
 			"FA",
 			"FL",
 			"A",
 			"GA",
+			"Bplus",
 			"B",
 			"C",
+			"D",
 			"Start",
 			"Stub",
 			"List",
@@ -65,7 +68,6 @@ var config = {
 			"Portal",
 			"Project",
 			"Template",
-			//"Bplus",
 			"Future",
 			"Current",
 			"NA",
@@ -96,8 +98,10 @@ var config = {
 				hans: '优良条目',
 				hant: '優良條目'
 			},
+			Bplus: '乙上',
 			B: '乙',
 			C: '丙',
+			D: '丁',
 			Start: '初',
 			Stub: '小作品',
 			List: '列表',
@@ -138,7 +142,6 @@ var config = {
 				hant: '專案'
 			},
 			Template: '模板',
-			// Bplus: '',
 			Future: '未来',
 			Current: {
 				hans: '新闻动态',

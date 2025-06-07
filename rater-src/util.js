@@ -120,6 +120,7 @@ function classMask(classVal) { // TODO: check it
 	case "ga":
 	case "b":
 	case "c":
+	case "d":
 	case "na":
 	case "fm":
 	case "al":
