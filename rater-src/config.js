@@ -202,7 +202,12 @@ var config = {
 		"Banner shell",
 		"Scope shell",
 		"Project shell",
-		"WikiProject banner"
+		"WikiProject banner",
+		"Multiple wikiprojects",
+		"多个专题",
+		"多個專題",
+		"專題橫幅",
+		"維基專題橫幅"
 	],
 	defaultParameterData: {
 		"auto": {
