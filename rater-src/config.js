@@ -50,9 +50,14 @@ var config = {
 			"C",
 			"D",
 			"Start",
+			"Substub",
 			"Stub",
 			"List",
-			"Disambig"
+			"Disambig",
+			"AL",
+			"BL",
+			"CL",
+			"SL",
 		],
 		importances: [
 			"Top",
@@ -103,8 +108,25 @@ var config = {
 			C: '丙',
 			D: '丁',
 			Start: '初',
+			Substub: '小小作品',
 			Stub: '小作品',
 			List: '列表',
+			AL: {
+				hans: '甲级列表',
+				hant: '甲級列表'
+			},
+			BL: {
+				hans: '乙级列表',
+				hant: '乙級列表'
+			},
+			CL: {
+				hans: '丙级列表',
+				hant: '丙級列表'
+			},
+			SL: {
+				hans: '小列表',
+				hant: '小列表'
+			},
 			Disambig: {
 				hans: '消歧义',
 				hant: '消歧義'
