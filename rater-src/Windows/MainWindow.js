@@ -310,7 +310,7 @@ MainWindow.prototype.getBodyHeight = function () {
 	var currentlayout = this.contentArea.getCurrentItem();
 	var layoutHeight = currentlayout && currentlayout.$element.outerHeight(true);
 	var contentHeight = currentlayout && currentlayout.$element.children(":first-child").outerHeight(true);
-	return Math.max(200, layoutHeight, contentHeight);
+	return Math.max(600, layoutHeight, contentHeight);
 };
 
 // Use getSetupProcess() to set up the window with data passed to it at the time 
