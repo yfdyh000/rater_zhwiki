@@ -308,5 +308,17 @@ var config = {
 	}
 };
 
+// window.rater_classesRankMap="Substub|Stub|Start|D|C|B|Bplus|GA|A|FA|SL|List|CL|BL|AL|FL|Disambig";
+// TODO: extendedClasses rank
+if ( window.rater_classesRankMap != undefined ) {
+	const priority = window.rater_classesRankMap.split("|"). // 优先的值
+		filter(item => config.bannerDefaults.classes.includes(item)); // 禁止新增值
+	const newMap = [
+	...priority,
+	...config.bannerDefaults.classes.filter(item => !priority.includes(item))
+	];
+	config.bannerDefaults.classes = newMap;
+}
+
 export default config;
 // </nowiki>
