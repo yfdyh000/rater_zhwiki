@@ -60,6 +60,18 @@ BannerListWidget.prototype.onBannerRemove = function ( banner ) {
 	this.setChanged();
 };
 
+/**
+ * 检查指定名称的横幅是否已存在
+ * @param {string} bannerName - 横幅模板名称
+ * @returns {boolean} 横幅是否存在
+ */
+BannerListWidget.prototype.hasBanner = function(bannerName) {
+	return this.items.some(banner => 
+		banner.mainText === bannerName || 
+		banner.redirectTargetMainText === bannerName
+	);
+};
+
 BannerListWidget.prototype.syncShellTemplateWithBiographyBanner = function( biographyBanner ) {
 	biographyBanner = biographyBanner || this.items.find(
 		banner => banner.mainText === "WikiProject Biography" || banner.redirectTargetMainText === "WikiProject Biography"

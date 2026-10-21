@@ -79,6 +79,17 @@ function TopBarWidget( config ) {
 		flags: "progressive",
 		$element: $("<span style='float:right;margin: 0;transform: translateX(-12px);'>"),
 	} );
+	
+	// 添加获取其他语言版专题横幅的按钮
+	this.fetchOtherLangBannersButton = new OO.ui.ButtonWidget( {
+		icon: "language",
+		title: HanAssist.conv({
+			hans: "获取其他语言版专题横幅",
+			hant: "獲取其他語言版專題橫幅"
+		}),
+		flags: "progressive"
+	} );
+	
 	var $searchContainer = $("<div style='display:inline-block; flex-shrink:1; flex-grow:100; min-width:250px; width:50%;'>")
 		.append(this.searchBox.$element, this.addBannerButton.$element);
 
@@ -102,7 +113,7 @@ function TopBarWidget( config ) {
 				new OO.ui.MenuOptionWidget( {
 					data: {class: null},
 					label: $('<span>').css('color', '#777').text(HanAssist.conv({
-						hans: "（未評定）",
+						hans: "（未评定）",
 						hant: "（未評定）"
 					}))
 				} ),
@@ -123,7 +134,7 @@ function TopBarWidget( config ) {
 				new OO.ui.MenuOptionWidget( {
 					data: {importance: null},
 					label: $('<span>').css('color', '#777').text(HanAssist.conv({
-						hans: "（未評定）",
+						hans: "（未评定）",
 						hant: "（未評定）"
 					}))
 				}),
@@ -178,6 +189,9 @@ function TopBarWidget( config ) {
 	} );
 	// Include the dropdown in the group
 	this.menuButtons.$element.prepend(this.setAllDropDown.$element);
+	
+	// 语言按钮添加到"全部统一设为"按钮的右侧
+	this.menuButtons.$element.children().first().after(this.fetchOtherLangBannersButton.$element);
 
 	// Put everything into a layout
 	this.$element.addClass("rater-topBarWidget")
@@ -202,6 +216,7 @@ function TopBarWidget( config ) {
 		"choose": "onSearchSelect"
 	});
 	this.addBannerButton.connect(this, {"click": "onSearchSelect"});
+	this.fetchOtherLangBannersButton.connect(this, {"click": "onFetchOtherLangBannersClick"});
 	this.setAllDropDown.getMenu().connect(this, {"choose": "onRatingChoose"});
 	this.removeAllButton.connect(this, {"click": "onRemoveAllClick"});
 	this.clearAllButton.connect(this, {"click": "onClearAllClick"});
@@ -210,6 +225,10 @@ OO.inheritClass( TopBarWidget, OO.ui.PanelLayout );
 
 TopBarWidget.prototype.onSearchSelect = function(data) {
 	this.emit("searchSelect", data);
+};
+
+TopBarWidget.prototype.onFetchOtherLangBannersClick = function() {
+	this.emit("fetchOtherLangBanners");
 };
 
 TopBarWidget.prototype.onRatingChoose = function(item) {
@@ -234,6 +253,7 @@ TopBarWidget.prototype.setDisabled = function(disable) {
 	[
 		this.searchBox,
 		this.addBannerButton,
+		this.fetchOtherLangBannersButton,
 		this.setAllDropDown,
 		this.removeAllButton,
 		this.clearAllButton

@@ -20,14 +20,24 @@
     "watch-build": "nodemon --watch rater-src --watch index_warper.mjs --exec npm run build",
     "watch-dev": "nodemon --watch rater-src --watch index_warper.mjs --exec npm run build:dev"
   },
-  "author": {
-    "name": "Evad37",
-    "url": "https://en.wikipedia.org/wiki/User:Evad37",
-    "name": "YFdyh000",
-    "url": "https://zh.wikipedia.org/wiki/User:YFdyh000",
-    "name": "Ericliu1912",
-    "url": "https://zh.wikipedia.org/wiki/User:Ericliu1912"
-  },
+  "author": [
+    {
+      "name": "Evad37",
+      "url": "https://en.wikipedia.org/wiki/User:Evad37"
+    },
+    {
+      "name": "YFdyh000",
+      "url": "https://zh.wikipedia.org/wiki/User:YFdyh000"
+    },
+    {
+      "name": "Ericliu1912",
+      "url": "https://zh.wikipedia.org/wiki/User:Ericliu1912"
+    },
+    {
+      "name": "PexEric",
+      "url": "https://zh.wikipedia.org/wiki/User:PexEric"
+    }
+  ],
   "repository": {
     "type": "git",
     "url": "https://github.com/yfdyh000/rater_zhwiki.git"
