@@ -4,6 +4,36 @@ import { parseTemplates } from "./Template";
 // <nowiki>
 
 /**
+ * 使用 fetch 发起跨域 MediaWiki API GET 请求（origin=* 匿名 CORS，避免 preflight）
+ * @param {string} apiUrl - API 地址
+ * @param {Object} params - 查询参数
+ * @param {number} [timeout=30000] - 超时时间（毫秒）
+ * @returns {Promise<Object>} API 返回的 JSON
+ */
+function fetchForeignApi(apiUrl, params, timeout) {
+    const controller = new AbortController();
+    const timer = setTimeout(() => controller.abort(), timeout || 30000);
+    const url = new URL(apiUrl);
+    Object.entries(params).forEach(([key, value]) => url.searchParams.set(key, value));
+    url.searchParams.set("format", "json");
+    url.searchParams.set("origin", "*");
+    return fetch(url, {
+        method: "GET",
+        headers: {"Accept": "application/json"},
+        signal: controller.signal
+    }).then(response => {
+        clearTimeout(timer);
+        if (!response.ok) {
+            throw new Error(`HTTP ${response.status}`);
+        }
+        return response.json();
+    }).catch(error => {
+        clearTimeout(timer);
+        throw error;
+    });
+}
+
+/**
  * 获取其他语言版本的条目标题
  * @param {string} pageTitle - 当前页面标题
  * @param {string} langCode - 目标语言代码
@@ -26,7 +56,6 @@ function getOtherLangTitle(pageTitle, langCode) {
             return page.langlinks[0]["*"];
         }
         const itemId = page.pageprops && page.pageprops.wikibase_item;
-        const wikidataApi = new mw.ForeignApi("https://www.wikidata.org/w/api.php");
         // 校验实体确实连接到当前页面，再取目标语言标题，避免命中无关条目
         const getTargetFromEntity = entity => {
             if (!entity || !entity.sitelinks) {
@@ -45,18 +74,16 @@ function getOtherLangTitle(pageTitle, langCode) {
         };
         // 回退：langlinks 表缺失时，从 Wikidata 按实体 ID 或按 zhwiki 标题解析实体
         const entityRequest = itemId
-            ? wikidataApi.get({
+            ? fetchForeignApi("https://www.wikidata.org/w/api.php", {
                 action: "wbgetentities",
                 ids: itemId,
-                props: "sitelinks",
-                format: "json"
+                props: "sitelinks"
             })
-            : wikidataApi.get({
+            : fetchForeignApi("https://www.wikidata.org/w/api.php", {
                 action: "wbgetentities",
                 sites: "zhwiki",
                 titles: pageTitle,
-                props: "sitelinks",
-                format: "json"
+                props: "sitelinks"
             });
         return entityRequest.then(getTargetFromEntities).catch(error => {
             console.warn("[Rater] " + makeErrorMsg("error", "从 Wikidata 获取" + langCode + "维基标题失败: " + error));
@@ -78,16 +105,13 @@ function getTalkPageContent(pageTitle, langCode) {
     // 确定讨论页标题
     const talkTitle = `Talk:${pageTitle}`;
     
-    // 使用mw.ForeignApi来处理跨域请求
-    const foreignApi = new mw.ForeignApi(`https://${langCode}.wikipedia.org/w/api.php`);
-    
-    return foreignApi.get({
+    // 使用 fetch + origin=* 匿名 CORS 发起跨域请求，避免 preflight
+    return fetchForeignApi(`https://${langCode}.wikipedia.org/w/api.php`, {
         action: "query",
         prop: "revisions",
         titles: talkTitle,
         rvprop: "content",
-        rvslots: "main",
-        format: "json"
+        rvslots: "main"
     }).then(response => {
         const pages = response.query.pages;
         const pageId = Object.keys(pages)[0];
@@ -157,15 +181,12 @@ function parseProjectBanners(talkPageContent) {
 function getTemplateInOtherLang(templateName, fromLang, toLang) {
     const fullTemplateName = `Template:${templateName}`;
     
-    // 使用mw.ForeignApi来处理跨域请求
-    const foreignApi = new mw.ForeignApi(`https://${fromLang}.wikipedia.org/w/api.php`);
-    
-    return foreignApi.get({
+    // 使用 fetch + origin=* 匿名 CORS 发起跨域请求，避免 preflight
+    return fetchForeignApi(`https://${fromLang}.wikipedia.org/w/api.php`, {
         action: "query",
         titles: fullTemplateName,
         prop: "langlinks",
-        lllang: toLang,
-        format: "json"
+        lllang: toLang
     }).then(response => {
         const pages = response.query.pages;
         const pageId = Object.keys(pages)[0];
@@ -197,14 +218,13 @@ function getTemplatesInOtherLang(templateNames, fromLang, toLang) {
     // TODO: 可在此加入短时缓存（如按 `${fromLang}:${templateNames.join("|")}` 存储到项目 cache 模块），
     // 减少重复获取时的跨域请求；注意横幅变化时可能需设置较短的缓存有效期。
     const fullNames = templateNames.map(name => `Template:${name}`);
-    const foreignApi = new mw.ForeignApi(`https://${fromLang}.wikipedia.org/w/api.php`);
-    return foreignApi.get({
+    // 使用 fetch + origin=* 匿名 CORS 发起跨域请求，避免 preflight
+    return fetchForeignApi(`https://${fromLang}.wikipedia.org/w/api.php`, {
         action: "query",
         titles: fullNames.join("|"),
         prop: "langlinks",
         lllang: toLang,
-        redirects: 1,
-        format: "json"
+        redirects: 1
     }).then(response => {
         const langlinksByTitle = {};
         Object.values(response.query.pages || {}).forEach(page => {
