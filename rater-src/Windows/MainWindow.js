@@ -463,6 +463,13 @@ MainWindow.prototype.getActionProcess = function ( action ) {
 		this.updateSize();
 
 	} else if ( action === "savePrefs" ) {
+		if ( !mw.config.get("wgUserName") ) {
+			mw.notify(HanAssist.conv({
+				hans: "请先登录后再保存设置。",
+				hant: "請先登入後再儲存設定。"
+			}), {type: "error"});
+			return new OO.ui.Process();
+		}
 		var updatedPrefs = this.prefsForm.getPrefs();
 		return new OO.ui.Process().next(
 			ApiSetPrefs(updatedPrefs).then(
