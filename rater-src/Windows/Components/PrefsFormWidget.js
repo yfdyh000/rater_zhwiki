@@ -165,6 +165,9 @@ PrefsFormWidget.prototype.setPrefValues = function(prefs) {
 		case "OoUiToggleSwitchWidget":
 			input.setValue(value);
 			break;
+		case "OoUiTextInputWidget":
+			input.setValue(value);
+			break;
 		case "MwWidgetsNamespacesMultiselectWidget":
 			input.clearItems();
 			value.forEach(ns =>
@@ -193,6 +196,9 @@ PrefsFormWidget.prototype.getPrefs = function() {
 			value = input.findSelectedItem().getData();
 			break;
 		case "OoUiToggleSwitchWidget":
+			value = input.getValue();
+			break;
+		case "OoUiTextInputWidget":
 			value = input.getValue();
 			break;
 		case "OoUiNumberInputWidget":
