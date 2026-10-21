@@ -150,7 +150,10 @@ function BannerWidget( template, config ) {
 		this.classDropdown.getMenu().selectItemByData( shellClassParam && classMask(shellClassParam.value) );
 	} else if (this.hasClassRatings) {
 		this.classDropdown = new DropdownParameterWidget( {
-			label: new OO.ui.HtmlSnippet("<span style=\"color:#777\">"+"质量"+"</span>"),
+			label: new OO.ui.HtmlSnippet(`<span style="color:#777">${HanAssist.conv({
+						hans: "质量",
+						hant: "質量"
+					})}</span>`),
 			menu: {
 				items: [
 					new OO.ui.MenuOptionWidget( {

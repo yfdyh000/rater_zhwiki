@@ -554,7 +554,10 @@ MainWindow.prototype.getActionProcess = function ( action ) {
 				pst: 1
 			}).then( result => {
 				if ( !result || !result.parse || !result.parse.text || !result.parse.text["*"] ) {
-					return $.Deferred().reject("收到空结果\n可能没有产生变化。");
+					return $.Deferred().reject(HanAssist.conv({
+						hans: "收到空结果\n可能没有产生变化。",
+						hant: "收到空結果\n可能沒有產生變化。"
+					}));
 				}
 				var previewHtmlSnippet = new OO.ui.HtmlSnippet(result.parse.text["*"]);
 
@@ -594,7 +597,10 @@ MainWindow.prototype.getActionProcess = function ( action ) {
 			})
 				.then( result => {
 					if ( !result || !result.compare || !result.compare["*"] ) {
-						return $.Deferred().reject("收到空结果。\n可能没有产生变化。");
+						return $.Deferred().reject(HanAssist.conv({
+						hans: "收到空结果。\n可能没有产生变化。",
+						hant: "收到空結果。\n可能沒有產生變化。"
+					}));
 					}
 					var $diff = $("<table>").addClass("diff").css("width", "100%").append(
 						$("<tr>").append(
@@ -616,7 +622,10 @@ MainWindow.prototype.getActionProcess = function ( action ) {
 					);
 
 					this.parsedContentWidget.setLabel($diff);
-					this.parsedContentContainer.setLabel("变更：");
+					this.parsedContentContainer.setLabel(HanAssist.conv({
+						hans: "变更：",
+						hant: "變更："
+					}));
 					this.actions.setMode("diff");
 					this.contentArea.setItem( this.parsedContentLayout );
 					this.topBar.setDisabled(true);

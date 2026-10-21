@@ -75,7 +75,10 @@ function TopBarWidget( config ) {
 	// Add button
 	this.addBannerButton = new OO.ui.ButtonWidget( {
 		icon: "add",
-		title: "新增",
+		title: HanAssist.conv({
+			hans: "添加",
+			hant: "新增"
+		}),
 		flags: "progressive",
 		$element: $("<span style='float:right;margin: 0;transform: translateX(-12px);'>"),
 	} );

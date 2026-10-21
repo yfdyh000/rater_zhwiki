@@ -3,6 +3,8 @@ import { isAfterDate } from "./util";
 import * as cache from "./cache";
 // <nowiki>
 
+import HanAssist from "./HanAssist";
+
 const bannersVersion = 2; // for force update
 var cacheBanners = function(banners) {
 	cache.write("banners", banners, 2, 60);
@@ -49,7 +51,10 @@ function getRaterData(kind) {
 				}
 			});
 		}  catch (e) {
-			alert("获取评级工具“" + kind + "”数据错误：" + e.message + "。评级工具可能无法正常工作。");
+			alert(HanAssist.conv({
+					hans: "获取评级工具“" + kind + "”数据错误：" + e.message + "。评级工具可能无法正常工作。",
+					hant: "取得評級工具「" + kind + "」資料錯誤：" + e.message + "。評級工具可能無法正常工作。"
+				}));
 			raterData[kind] = null;
 		}
 	}

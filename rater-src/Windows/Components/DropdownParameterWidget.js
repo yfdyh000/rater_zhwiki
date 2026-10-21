@@ -1,5 +1,7 @@
 // <nowiki>
 
+import HanAssist from "../../HanAssist";
+
 function DropdownParameterWidget( config ) {
 	// Configuration initialization
 	config = $.extend({
@@ -16,7 +18,10 @@ function DropdownParameterWidget( config ) {
 	this.autofilled = !!config.autofilled;
 	this.autofilledIcon = new OO.ui.IconWidget( {
 		icon: "robot",
-		title: "由Rater自动填写",
+		title: HanAssist.conv({
+			hans: "由Rater自动填写",
+			hant: "由Rater自動填寫"
+		}),
 		flags: "progressive",
 		$element: $("<span style='margin: 0 -5px 0 5px;min-width: 16px;width: 16px;left:unset;'>")
 	} ).toggle(this.autofilled);

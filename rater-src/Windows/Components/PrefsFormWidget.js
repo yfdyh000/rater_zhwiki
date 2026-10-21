@@ -98,10 +98,7 @@ function PrefsFormWidget( config ) {
 					} ),
 					new OO.ui.ButtonOptionWidget( {
 						data: "watch",
-						label: HanAssist.conv({
-							hans: "始终",
-							hant: "始終"
-						}),
+						label: "始终",
 						title: HanAssist.conv({
 							hans: "用 Rater 编辑的页面始终添加到监视列表",
 							hant: "使用 Rater 編輯的頁面始終新增到監視清單"
