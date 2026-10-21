@@ -1,6 +1,7 @@
 import setupRater from "./setup";
 import autoStart from "./autostart";
 import styles from "./css.js";
+import config from "./config";
 import { makeErrorMsg } from "./api";
 import windowManager from "./windowManager";
 import HanAssist from "./HanAssist";
@@ -19,13 +20,19 @@ import HanAssist from "./HanAssist";
 			stylesheet = mw.util.addCSS(styles);
 		}
 		// Add css class to body to enable background scrolling
-		document.getElementsByTagName("body")[0].classList.add("rater-mainWindow-open");
+		const bodyEl = document.getElementsByTagName("body")[0];
+		bodyEl.classList.add("rater-mainWindow-open");
+		const prefs = Object.assign({}, config.defaultPrefs, data.preferences);
+		if (prefs.allowBackgroundInteraction) {
+			bodyEl.classList.add("rater-allow-background-interaction");
+		}
 		// Open the window
-		windowManager.openWindow("main", data)
-			.closed.then( result => {
+		const raterWindow = windowManager.openWindow("main", data);
+		raterWindow.closed.then( result => {
 				// Disable/remove the css styles, so as to not interfere with other scripts/content/OOUI windows
 				if (stylesheet) { stylesheet.disabled = true; }
 				document.getElementsByTagName("body")[0].classList.remove("rater-mainWindow-open");
+				document.getElementsByTagName("body")[0].classList.remove("rater-allow-background-interaction");
 				// Restart if needed
 				if (result && result.restart) {
 					windowManager.removeWindows(["main"])

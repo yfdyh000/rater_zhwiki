@@ -48,6 +48,15 @@ html body.rater-mainWindow-open .rater-windowManager > .oo-ui-dialog.oo-ui-windo
 `html body.rater-mainWindow-open .rater-windowManager > .oo-ui-dialog.oo-ui-window-active > div {
     z-index: 400;
     transition: all 0.25s ease-out 0s, transform 0s !important
+}` +
+// When the "allow background interaction" preference is on, let clicks pass through
+// the modal overlay outside the dialog window, while keeping the dialog itself interactive.
+`html body.rater-mainWindow-open.rater-allow-background-interaction .rater-windowManager > .oo-ui-dialog.oo-ui-window-active {
+    pointer-events: none;
+}
+html body.rater-mainWindow-open.rater-allow-background-interaction .rater-windowManager > .oo-ui-dialog.oo-ui-window-active > .oo-ui-window-frame,
+html body.rater-mainWindow-open.rater-allow-background-interaction .rater-windowManager > .oo-ui-dialog.oo-ui-window-active > .oo-ui-window-frame * {
+    pointer-events: auto;
 }
 `;
 

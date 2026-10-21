@@ -162,6 +162,7 @@ MainWindow.prototype.initialize = function () {
 	// Preferences, filled in with current prefs upon loading.
 	// TODO: Make this into a component, add fields and inputs
 	this.prefsForm = new PrefsFormWidget();
+	this.prefsForm.connect(this, {"applyAllowBackgroundInteraction": "onApplyAllowBackgroundInteraction"});
 	this.prefsLayout = new OO.ui.PanelLayout( {
 		padded: true,
 		expanded: false,
@@ -242,6 +243,26 @@ MainWindow.prototype.onBannerListUpdateSize = function() {
 	this.updateSize();
 	// Scroll to where it was before
 	this.$body.scrollTop(scrollAmount);
+};
+
+MainWindow.prototype.applyAllowBackgroundInteraction = function(enable) {
+	const bodyEl = document.body;
+	bodyEl.classList.toggle("rater-allow-background-interaction", !!enable);
+	if (enable) {
+		if (!this.inertElements) {
+			this.inertElements = Array.from(document.querySelectorAll("[inert]"));
+		}
+		this.inertElements.forEach(el => el.removeAttribute("inert"));
+	} else {
+		if (this.inertElements) {
+			this.inertElements.forEach(el => el.setAttribute("inert", ""));
+			this.inertElements = null;
+		}
+	}
+};
+
+MainWindow.prototype.onApplyAllowBackgroundInteraction = function(enable) {
+	this.applyAllowBackgroundInteraction(enable);
 };
 
 MainWindow.prototype.makeDraggable = function() {
@@ -325,6 +346,7 @@ MainWindow.prototype.getSetupProcess = function ( data ) {
 			// Set up preferences
 			this.setPreferences(data.preferences);
 			this.prefsForm.setPrefValues(data.preferences);
+			this.applyAllowBackgroundInteraction(this.preferences.allowBackgroundInteraction);
 			// Set subject page info
 			this.subjectPage = data.subjectPage;
 			this.pageInfo = {

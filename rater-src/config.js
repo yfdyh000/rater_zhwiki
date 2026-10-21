@@ -25,7 +25,8 @@ var config = {
 		"watchlist": "preferences",
 		"otherLanguageCode": "en",
 		"autoFetchOtherLangBanners": "off",
-		"skipCloseConfirmation": false
+		"skipCloseConfirmation": false,
+		"allowBackgroundInteraction": false
 	},
 	// MediaWiki configuration values
 	mw: mw.config.get( [

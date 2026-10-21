@@ -15,6 +15,9 @@ function PrefsFormWidget( config ) {
 		$element: this.$element
 	} );
 
+	this.allowBackgroundToggle = new OO.ui.ToggleSwitchWidget();
+	this.allowBackgroundToggle.connect(this, {"change": "onAllowBackgroundToggleChange"});
+
 	this.preferences = {
 		"autostart": {
 			input: new OO.ui.ToggleSwitchWidget(),
@@ -130,6 +133,17 @@ function PrefsFormWidget( config ) {
 				hant: "關閉時不顯示確認提示"
 			})
 		},
+		"allowBackgroundInteraction": {
+			input: this.allowBackgroundToggle,
+			label: HanAssist.conv({
+				hans: "对话框打开时允许点击背景内容",
+				hant: "對話框開啟時允許點選背景內容"
+			}),
+			title: HanAssist.conv({
+				hans: "开启后 Rater 对话框为非模态，可点击背景页面中的链接等内容；切换开关即时生效",
+				hant: "開啟後 Rater 對話框為非模態，可點選背景頁面中的連結等內容；切換開關即時生效"
+			})
+		},
 		"resetCache": {
 			input: new OO.ui.ButtonWidget( {
 				label: "重置缓存",
@@ -156,7 +170,12 @@ OO.inheritClass( PrefsFormWidget, OO.ui.Widget );
 PrefsFormWidget.prototype.setPrefValues = function(prefs) {
 	for (let prefName in prefs ) {
 		let value = prefs[prefName];
-		let input = this.preferences[prefName] && this.preferences[prefName].input;
+		let prefDef = this.preferences[prefName];
+		if (prefDef && prefDef.toggle) {
+			prefDef.toggle.setValue(value);
+			continue;
+		}
+		let input = prefDef && prefDef.input;
 		switch (input && input.constructor.name) {
 		case "OoUiButtonSelectWidget":
 			input.selectItemByData(value);
@@ -191,22 +210,26 @@ PrefsFormWidget.prototype.getPrefs = function() {
 	for (let prefName in this.preferences ) {
 		let input = this.preferences[prefName].input;
 		let value;
-		switch (input.constructor.name) {
-		case "OoUiButtonSelectWidget":
-			value = input.findSelectedItem().getData();
-			break;
-		case "OoUiToggleSwitchWidget":
-			value = input.getValue();
-			break;
-		case "OoUiTextInputWidget":
-			value = input.getValue();
-			break;
-		case "OoUiNumberInputWidget":
-			value = Number(input.getValue()); // widget uses strings, not numbers!
-			break;
-		case "MwWidgetsNamespacesMultiselectWidget":
-			value = input.getValue().map(Number); // widget uses strings, not numbers!
-			break;
+		if (this.preferences[prefName].toggle) {
+			value = this.preferences[prefName].toggle.getValue();
+		} else {
+			switch (input.constructor.name) {
+			case "OoUiButtonSelectWidget":
+				value = input.findSelectedItem().getData();
+				break;
+			case "OoUiToggleSwitchWidget":
+				value = input.getValue();
+				break;
+			case "OoUiTextInputWidget":
+				value = input.getValue();
+				break;
+			case "OoUiNumberInputWidget":
+				value = Number(input.getValue()); // widget uses strings, not numbers!
+				break;
+			case "MwWidgetsNamespacesMultiselectWidget":
+				value = input.getValue().map(Number); // widget uses strings, not numbers!
+				break;
+			}
 		}
 		prefs[prefName] = value;
 	}
@@ -223,6 +246,10 @@ PrefsFormWidget.prototype.onResetCacheClick = function() {
 				this.emit("resetCache");
 			}
 		});
+};
+
+PrefsFormWidget.prototype.onAllowBackgroundToggleChange = function() {
+	this.emit("applyAllowBackgroundInteraction", this.allowBackgroundToggle.getValue());
 };
 
 export default PrefsFormWidget;
