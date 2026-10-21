@@ -33,7 +33,14 @@ function PrefsFormWidget( config ) {
 		},
 		"bypassRedirects": {
 			input: new OO.ui.ToggleSwitchWidget(),
-			label: "Bypass redirects to banners" // TODO
+			label: HanAssist.conv({
+				hans: "自动使用重定向指向的横幅",
+				hant: "自動使用重新導向指向的橫幅"
+			}),
+			title: HanAssist.conv({
+				hans: "开启后，若横幅模板为重定向，自动改用重定向指向的目标名称",
+				hant: "開啟後，若橫幅模板為重新導向，自動改用重新導向指向的目標名稱"
+			})
 		},
 		"autofillClassFromOthers":  {
 			input: new OO.ui.ToggleSwitchWidget(),
