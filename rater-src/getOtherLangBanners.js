@@ -13,7 +13,8 @@ function getOtherLangTitle(pageTitle, langCode) {
     return API.get({
         action: "query",
         titles: pageTitle,
-        prop: "langlinks",
+        prop: "langlinks|pageprops",
+        ppprop: "wikibase_item",
         lllang: langCode,
         format: "json"
     }).then(response => {
@@ -24,7 +25,26 @@ function getOtherLangTitle(pageTitle, langCode) {
         if (page.langlinks && page.langlinks.length > 0) {
             return page.langlinks[0]["*"];
         }
-        return null;
+        const itemId = page.pageprops && page.pageprops.wikibase_item;
+        if (!itemId) {
+            return null;
+        }
+        // 回退：langlinks 表缺失时，直接从 Wikidata 查询实体对应的目标语言标题
+        const wikidataApi = new mw.ForeignApi("https://www.wikidata.org/w/api.php");
+        return wikidataApi.get({
+            action: "wbgetentities",
+            ids: itemId,
+            props: "sitelinks",
+            sitefilter: langCode + "wiki",
+            format: "json"
+        }).then(entityResponse => {
+            const entity = entityResponse.entities[itemId];
+            const link = entity && entity.sitelinks && entity.sitelinks[langCode + "wiki"];
+            return link ? link.title : null;
+        }).catch(error => {
+            console.warn("[Rater] " + makeErrorMsg("error", "从 Wikidata 获取" + langCode + "维基标题失败: " + error));
+            return null;
+        });
     }).catch(error => {
         console.warn("[Rater] " + makeErrorMsg(error, "获取其他语言版本条目失败"));
         return null;
