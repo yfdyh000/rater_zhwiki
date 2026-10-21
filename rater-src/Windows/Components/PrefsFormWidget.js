@@ -11,7 +11,10 @@ function PrefsFormWidget( config ) {
 	this.$element.addClass("rater-prefsFormWidget");
 
 	this.layout =  new OO.ui.FieldsetLayout( {
-		label: "设置",
+		label: HanAssist.conv({
+			hans: "设置",
+			hant: "設定"
+		}),
 		$element: this.$element
 	} );
 
@@ -21,15 +24,24 @@ function PrefsFormWidget( config ) {
 	this.preferences = {
 		"autostart": {
 			input: new OO.ui.ToggleSwitchWidget(),
-			label: "自动打开Rater"
+			label: HanAssist.conv({
+				hans: "自动打开Rater",
+				hant: "自動打開Rater"
+			})
 		},
 		"autostartRedirects": {
 			input: new OO.ui.ToggleSwitchWidget(),
-			label: "重定向上自动打开"
+			label: HanAssist.conv({
+				hans: "遇到重定向则自动打开",
+				hant: "遇到重新導向則自動打開"
+			})
 		},
 		"autostartNamespaces": {
 			input: new mw.widgets.NamespacesMultiselectWidget(),
-			label: "下列命名空间中自动打开"
+			label: HanAssist.conv({
+				hans: "下列命名空间中自动打开",
+				hant: "下列命名空間中自動打開"
+			})
 		},
 		"bypassRedirects": {
 			input: new OO.ui.ToggleSwitchWidget(),
@@ -44,41 +56,74 @@ function PrefsFormWidget( config ) {
 		},
 		"autofillClassFromOthers":  {
 			input: new OO.ui.ToggleSwitchWidget(),
-			label: "基于其他横幅自动填写质量"
+			label: HanAssist.conv({
+				hans: "基于其他横幅自动填写质量",
+				hant: "基於其他橫幅自動填寫質量"
+			})
 		},
 		"autofillClassFromOres": {
 			input: new OO.ui.ToggleSwitchWidget(),
-			label: "基于ORES指标自动填写质量"
+			label: HanAssist.conv({
+				hans: "基于ORES指标自动填写质量",
+				hant: "基於ORES指標自動填寫質量"
+			})
 		},
 		"autofillImportance": {
 			input: new OO.ui.ToggleSwitchWidget(),
-			label: "自动填写低重要度"
+			label: HanAssist.conv({
+				hans: "自动填写低重要度",
+				hant: "自動填寫低重要度"
+			})
 		},
 		"collapseParamsLowerLimit": {
 			input: new OO.ui.NumberInputWidget( { "min": 1 } ),
-			label: "自动折叠超过此数量的参数" // review it
+			label: HanAssist.conv({
+				hans: "自动折叠超过此数量的参数",
+				hant: "自動摺疊超過此數量的參數"
+			}) // review it
 		},
 		"watchlist": {
 			input: new OO.ui.ButtonSelectWidget( {
 				items: [
 					new OO.ui.ButtonOptionWidget( {
 						data: "preferences",
-						label: "默认",
-						title: "遵循“参数设置”中有关“编辑页面”的设置"
+						label: HanAssist.conv({
+							hans: "默认",
+							hant: "預設"
+						}),
+						title: HanAssist.conv({
+							hans: "遵循“参数设置”中有关“编辑页面”的设置",
+							hant: "遵循「參數設定」中有關「編輯頁面」的設定"
+						})
 					} ),
 					new OO.ui.ButtonOptionWidget( {
 						data: "watch",
-						label: "始终",
-						title: "用 Rater 编辑的页面始终添加到监视列表"
+						label: HanAssist.conv({
+							hans: "始终",
+							hant: "始終"
+						}),
+						title: HanAssist.conv({
+							hans: "用 Rater 编辑的页面始终添加到监视列表",
+							hant: "使用 Rater 編輯的頁面始終新增到監視清單"
+						})
 					} ),
 					new OO.ui.ButtonOptionWidget( {
 						data: "nochange",
-						label: "从不",
-						title: "用 Rater 编辑的页面不添加到监视列表"
+						label: HanAssist.conv({
+							hans: "从不",
+							hant: "從不"
+						}),
+						title: HanAssist.conv({
+							hans: "用 Rater 编辑的页面不添加到监视列表",
+							hant: "使用 Rater 編輯的頁面不新增到監視清單"
+						})
 					} )
 				]
 			}).selectItemByData("preferences"),
-			label: "添加编辑的页面到监视列表"
+			label: HanAssist.conv({
+				hans: "添加编辑的页面到监视列表",
+				hant: "新增編輯的頁面到監視清單"
+			})
 		},
 		"otherLanguageCode": {
 			input: new OO.ui.TextInputWidget({
@@ -153,8 +198,14 @@ function PrefsFormWidget( config ) {
 		},
 		"resetCache": {
 			input: new OO.ui.ButtonWidget( {
-				label: "重置缓存",
-				title: "重置缓存数据，其中包括维基专题列表和模板参数",
+				label: HanAssist.conv({
+					hans: "重置缓存",
+					hant: "重設快取"
+				}),
+				title: HanAssist.conv({
+					hans: "重置缓存数据，其中包括维基专题列表和模板参数",
+					hant: "重設快取資料，其中包括維基專題列表和模板參數"
+				}),
 				flags: ["destructive"]
 			} )
 		}
