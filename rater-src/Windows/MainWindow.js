@@ -90,6 +90,10 @@ MainWindow.static.actions = [
 			hans: "更新",
 			hant: "儲存設定"
 		}),
+		title: HanAssist.conv({
+			hans: "设置将保存到您的用户页/raterPrefs.json",
+			hant: "設定將儲存到您的用戶頁/raterPrefs.json"
+		}),
 		flags: ["primary", "progressive"],
 		modes: "prefs" 
 	},

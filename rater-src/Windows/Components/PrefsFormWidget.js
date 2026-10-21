@@ -163,6 +163,23 @@ function PrefsFormWidget( config ) {
 		]);
 	}
 
+	const userName = mw.config.get("wgUserName");
+	const saveNoteLabel = userName
+		? $("<span>").append(
+			HanAssist.conv({
+				hans: "设置将保存到",
+				hant: "設定將儲存到"
+			}),
+			$("<a>").attr("href", mw.util.getUrl(`User:${userName}/raterPrefs.json`)).text(`User:${userName}/raterPrefs.json`)
+		)
+		: HanAssist.conv({
+			hans: "您未登录，设置无法保存。",
+			hant: "您尚未登入，無法儲存設定。"
+		});
+	const saveNote = new OO.ui.LabelWidget({label: saveNoteLabel});
+	saveNote.$element.css({"color": "#777", "font-size": "0.9em"});
+	this.layout.addItems([saveNote]);
+
 	this.preferences.resetCache.input.connect(this, {"click": "onResetCacheClick"});
 }
 OO.inheritClass( PrefsFormWidget, OO.ui.Widget );
