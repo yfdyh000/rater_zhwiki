@@ -868,8 +868,12 @@ MainWindow.prototype.checkAndFetchOtherLangBanners = function() {
 				// 有对应的其他语言版页面，显示加载动画并获取专题横幅
 				this.onFetchOtherLangBanners(otherLangTitle);
 			} else {
-				// 没有对应的其他语言版页面，不执行任何操作
-				console.log(`[Rater] 未找到对应的${langCode}维基条目，不获取专题横幅`);
+				// 没有对应的其他语言版页面
+				console.log(`[Rater] 未找到对应的${langCode}维基条目`);
+				mw.notify(HanAssist.conv({
+					hans: `未找到对应的${langCode}维基条目。`,
+					hant: `未找到對應的${langCode}維基條目。`
+				}));
 			}
 		})
 		.catch(error => {
@@ -890,15 +894,13 @@ MainWindow.prototype.onFetchOtherLangBanners = function(otherLangTitle) {
 			.then(talkContent => {
 				if (!talkContent) {
 					console.log(`[Rater] 未找到${langCode}维基条目的讨论页或讨论页为空`);
-					this.topBar.searchBox.popPending();
-					return [];
+					return { noTalkPage: true };
 				}
 				
 				const bannerNames = parseProjectBanners(talkContent);
 				if (bannerNames.length === 0) {
 					console.log(`[Rater] 未在${langCode}维基讨论页找到专题横幅`);
-					this.topBar.searchBox.popPending();
-					return [];
+					return { noBanners: true };
 				}
 				
 				console.log(`[Rater] 在${langCode}维基找到专题横幅:`, bannerNames);
@@ -925,7 +927,7 @@ MainWindow.prototype.onFetchOtherLangBanners = function(otherLangTitle) {
 						.map(result => result.value);
 					
 					console.log("[Rater] 找到对应的中文横幅:", validResults);
-					return validResults;
+					return validResults.length > 0 ? validResults : { noBanners: true };
 				});
 			})
 			.then(banners => this.processBanners(banners))
@@ -958,11 +960,38 @@ MainWindow.prototype.onFetchOtherLangBanners = function(otherLangTitle) {
 
 // 处理获取到的横幅
 MainWindow.prototype.processBanners = function(banners) {
-	if (banners.length === 0) {
-		// 没有找到横幅或没有对应的中文横幅
+	if (banners.noTitle) {
+		// 未找到对应的其他语言版条目
 		mw.notify(HanAssist.conv({
-			hans: `未找到${this.preferences.otherLanguageCode}维基对应的专题横幅，或没有对应的中文横幅。`,
-			hant: `未找到${this.preferences.otherLanguageCode}維基對應的專題橫幅，或沒有對應的中文橫幅。`
+			hans: `未找到对应的${this.preferences.otherLanguageCode}维基条目。`,
+			hant: `未找到對應的${this.preferences.otherLanguageCode}維基條目。`
+		}));
+		this.topBar.searchBox.popPending();
+		return;
+	}
+	if (banners.noTalkPage) {
+		// 有条目但讨论页不存在或为空
+		mw.notify(HanAssist.conv({
+			hans: `未找到${this.preferences.otherLanguageCode}维基条目的讨论页。`,
+			hant: `未找到${this.preferences.otherLanguageCode}維基條目的討論頁。`
+		}));
+		this.topBar.searchBox.popPending();
+		return;
+	}
+	if (banners.noBanners) {
+		// 讨论页存在但没有专题横幅
+		mw.notify(HanAssist.conv({
+			hans: `未在${this.preferences.otherLanguageCode}维基讨论页找到专题横幅。`,
+			hant: `未在${this.preferences.otherLanguageCode}維基討論頁找到專題橫幅。`
+		}));
+		this.topBar.searchBox.popPending();
+		return;
+	}
+	if (banners.length === 0) {
+		// 兜底：没有找到可添加的横幅
+		mw.notify(HanAssist.conv({
+			hans: `未找到${this.preferences.otherLanguageCode}维基对应的专题横幅。`,
+			hant: `未找到${this.preferences.otherLanguageCode}維基對應的專題橫幅。`
 		}));
 		this.topBar.searchBox.popPending();
 		return;

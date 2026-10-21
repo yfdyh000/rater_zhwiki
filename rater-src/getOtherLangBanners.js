@@ -195,20 +195,20 @@ function getOtherLangProjectBanners(pageTitle, langCode) {
         .then(otherLangTitle => {
             if (!otherLangTitle) {
                 console.log("[Rater] 未找到对应的" + langCode + "维基条目");
-                return [];
+                return { noTitle: true };
             }
             
             return getTalkPageContent(otherLangTitle, langCode)
                 .then(talkContent => {
                     if (!talkContent) {
                         console.log("[Rater] 未找到" + langCode + "维基条目的讨论页或讨论页为空");
-                        return [];
+                        return { noTalkPage: true };
                     }
                     
                     const bannerNames = parseProjectBanners(talkContent);
                     if (bannerNames.length === 0) {
                         console.log("[Rater] 未在" + langCode + "维基讨论页找到专题横幅");
-                        return [];
+                        return { noBanners: true };
                     }
                     
                     console.log("[Rater] 在" + langCode + "维基找到专题横幅:", bannerNames);
@@ -235,7 +235,7 @@ function getOtherLangProjectBanners(pageTitle, langCode) {
                             .map(result => result.value);
                         
                         console.log("[Rater] 找到对应的中文横幅:", validResults);
-                        return validResults;
+                        return validResults.length > 0 ? validResults : { noBanners: true };
                     });
                 });
         })
