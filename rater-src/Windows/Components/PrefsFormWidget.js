@@ -164,13 +164,17 @@ function PrefsFormWidget( config ) {
 	}
 
 	const userName = mw.config.get("wgUserName");
-	const saveNoteLabel = userName
+	const prefsPageTitle = userName ? `User:${userName}/raterPrefs.json` : null;
+	const saveNoteLabel = prefsPageTitle
 		? $("<span>").append(
 			HanAssist.conv({
 				hans: "设置将保存到",
 				hant: "設定將儲存到"
 			}),
-			$("<a>").attr("href", mw.util.getUrl(`User:${userName}/raterPrefs.json`)).text(`User:${userName}/raterPrefs.json`)
+			$("<a>").attr(
+				"href",
+				`${mw.config.get("wgServer")}/wiki/${encodeURIComponent(prefsPageTitle)}`
+			).text(prefsPageTitle)
 		)
 		: HanAssist.conv({
 			hans: "您未登录，设置无法保存。",
