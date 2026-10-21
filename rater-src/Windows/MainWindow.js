@@ -9,7 +9,7 @@ import TopBarWidget from "./Components/TopBarWidget";
 import { filterAndMap, uniqueArray } from "../util";
 import * as cache from "../cache";
 import HanAssist from "../HanAssist";
-import { getOtherLangProjectBanners, getOtherLangTitle, getTalkPageContent, parseProjectBanners, getTemplateInOtherLang } from "../getOtherLangBanners";
+import { getOtherLangProjectBanners, getOtherLangTitle, getTalkPageContent, parseProjectBanners, getTemplatesInOtherLang } from "../getOtherLangBanners";
 // <nowiki>
 
 function MainWindow( config ) {
@@ -905,30 +905,18 @@ MainWindow.prototype.onFetchOtherLangBanners = function(otherLangTitle) {
 				
 				console.log(`[Rater] 在${langCode}维基找到专题横幅:`, bannerNames);
 				
-				// 使用Promise.allSettled代替Promise.all，确保即使部分请求失败也能继续
-				return Promise.allSettled(
-					bannerNames.map(bannerName => 
-						getTemplateInOtherLang(bannerName, langCode, "zh")
-							.then(zhBannerName => {
-								if (zhBannerName) {
-									return {
-										name: zhBannerName,
-										sourceLang: langCode,
-										sourceTemplate: bannerName
-									};
-								}
-								return null;
-							})
-					)
-				).then(results => {
-					// 筛选成功的结果
-					const validResults = results
-						.filter(result => result.status === "fulfilled" && result.value !== null)
-						.map(result => result.value);
-					
-					console.log("[Rater] 找到对应的中文横幅:", validResults);
-					return validResults.length > 0 ? validResults : { noBanners: true };
-				});
+				// 批量查询所有模板的中文对应名称，一次跨域请求完成，替代逐个请求
+				return getTemplatesInOtherLang(bannerNames, langCode, "zh")
+					.then(mappedBanners => {
+						const validResults = mappedBanners.map(item => ({
+							name: item.name,
+							sourceLang: langCode,
+							sourceTemplate: item.sourceTemplate
+						}));
+						
+						console.log("[Rater] 找到对应的中文横幅:", validResults);
+						return validResults.length > 0 ? validResults : { noBanners: true };
+					});
 			})
 			.then(banners => this.processBanners(banners))
 			.catch(error => {

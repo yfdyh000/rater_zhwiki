@@ -184,6 +184,55 @@ function getTemplateInOtherLang(templateName, fromLang, toLang) {
 }
 
 /**
+ * 批量获取多个模板在其他语言维基中的对应名称
+ * @param {Array<string>} templateNames - 模板名称列表（不含"Template:"前缀）
+ * @param {string} fromLang - 源语言代码
+ * @param {string} toLang - 目标语言代码
+ * @returns {Promise<Array<{name: string, sourceTemplate: string}>>} 对应的模板名称列表
+ */
+function getTemplatesInOtherLang(templateNames, fromLang, toLang) {
+    if (templateNames.length === 0) {
+        return Promise.resolve([]);
+    }
+    // TODO: 可在此加入短时缓存（如按 `${fromLang}:${templateNames.join("|")}` 存储到项目 cache 模块），
+    // 减少重复获取时的跨域请求；注意横幅变化时可能需设置较短的缓存有效期。
+    const fullNames = templateNames.map(name => `Template:${name}`);
+    const foreignApi = new mw.ForeignApi(`https://${fromLang}.wikipedia.org/w/api.php`);
+    return foreignApi.get({
+        action: "query",
+        titles: fullNames.join("|"),
+        prop: "langlinks",
+        lllang: toLang,
+        redirects: 1,
+        format: "json"
+    }).then(response => {
+        const langlinksByTitle = {};
+        Object.values(response.query.pages || {}).forEach(page => {
+            langlinksByTitle[page.title] = page.langlinks || [];
+        });
+        // 处理模板重定向，使重定向源也能匹配到目标页的语言链接
+        (response.query.redirects || []).forEach(redir => {
+            if (langlinksByTitle[redir.to] && !langlinksByTitle[redir.from]) {
+                langlinksByTitle[redir.from] = langlinksByTitle[redir.to];
+            }
+        });
+        return templateNames.map(name => {
+            const langlinks = langlinksByTitle[`Template:${name}`] || [];
+            if (langlinks.length === 0) {
+                return null;
+            }
+            return {
+                name: langlinks[0]["*"].replace(/^(Template:|模板:|模板:)?/, ""),
+                sourceTemplate: name
+            };
+        }).filter(item => item !== null);
+    }).catch(error => {
+        console.warn("[Rater] " + makeErrorMsg("error", `批量获取${fromLang}维基模板对应的${toLang}版本失败: ${error}`));
+        return [];
+    });
+}
+
+/**
  * 获取其他语言的专题横幅
  * @param {string} pageTitle - 当前条目标题
  * @param {string} langCode - 目标语言代码
@@ -213,30 +262,18 @@ function getOtherLangProjectBanners(pageTitle, langCode) {
                     
                     console.log("[Rater] 在" + langCode + "维基找到专题横幅:", bannerNames);
                     
-                    // 使用Promise.allSettled代替Promise.all，确保即使部分请求失败也能继续
-                    return Promise.allSettled(
-                        bannerNames.map(bannerName => 
-                            getTemplateInOtherLang(bannerName, langCode, "zh")
-                                .then(zhBannerName => {
-                                    if (zhBannerName) {
-                                        return {
-                                            name: zhBannerName,
-                                            sourceLang: langCode,
-                                            sourceTemplate: bannerName
-                                        };
-                                    }
-                                    return null;
-                                })
-                        )
-                    ).then(results => {
-                        // 筛选成功的结果
-                        const validResults = results
-                            .filter(result => result.status === "fulfilled" && result.value !== null)
-                            .map(result => result.value);
-                        
-                        console.log("[Rater] 找到对应的中文横幅:", validResults);
-                        return validResults.length > 0 ? validResults : { noBanners: true };
-                    });
+                    // 批量查询所有模板的中文对应名称，一次跨域请求完成，替代逐个请求
+                    return getTemplatesInOtherLang(bannerNames, langCode, "zh")
+                        .then(mappedBanners => {
+                            const validResults = mappedBanners.map(item => ({
+                                name: item.name,
+                                sourceLang: langCode,
+                                sourceTemplate: item.sourceTemplate
+                            }));
+                            
+                            console.log("[Rater] 找到对应的中文横幅:", validResults);
+                            return validResults.length > 0 ? validResults : { noBanners: true };
+                        });
                 });
         })
         .catch(error => {
@@ -245,5 +282,5 @@ function getOtherLangProjectBanners(pageTitle, langCode) {
         });
 }
 
-export { getOtherLangProjectBanners, getOtherLangTitle, getTalkPageContent, parseProjectBanners, getTemplateInOtherLang };
+export { getOtherLangProjectBanners, getOtherLangTitle, getTalkPageContent, parseProjectBanners, getTemplateInOtherLang, getTemplatesInOtherLang };
 // </nowiki> 
