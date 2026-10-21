@@ -104,7 +104,7 @@ import HanAssist from "./HanAssist";
 			}),
 			"5"
 		);
-		$("#ca-rater").click(event => {
+		$("#ca-rater a").click(event => {
 			event.preventDefault();
 			setupRater().then(showMainWindow, showSetupError);
 		});
