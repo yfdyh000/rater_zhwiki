@@ -858,7 +858,7 @@ MainWindow.prototype.makeEditSummary = function() {
 };
 
 MainWindow.prototype.checkAndFetchOtherLangBanners = function() {
-	const pageTitle = appConfig.mw.wgPageName;
+	const pageTitle = mw.Title.newFromText(appConfig.mw.wgPageName).getSubjectPage().getPrefixedText();
 	const langCode = this.preferences.otherLanguageCode;
 	
 	// 先检查是否有对应的其他语言版页面，但不显示加载动画
@@ -878,7 +878,7 @@ MainWindow.prototype.checkAndFetchOtherLangBanners = function() {
 };
 
 MainWindow.prototype.onFetchOtherLangBanners = function(otherLangTitle) {
-	const pageTitle = appConfig.mw.wgPageName;
+	const pageTitle = mw.Title.newFromText(appConfig.mw.wgPageName).getSubjectPage().getPrefixedText();
 	const langCode = this.preferences.otherLanguageCode;
 	
 	// 使用与本地搜索相同的加载动画
