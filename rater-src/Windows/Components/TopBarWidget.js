@@ -85,7 +85,7 @@ function TopBarWidget( config ) {
 		icon: "language",
 		title: HanAssist.conv({
 			hans: "获取其他语言版专题横幅",
-			hant: "獲取其他語言版專題橫幅"
+			hant: "取得其他語言版專題橫幅"
 		}),
 		flags: "progressive"
 	} );

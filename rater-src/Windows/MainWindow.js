@@ -934,7 +934,7 @@ MainWindow.prototype.onFetchOtherLangBanners = function(otherLangTitle) {
 				console.error("[Rater]", error);
 				mw.notify(HanAssist.conv({
 					hans: `获取专题横幅时出错：${error.message || error}`,
-					hant: `獲取專題橫幅時出錯：${error.message || error}`
+					hant: `取得專題橫幅時出錯：${error.message || error}`
 				}), {type: 'error'});
 				// 结束加载动画
 				this.topBar.searchBox.popPending();
@@ -948,7 +948,7 @@ MainWindow.prototype.onFetchOtherLangBanners = function(otherLangTitle) {
 				console.error("[Rater]", error);
 				mw.notify(HanAssist.conv({
 					hans: `获取专题横幅时出错：${error.message || error}`,
-					hant: `獲取專題橫幅時出錯：${error.message || error}`
+					hant: `取得專題橫幅時出錯：${error.message || error}`
 				}), {type: 'error'});
 				// 结束加载动画
 				this.topBar.searchBox.popPending();

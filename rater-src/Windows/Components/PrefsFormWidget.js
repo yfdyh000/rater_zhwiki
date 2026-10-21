@@ -75,33 +75,60 @@ function PrefsFormWidget( config ) {
 				placeholder: "en",
 				value: "en"
 			}),
-			label: "其他语言维基代码"
+			label: HanAssist.conv({
+				hans: "其他语言维基代码",
+				hant: "其他語言維基代碼"
+			})
 		},
 		"autoFetchOtherLangBanners": {
 			input: new OO.ui.ButtonSelectWidget( {
 				items: [
 					new OO.ui.ButtonOptionWidget( {
 						data: "always",
-						label: "总是",
-						title: "当页面存在设定语言版本时，总是在启动后检查其专题横幅"
+						label: HanAssist.conv({
+							hans: "总是",
+							hant: "總是"
+						}),
+						title: HanAssist.conv({
+							hans: "当页面存在设定语言版本时，总是在启动后检查其专题横幅",
+							hant: "當頁面存在設定語言版本時，總是在啟動後檢查其專題橫幅"
+						})
 					} ),
 					new OO.ui.ButtonOptionWidget( {
 						data: "noLocal",
-						label: "本地无专题时",
-						title: "仅当本地没有专题横幅时，才检查其他语言版"
+						label: HanAssist.conv({
+							hans: "本地无专题时",
+							hant: "本地無專題時"
+						}),
+						title: HanAssist.conv({
+							hans: "仅当本地没有专题横幅时，才检查其他语言版",
+							hant: "僅當本地沒有專題橫幅時，才檢查其他語言版"
+						})
 					} ),
 					new OO.ui.ButtonOptionWidget( {
 						data: "off",
-						label: "从不",
-						title: "不自动获取其他语言版专题横幅"
+						label: HanAssist.conv({
+							hans: "从不",
+							hant: "從不"
+						}),
+						title: HanAssist.conv({
+							hans: "不自动获取其他语言版专题横幅",
+							hant: "不自動取得其他語言版專題橫幅"
+						})
 					} )
 				]
 			}).selectItemByData("off"),
-			label: "启动后自动获取其他语言版专题横幅"
+			label: HanAssist.conv({
+				hans: "启动后自动获取其他语言版专题横幅",
+				hant: "啟動後自動取得其他語言版專題橫幅"
+			})
 		},
 		"skipCloseConfirmation": {
 			input: new OO.ui.ToggleSwitchWidget(),
-			label: "关闭时不显示确认提示"
+			label: HanAssist.conv({
+				hans: "关闭时不显示确认提示",
+				hant: "關閉時不顯示確認提示"
+			})
 		},
 		"resetCache": {
 			input: new OO.ui.ButtonWidget( {
