@@ -26,22 +26,39 @@ function getOtherLangTitle(pageTitle, langCode) {
             return page.langlinks[0]["*"];
         }
         const itemId = page.pageprops && page.pageprops.wikibase_item;
-        if (!itemId) {
-            return null;
-        }
-        // 回退：langlinks 表缺失时，直接从 Wikidata 查询实体对应的目标语言标题
         const wikidataApi = new mw.ForeignApi("https://www.wikidata.org/w/api.php");
-        return wikidataApi.get({
-            action: "wbgetentities",
-            ids: itemId,
-            props: "sitelinks",
-            sitefilter: langCode + "wiki",
-            format: "json"
-        }).then(entityResponse => {
-            const entity = entityResponse.entities[itemId];
-            const link = entity && entity.sitelinks && entity.sitelinks[langCode + "wiki"];
-            return link ? link.title : null;
-        }).catch(error => {
+        // 校验实体确实连接到当前页面，再取目标语言标题，避免命中无关条目
+        const getTargetFromEntity = entity => {
+            if (!entity || !entity.sitelinks) {
+                return null;
+            }
+            const zhwikiLink = entity.sitelinks.zhwiki;
+            if (!zhwikiLink || zhwikiLink.title !== pageTitle) {
+                return null;
+            }
+            const targetLink = entity.sitelinks[langCode + "wiki"];
+            return targetLink ? targetLink.title : null;
+        };
+        const getTargetFromEntities = entityResponse => {
+            const entities = entityResponse.entities || {};
+            return getTargetFromEntity(entities[Object.keys(entities)[0]]);
+        };
+        // 回退：langlinks 表缺失时，从 Wikidata 按实体 ID 或按 zhwiki 标题解析实体
+        const entityRequest = itemId
+            ? wikidataApi.get({
+                action: "wbgetentities",
+                ids: itemId,
+                props: "sitelinks",
+                format: "json"
+            })
+            : wikidataApi.get({
+                action: "wbgetentities",
+                sites: "zhwiki",
+                titles: pageTitle,
+                props: "sitelinks",
+                format: "json"
+            });
+        return entityRequest.then(getTargetFromEntities).catch(error => {
             console.warn("[Rater] " + makeErrorMsg("error", "从 Wikidata 获取" + langCode + "维基标题失败: " + error));
             return null;
         });
