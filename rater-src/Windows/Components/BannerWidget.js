@@ -21,6 +21,7 @@ function BannerWidget( template, config ) {
 	this.preferences = config.preferences;
 	
 	/* --- PROPS --- */
+	this.template = template;
 	this.paramData = template.paramData;
 	this.paramAliases = template.paramAliases || {};
 	this.parameterSuggestions = template.parameterSuggestions;
@@ -571,6 +572,16 @@ BannerWidget.prototype.makeWikitext = function() {
 	var classVal = classItem && classItem.getData();
 	var importanceItem = this.hasImportanceRatings && this.importanceDropdown.getMenu().findSelectedItem();
 	var importanceVal = importanceItem && importanceItem.getData();
+	// If the final rating value differs from the original only in letter case,
+	// keep the original parameter value so that e.g. "low" is not rewritten as "Low".
+	var originalClassValue = this.template?.getParam("class")?.value;
+	var originalImportanceValue = this.template?.getParam("importance")?.value;
+	if (originalClassValue && classVal && originalClassValue.toLowerCase() === classVal.toLowerCase()) {
+		classVal = originalClassValue;
+	}
+	if (originalImportanceValue && importanceVal && originalImportanceValue.toLowerCase() === importanceVal.toLowerCase()) {
+		importanceVal = originalImportanceValue;
+	}
 
 	return ("{{" +
 		this.name +
