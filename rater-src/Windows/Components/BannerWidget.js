@@ -177,7 +177,12 @@ function BannerWidget( template, config ) {
 			$overlay: this.$overlay,
 		} );
 		var classParam = template.parameters.find(parameter => parameter.name === "class");
-		this.classDropdown.getMenu().selectItemByData( classParam && classMask(classParam.value) );
+		var classVal = classParam && classMask(classParam.value);
+		if (classVal) {
+			this.classDropdown.getMenu().selectItemByData(classVal);
+		} else if (config.isArticle) {
+			this.classDropdown.getMenu().selectItemByData(null);
+		}
 	}
 
 	if (this.hasImportanceRatings) {
@@ -410,21 +415,11 @@ BannerWidget.prototype.onParameterChange = function() {
 BannerWidget.prototype.onClassChange = function() {
 	this.setChanged();
 	this.classChanged = true;
-	var classItem = this.classDropdown.getMenu().findSelectedItem();
-	if (classItem && classItem.getData() == null ) {
-		// clear selection
-		this.classDropdown.getMenu().selectItem();
-	}
 };
 
 BannerWidget.prototype.onImportanceChange = function() {
 	this.setChanged();
 	this.importanceChanged = true;
-	var importanceItem = this.importanceDropdown.getMenu().findSelectedItem();
-	if (importanceItem && importanceItem.getData() == null ) {
-		// clear selection
-		this.importanceDropdown.getMenu().selectItem();
-	}
 };
 
 BannerWidget.prototype.showAddParameterInputs = function() {
