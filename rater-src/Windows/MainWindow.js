@@ -655,6 +655,8 @@ MainWindow.prototype.getActionProcess = function ( action ) {
 		}))) {
 			this.close();
 		}
+		// Consume the action so the parent's default close behaviour does not run
+		return new OO.ui.Process();
 	}
 
 	return MainWindow.super.prototype.getActionProcess.call( this, action );
