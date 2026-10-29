@@ -55,7 +55,9 @@ html body.rater-mainWindow-open .rater-windowManager > .oo-ui-dialog.oo-ui-windo
     pointer-events: none;
 }
 html body.rater-mainWindow-open.rater-allow-background-interaction .rater-windowManager > .oo-ui-dialog.oo-ui-window-active > .oo-ui-window-frame,
-html body.rater-mainWindow-open.rater-allow-background-interaction .rater-windowManager > .oo-ui-dialog.oo-ui-window-active > .oo-ui-window-frame * {
+html body.rater-mainWindow-open.rater-allow-background-interaction .rater-windowManager > .oo-ui-dialog.oo-ui-window-active > .oo-ui-window-frame *,
+html body.rater-mainWindow-open.rater-allow-background-interaction .rater-windowManager > .oo-ui-dialog.oo-ui-window-active > .oo-ui-window-overlay,
+html body.rater-mainWindow-open.rater-allow-background-interaction .rater-windowManager > .oo-ui-dialog.oo-ui-window-active > .oo-ui-window-overlay * {
     pointer-events: auto;
 }
 `;
